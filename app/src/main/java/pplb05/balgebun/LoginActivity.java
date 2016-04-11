@@ -123,7 +123,8 @@ public class LoginActivity extends Activity {
     }
 
     /**
-     * function to verify login details in mysql db
+     * Function to verify login details in MySQL database will post parameters(tag, username,
+     * password) to login url
      * */
     private void checkLogin(final String username, final String password) {
         // Tag used to cancel the request
@@ -195,6 +196,7 @@ public class LoginActivity extends Activity {
             }
         }, new Response.ErrorListener() {
 
+            //show error message
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());

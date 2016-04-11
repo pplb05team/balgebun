@@ -117,7 +117,7 @@ public class RegisterActivity extends Activity {
     }
 
     /**
-     * Function to store user in MySQL database will post params(tag, name,
+     * Function to store user in MySQL database will post parameters(tag, username,
      * email, password) to register url
      * */
     private void registerUser(final String name, final String email,
@@ -173,6 +173,7 @@ public class RegisterActivity extends Activity {
             }
         }, new Response.ErrorListener() {
 
+            //show error message
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Registration Error: " + error.getMessage());
@@ -184,7 +185,7 @@ public class RegisterActivity extends Activity {
 
             @Override
             protected Map<String, String> getParams() {
-                // Posting params to register url
+                // Posting parameters to register url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("username", name);
                 params.put("email", email);
