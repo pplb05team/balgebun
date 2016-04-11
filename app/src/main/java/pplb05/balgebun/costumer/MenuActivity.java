@@ -1,3 +1,4 @@
+
 package pplb05.balgebun.costumer;
 
 import android.content.Intent;
@@ -20,11 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import pplb05.balgebun.costumer.Entity.Menu;
-import pplb05.balgebun.costumer.Entity.Pemesanan;
-import pplb05.balgebun.R;
-import pplb05.balgebun.costumer.Adapter.MenuAdapter;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +34,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import pplb05.balgebun.R;
+import pplb05.balgebun.costumer.Adapter.MenuAdapter;
+import pplb05.balgebun.costumer.Entity.Menu;
+import pplb05.balgebun.costumer.Entity.Pemesanan;
 
+/**
+ * @author febriyola anastasia
+ */
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
     private ArrayList<Menu> foods = new ArrayList<>();
     private MenuAdapter menuAdapter;
