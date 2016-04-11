@@ -24,11 +24,14 @@ import java.util.Map;
 
 import pplb05.balgebun.R;
 
+/**
+ * @author febriyola anastasia
+ * This class is used to check and pay counter's income
+ */
 public class CounterKredit extends AppCompatActivity {
 
     private EditText namaCounter;
     private TextView jumlah,nama;
-
     private RequestQueue queue;
 
     @Override
@@ -36,23 +39,29 @@ public class CounterKredit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_kredit);
 
+        //init var
         namaCounter  = (EditText)findViewById(R.id.nama_counter);
         nama  = (TextView)findViewById(R.id.nama_counter_id);
         jumlah  = (TextView)findViewById(R.id.pemasukan_id);
     }
 
+    /**
+     * This method is used to pay the income
+     */
     public void bayar(View view) {
         final String username = namaCounter.getText().toString();
 
         queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/bayar.php";
-        final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        final StringRequest stringReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
 
                 Log.d("RESPONSE", "BAYAR Response: " + response.toString());
+                //set jumlah text to 0
                 jumlah.setText("Rp. 0,00");
+                //show toast
                 Toast toast = Toast.makeText(getApplicationContext(), "Berhasil membayar", Toast.LENGTH_SHORT);
                 toast.show();
 
@@ -65,23 +74,26 @@ public class CounterKredit extends AppCompatActivity {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                // Posting params to order url
+                // Posting params to bayar url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("username", username);
                 return params;
             }
         };
 
-        queue.add(stringChess);
+        queue.add(stringReq);
     }
 
+    /**
+     * This method is used to check counter's income
+     */
     public void cekKredit(View view) {
 
         final String username = namaCounter.getText().toString();
 
         queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getPemasukanCounter.php";
-        final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        final StringRequest stringReqKredit = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -108,8 +120,8 @@ public class CounterKredit extends AppCompatActivity {
                         else
                             jumlah.setText("Rp. " +ribuan +"." + temp3 +",00");
 
-                        Log.d("ABCD", "ABCD");
                     } else {
+                        //if username invalid, show toast username salah
                         Toast toast = Toast.makeText(getApplicationContext(), "Username salah", Toast.LENGTH_SHORT);
                         toast.show();
                     }
@@ -126,14 +138,14 @@ public class CounterKredit extends AppCompatActivity {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                // Posting params to order url
+                // Posting params to getPemasukanCounter url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("username", username);
                 return params;
             }
         };
 
-        queue.add(stringChess);
+        queue.add(stringReqKredit);
 
     }
 }

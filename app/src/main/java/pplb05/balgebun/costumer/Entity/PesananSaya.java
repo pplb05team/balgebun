@@ -13,15 +13,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import pplb05.balgebun.costumer.Adapter.PesananAdapter;
-import pplb05.balgebun.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import pplb05.balgebun.R;
+import pplb05.balgebun.costumer.Adapter.PesananAdapter;
+
+/**
+ * @author febriyola anastasia
+ * This class is used to show all pesanan, its status, jumlah, and the counter
+ */
 public class PesananSaya extends AppCompatActivity {
 
     private ArrayList<Menu> foods = new ArrayList<>();
@@ -34,16 +38,18 @@ public class PesananSaya extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pesanan_saya);
-        
+
+        //get all of the buyer's order from database
         getPesanan();
 
         pesananAdapter = new PesananAdapter(foods,this);
         GridView fieldMenu = (GridView)findViewById(R.id.pesanan_field);
         fieldMenu.setAdapter(pesananAdapter);
-        
-        
     }
 
+    /**
+     * this method will create object Menu from every Menu the buyer's ordered
+     */
     public void getPesanan() {
         queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getPesanan.php";
@@ -51,9 +57,8 @@ public class PesananSaya extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-                Log.d("RESPONSE", "Menu Response: " + response.toString());
+                Log.d("RESPONSE", "Pesanan Response: " + response.toString());
                 try {
-                    //"user":[{"nama_menu":"Soto ati ampela + nasi","id_menu":"13","jumlah":"2","status":"dimasak"}
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
@@ -61,6 +66,7 @@ public class PesananSaya extends AppCompatActivity {
                         JSONArray menuTemp = new JSONArray(temp);
                         for(int i = 0; i < menuTemp.length(); i++){
                             JSONObject jsonMenu = new JSONObject(menuTemp.get(i).toString());
+                            //create object Menu with its id, nama, jumlah, status, nama counter
                             foods.add(new Menu(
                                             i,
                                             Integer.parseInt(jsonMenu.getString("id_menu")),
@@ -71,7 +77,6 @@ public class PesananSaya extends AppCompatActivity {
                             );
                         }
                         pesananAdapter.notifyDataSetChanged();
-                        Log.d("ABCD", "ABCD");
                     } else {
 
                     }

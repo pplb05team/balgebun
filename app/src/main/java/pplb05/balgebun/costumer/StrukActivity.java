@@ -23,13 +23,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import pplb05.balgebun.app.AppConfig;
-import pplb05.balgebun.app.AppController;
-import pplb05.balgebun.costumer.Entity.CounterEntity;
-import pplb05.balgebun.costumer.Entity.Menu;
-import pplb05.balgebun.costumer.Entity.Pemesanan;
-import pplb05.balgebun.R;
-import pplb05.balgebun.costumer.Adapter.StrukAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +37,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import pplb05.balgebun.R;
+import pplb05.balgebun.app.AppConfig;
+import pplb05.balgebun.app.AppController;
+import pplb05.balgebun.costumer.Adapter.StrukAdapter;
+import pplb05.balgebun.costumer.Entity.CounterEntity;
+import pplb05.balgebun.costumer.Entity.Menu;
+import pplb05.balgebun.costumer.Entity.Pemesanan;
+
+/**
+ * @author febriyola anastasia
+ * Class ini digunakan untuk mengkonfirmasi pembelian.
+ * Class ini akan menampilkan menu-menu yang sudah dipilih, jumlahnya, dan total harga yang harus dibayar
+ */
 public class StrukActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = StrukActivity.class.getSimpleName();
@@ -60,28 +66,36 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_struk);
-        Intent intent = getIntent();
 
+        //get object & variable from previous activity using parcelable
+        Intent intent = getIntent();
         Pemesanan pesan = intent.getExtras().getParcelable("pemesan");
         counterName = intent.getExtras().getString("counterName");
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
+        //initialize id_struk
         setIdStruk();
         ArrayList<Menu> foodsTemp = pesan.getPesanan();
 
         int i = 0;
 
+        //create new object Menu for each selected menu with new position = index
         for(Menu makanan : foodsTemp){
             foods.add(new Menu(
-                            i++, makanan.getId(), makanan.getNamaMenu(), makanan.getHarga(), makanan.getSatus(), makanan.getJumlah()
-                    ));
+                    i++,
+                    makanan.getId(),
+                    makanan.getNamaMenu(),
+                    makanan.getHarga(),
+                    makanan.getSatus(),
+                    makanan.getJumlah()
+            ));
         }
 
         total = (TextView) findViewById(R.id.total_view);
 
-        // Get uername of buyer
+        // Get username of buyer
         SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         buyerUsername = settings.getString("username", "");
 
@@ -90,6 +104,7 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
         TextView counterNameText = (TextView)findViewById(R.id.counter_id);
         counterNameText.setText(counterName);
 
+        //set total pada text
         int tot = pesan.getTotal();
         int ribuan = tot/1000;
         int sisa = tot-ribuan*1000;
@@ -99,10 +114,12 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
             total.setText("Rp. " + ribuan + "." + sisa + ",00");
         }
 
+        //adapter untuk meload menu yang akan dikonfirmasi
         strukAdapter = new StrukAdapter(foods, pesan,this);
         GridView fieldMenu = (GridView)findViewById(R.id.menu_field);
         fieldMenu.setAdapter(strukAdapter);
 
+        //button pesan
         Button next = (Button) findViewById(R.id.next_btn);
         next.setOnClickListener(this);
 
@@ -116,11 +133,11 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    /**
+     * Method ini akan menstore pesanan di database
+     */
     public void onClick(View v) {
-        //String name = inpurUserName.getText().toString().trim();
-/*
-if (isset($_POST['username']) && isset($_POST['id_menu']) && isset($_POST['jumlah']) && isset($_POST['harga_total'])) {
- */
+
         if(foods.isEmpty()){
             Toast.makeText(getApplicationContext(),
                     "Anda belum memesan apapun", Toast.LENGTH_LONG)
@@ -128,16 +145,14 @@ if (isset($_POST['username']) && isset($_POST['id_menu']) && isset($_POST['jumla
             return;
         }
 
+        //for each makanan, store di database
         for(Menu makanan : foods){
-            //masih hardcode nama pemesan
             int id_menu = makanan.getId();
             int jumlah = makanan.getJumlah();
             int harga_total = jumlah * makanan.getHarga();
             int struk = id_struk+1;
 
-
             order(buyerUsername, struk, id_menu, jumlah, harga_total);
-
         }
 
         Intent i = new Intent(this, BuyerActivity.class);
@@ -145,16 +160,20 @@ if (isset($_POST['username']) && isset($_POST['id_menu']) && isset($_POST['jumla
         finish();
     }
 
+    /**
+     * Method ini akan menstore pesanan ke database sesuai dengan param input
+     * @param username_pembeli  username pembeli
+     * @param id_struk_final    untuk 1 pesanan, akan memiliki id struk yang sama walau menu makanan berbeda-beda
+     * @param id_menu           tiap menu diambil id nya
+     * @param jumlah            jumlah makanan dari tiap menu yang dipesan
+     * @param harga_total       harga total dari jumlah*harga untuk tiap menu
+     */
     private void order(final String username_pembeli, final int id_struk_final, final int id_menu, final int jumlah, final int harga_total) {
 
-        // Tag used to cancel the request
         String tag_string_order = "req_order";
 
         pDialog.setMessage("Memesan ...");
         showDialog();
-
-        //get id order set
-
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppConfig.URL_ORDER, new Response.Listener<String>() {
@@ -173,8 +192,7 @@ if (isset($_POST['username']) && isset($_POST['id_menu']) && isset($_POST['jumla
 
                     } else {
 
-                        // Error occurred in registration. Get the error
-                        // message
+                        // Error occurred in ordering. Get the error
                         String errorMsg = jObj.getString("error_msg");
                         Toast.makeText(getApplicationContext(),
                                 errorMsg, Toast.LENGTH_LONG).show();
@@ -225,7 +243,11 @@ if (isset($_POST['username']) && isset($_POST['id_menu']) && isset($_POST['jumla
             pDialog.dismiss();
     }
 
-
+    /**
+     * This method will initialize id_struk
+     * id_struk = get last id_struk from database
+     * sekali memesan = 1 id struk, walau jenis menu yang dipesan > 1
+     */
     public void setIdStruk(){
         RequestQueue queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getIdStruk.php";
@@ -233,7 +255,7 @@ if (isset($_POST['username']) && isset($_POST['id_menu']) && isset($_POST['jumla
 
             @Override
             public void onResponse(String response) {
-                Log.d("RESPONSE", "iD Response: " + response.toString());
+                Log.d("RESPONSE", "ID Struk Response: " + response.toString());
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
@@ -245,14 +267,6 @@ if (isset($_POST['username']) && isset($_POST['id_menu']) && isset($_POST['jumla
                             JSONObject jsonMenu = new JSONObject(strukTemp.get(i).toString());
                             id_struk = Integer.parseInt(jsonMenu.getString("id_struk"));
                         }
-
-
-                        //JSONObject jsonMenu = new JSONObject(strukTemp.toString());
-
-
-                        //menuAdapter.notifyDataSetChanged();
-                        Log.d("ABCD", "ABCD");
-                    } else {
 
                     }
                 } catch (JSONException e) {
@@ -269,11 +283,13 @@ if (isset($_POST['username']) && isset($_POST['id_menu']) && isset($_POST['jumla
         queue.add(stringResp);
     }
 
+    /**
+     * This method will show the image of the counter
+     */
     void downloadImage(final ImageView imageView, String fileUrl, final CounterEntity counter) {
 
         if(counter.getBitmap() != null) {
             imageView.setImageBitmap(counter.getBitmap());
-            //Log.d("Cache", "Success");
         } else {
             AsyncTask<String, Object, String> task = new AsyncTask<String, Object, String>() {
                 Bitmap bmImg;

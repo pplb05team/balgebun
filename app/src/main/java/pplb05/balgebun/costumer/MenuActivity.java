@@ -41,8 +41,11 @@ import pplb05.balgebun.costumer.Entity.Pemesanan;
 
 /**
  * @author febriyola anastasia
+ * class menuActivity akan menampilkan menu terkait counter tersebut
+ * user juga akan memilih menu di class ini
  */
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
+
     private ArrayList<Menu> foods = new ArrayList<>();
     private MenuAdapter menuAdapter;
     private TextView total;
@@ -58,47 +61,56 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        // Get counter username from intent
+        // Get counter data from previous activity using intent
         Intent i = getIntent();
+
         // Receiving the Data
         counterUsername = i.getStringExtra("username");
         counterName = i.getStringExtra("countername");
 
+        //init variables
         total = (TextView) findViewById(R.id.total_view);
         Button next = (Button) findViewById(R.id.next_btn);
         counterNameText = (TextView) findViewById(R.id.counter_name_id);
         counterNameText.setText(counterUsername);
         _imv = (ImageView)findViewById(R.id.counter_image_id);
 
+        //set counter image for each counter
         downloadImage(_imv, counterName);
 
-
+        //if Arraylist foods == empty, get menu list.
         if(foods.isEmpty()){
             getMenuList();
         }
 
+        //using adapter to show the menu
         menuAdapter = new MenuAdapter(foods, pesan,this);
         GridView fieldMenu = (GridView)findViewById(R.id.menu_field);
         fieldMenu.setAdapter(menuAdapter);
 
 
+        //if there's change on the adapter (means user click + or - button
+        //then update the total
         menuAdapter.setOnDataChangeListener(new MenuAdapter.OnDataChangeListener() {
             public void onDataChanged() {
-            int totalTemp = pesan.getTotal();
-            int ribuan = totalTemp / 1000;
-            totalTemp = totalTemp - ribuan * 1000;
-            if (totalTemp == 0) {
-                total.setText("Rp. " + ribuan + ".000,00"); //Get the text from your adapter for example
-            } else {
-                total.setText("Rp. " + ribuan + "." + totalTemp + ",00"); //Get the text from your adapter for example
-            }
+                int totalTemp = pesan.getTotal();
+                int ribuan = totalTemp / 1000;
+                totalTemp = totalTemp - ribuan * 1000;
+                if (totalTemp == 0) {
+                    total.setText("Rp. " + ribuan + ".000,00");
+                } else {
+                    total.setText("Rp. " + ribuan + "." + totalTemp + ",00");
+                }
             }
         });
         next.setOnClickListener(this);
     }
 
 
-    //id nama harga status
+    /**
+     * this method will get all the menu from database and create object Menu for each Menu
+     * then put it to array 'foods'
+     */
     public void getMenuList(){
         queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getMenu.php";
@@ -115,6 +127,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                         JSONArray menuTemp = new JSONArray(temp);
                         for(int i = 0; i < menuTemp.length(); i++){
                             JSONObject jsonMenu = new JSONObject(menuTemp.get(i).toString());
+                            //create object Menu
                             foods.add(new Menu(
                                             i,
                                             Integer.parseInt(jsonMenu.getString("id_menu")),
@@ -124,7 +137,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                             );
                         }
                         menuAdapter.notifyDataSetChanged();
-                        Log.d("ABCD", "ABCD");
                     } else {
 
                     }
@@ -142,7 +154,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             protected Map<String, String> getParams() {
-                // Posting parameters to login url
+                // Posting parameter counterUsername to getMenu url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("username", counterUsername);
                 return params;
@@ -153,17 +165,27 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    /**
+     * this method will move the activity to next activity
+     * from MenuActivity to StrukActivity
+     */
     public void onClick(View v) {
         Intent i = new Intent(this, StrukActivity.class);
+
+        //send variables to next activity
         i.putExtra("pemesan", pesan);
         i.putExtra("counterName", counterName);
         startActivity(i);
-        //finish();
     }
 
+    /**
+     * This method will show the image of the counter
+     * @param imageView the ImageView used to show the image
+     * @param fileUrl used to complete the url
+     */
     void downloadImage(final ImageView imageView, String fileUrl) {
         fileUrl = "http://aaa.eys.es/coba_wahid/img/counter/"+fileUrl+".jpg";
-        //Log.d("IMAGE", fileUrl);
+
             AsyncTask<String, Object, String> task = new AsyncTask<String, Object, String>() {
                 Bitmap bmImg;
                 @Override
@@ -193,7 +215,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
                 protected void onPostExecute(String unused) {
                     imageView.setImageBitmap(bmImg);
-                    Log.d("IMAGE", "maSUK");
                 }
             };
             task.execute(fileUrl);

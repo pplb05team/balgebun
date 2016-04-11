@@ -24,10 +24,14 @@ import java.util.Map;
 
 import pplb05.balgebun.R;
 
+/**
+ * @author febriyola anastasia
+ * This class is used for admin to add buyer's credit
+ */
 public class PembeliKredit extends AppCompatActivity {
+
     private EditText namaCounter, tambahKredit;
     private TextView jumlah,nama;
-
     private RequestQueue queue;
 
     @Override
@@ -35,27 +39,35 @@ public class PembeliKredit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pembeli_kredit);
 
+        //initialize var
         namaCounter  = (EditText)findViewById(R.id.nama_pembeli);
         nama  = (TextView)findViewById(R.id.nama_pembeli);
         jumlah  = (TextView)findViewById(R.id.kredit);
         tambahKredit  = (EditText)findViewById(R.id.tambah_id);
     }
 
+    /**
+     * This method is used to store buyer's new credit in database
+     */
     public void tambah(View view) {
+
+        //get username
         final String username = namaCounter.getText().toString();
+
+        //get the amount
         final String tambah = tambahKredit.getText().toString();
 
         queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/tambahKreditPembeli.php";
-        final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        final StringRequest stringReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
 
                 Log.d("RESPONSE", "BAYAR Response: " + response.toString());
-                //int total = Integer.parseInt((String) jumlah.getText()) + Integer.parseInt(tambah);
-                //jumlah.setText("Rp. 0,00");
+
                 setKredit();
+                //toast if succeed
                 Toast toast = Toast.makeText(getApplicationContext(), "Berhasil menambah", Toast.LENGTH_SHORT);
                 toast.show();
 
@@ -68,7 +80,7 @@ public class PembeliKredit extends AppCompatActivity {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                // Posting params to order url
+                // Posting params to tambahKreditPembeli url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("username", username);
                 params.put("jumlahUang", tambah);
@@ -76,21 +88,25 @@ public class PembeliKredit extends AppCompatActivity {
             }
         };
 
-        queue.add(stringChess);
+        queue.add(stringReq);
     }
 
+    /**
+     * Helper method to set buyer's income
+     */
     public void cekKredit(View view) {
-
         setKredit();
-
     }
 
+    /**
+     * This method will set text --> jumlah.
+     */
     public void setKredit(){
         final String username = namaCounter.getText().toString();
 
         queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getPemasukanPembeli.php";
-        final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        final StringRequest stringReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -115,16 +131,15 @@ public class PembeliKredit extends AppCompatActivity {
                         else
                             jumlah.setText("Rp. " +ribuan +"." + temp3 +",00");
 
-                        Log.d("ABCD", "ABCD");
                     } else {
                         Toast toast = Toast.makeText(getApplicationContext(), "Username salah", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-
                 }
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -133,13 +148,12 @@ public class PembeliKredit extends AppCompatActivity {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                // Posting params to order url
+                // Posting params to getPemasukanPembeli url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("username", username);
                 return params;
             }
         };
-
-        queue.add(stringChess);
+        queue.add(stringReq);
     }
 }

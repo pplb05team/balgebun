@@ -1,9 +1,5 @@
 package pplb05.balgebun.costumer.Adapter;
 
-/**
- * Created by febriyolaanastasia on 3/23/16.
- */
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +7,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import pplb05.balgebun.costumer.Entity.Menu;
-import pplb05.balgebun.costumer.Entity.Pemesanan;
-import pplb05.balgebun.R;
-
 import java.util.ArrayList;
 
+import pplb05.balgebun.R;
+import pplb05.balgebun.costumer.Entity.Menu;
+import pplb05.balgebun.costumer.Entity.Pemesanan;
 
+/**
+ * @author febriyola anastasia
+ * This class is used as adapter for showing the Menu
+ */
 public class StrukAdapter extends BaseAdapter{
     @Override
     public long getItemId(int position) {
@@ -31,27 +30,22 @@ public class StrukAdapter extends BaseAdapter{
     private TextView jumlah;
     private TextView harga;
     private TextView total;
-    //private Button tombolTambah;
-    //private Button tombolKurang;
-
-    //THE INTERFACE FOR CALLBACK
-    public interface OnDataChangeListener{
-        public void onDataChanged();
-    }
-
     OnDataChangeListener mOnDataChangeListener;
 
-    public void setOnDataChangeListener(OnDataChangeListener change){
-        mOnDataChangeListener = change;
-    }
-
+    //generator
     public StrukAdapter(ArrayList<Menu> food, Pemesanan pesan, Context context) {
         this.food = food;
         this.context = context;
         this.pesan = pesan;
     }
 
+    public interface OnDataChangeListener{
+        public void onDataChanged();
+    }
 
+    public void setOnDataChangeListener(OnDataChangeListener change){
+        mOnDataChangeListener = change;
+    }
 
     @Override
     public int getCount() {
@@ -63,16 +57,20 @@ public class StrukAdapter extends BaseAdapter{
         return food.get(position);
     }
 
-
+    /**
+     *Set view for each selected menu
+     */
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater l = LayoutInflater.from(context);
         View v = l.inflate(R.layout.struk_menu, parent, false);
 
+        //init var
         nama = (TextView)v.findViewById(R.id.nama_menu);
         jumlah = (TextView)v.findViewById(R.id.jumlah);
         harga = (TextView)v.findViewById(R.id.harga_view);
         total = (TextView)v.findViewById(R.id.total_id);
 
+        //set text to the vars
         nama.setText(food.get(position).getNamaMenu());
         harga.setText(food.get(position).getHargaText());
         jumlah.setText("x " + food.get(position).getJumlah());

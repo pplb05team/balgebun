@@ -6,7 +6,9 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 /**
- * Created by febriyolaanastasia on 4/2/16.
+ * @author febriyola anastasia
+ * Class Pemesanan implements parcelable because it'll be sent to the next activity
+ * This object Pemesanan will be created everytime the buyer order
  */
 public class Pemesanan implements Parcelable{
 
@@ -19,6 +21,39 @@ public class Pemesanan implements Parcelable{
 
     }
 
+    /**
+     * This method add Menu to the arraylist
+     */
+    public void addPesanan(Menu makanan) {
+        //if menu already in the arraylist, means the buyer add the "jumlah"
+        //jumlah will be increased in the object Menu itself
+        if(pesanan.indexOf(makanan) < 0) {
+            pesanan.add(makanan);
+        }
+        //update total
+        total+=makanan.getHarga();
+    }
+
+    /**
+     * This method will remove Menu from arraylist
+     */
+    public void removePesanan(Menu makanan){
+        //if menu is in the arraylist
+        if(pesanan.indexOf(makanan)>-1){
+            //if jumlah of the Menu == 0, then removeMakanan means jumlah--, so jumlah will be 0
+            //if so, then remove makanan from the arraylist
+            if(makanan.getJumlah()==1){
+                pesanan.remove(makanan);
+            }
+            //update total
+            total -= makanan.getHarga();
+        }
+
+    }
+
+    /**
+     * getter & setter for the instance var
+     */
     public int getTotal() {
         return total;
     }
@@ -29,23 +64,6 @@ public class Pemesanan implements Parcelable{
 
     public ArrayList<Menu> getPesanan() {
         return pesanan;
-    }
-
-    public void addPesanan(Menu makanan) {
-        if(pesanan.indexOf(makanan) < 0) {
-            pesanan.add(makanan);
-        }
-        total+=makanan.getHarga();
-    }
-
-    public void removePesanan(Menu makanan){
-        if(pesanan.indexOf(makanan)>-1){
-            if(makanan.getJumlah()==1){
-                pesanan.remove(makanan);
-            }
-            total -= makanan.getHarga();
-        }
-
     }
 
     @Override

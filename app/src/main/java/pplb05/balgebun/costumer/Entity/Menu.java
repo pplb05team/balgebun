@@ -4,7 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by febriyolaanastasia on 3/23/16.
+ * @author febriyola anastasia
+ * Class Menu to create object Menu
+ * Implements parcelable because Menu will be sent to another activity
  */
 public class Menu implements Parcelable {
     private int id, position;
@@ -15,7 +17,7 @@ public class Menu implements Parcelable {
     private String namaCounter;
 
 
-    //id nama harga status
+    //generator for object Menu created in class StrukActivity
     public Menu(int position, int id, String namaMenu, int harga, String status) {
         this.position = position;
         this.id = id;
@@ -28,12 +30,13 @@ public class Menu implements Parcelable {
         int ribuan = totalTemp/1000;
         totalTemp = totalTemp - ribuan*1000;
         if(totalTemp==0){
-            hargaText = "Rp. "+ribuan+".000,00"; //Get the text from your adapter for example
+            hargaText = "Rp. "+ribuan+".000,00";
         }else{
-            hargaText = "Rp. "+ribuan+"."+totalTemp+",00"; //Get the text from your adapter for example
+            hargaText = "Rp. "+ribuan+"."+totalTemp+",00";
         }
     }
 
+    //generator for object Menu created in class PesananSaya
     public Menu(int i, int id_menu, String nama_menu, int jumlah, String status, String nama_counter) {
         position = i;
         this.id = id_menu;
@@ -44,10 +47,7 @@ public class Menu implements Parcelable {
 
     }
 
-    public String getNamaCounter(){
-        return namaCounter;
-    }
-
+    //generator for object Menu created in class StrukActivity
     public Menu(int position, int id, String namaMenu, int harga, String status, int jumlah) {
         this.position = position;
         this.id = id;
@@ -60,12 +60,11 @@ public class Menu implements Parcelable {
         int ribuan = totalTemp/1000;
         totalTemp = totalTemp - ribuan*1000;
         if(totalTemp==0){
-            hargaText = "Rp. "+ribuan+".000,00"; //Get the text from your adapter for example
+            hargaText = "Rp. "+ribuan+".000,00";
         }else{
-            hargaText = "Rp. "+ribuan+"."+totalTemp+",00"; //Get the text from your adapter for example
+            hargaText = "Rp. "+ribuan+"."+totalTemp+",00";
         }
     }
-
 
     /*
      * Setter and getter for every instance variables.
@@ -99,12 +98,21 @@ public class Menu implements Parcelable {
         jumlah++;
     }
 
+    public void changePosition(int i) {
+        position = i;
+    }
+
+    public String getSatus() {
+        return status;
+    }
+
+    public String getNamaCounter() { return namaCounter;}
+
     public void minJumlah(){
         if(jumlah !=0){
             jumlah--;
         }
     }
-
 
     @Override
     public int describeContents() {
@@ -112,11 +120,6 @@ public class Menu implements Parcelable {
     }
 
     @Override
-    /*private int id, position;
-    private String namaMenu, hargaText;
-    private boolean status;
-    private int jumlah, harga;
-    */
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeInt(position);
@@ -148,14 +151,5 @@ public class Menu implements Parcelable {
         status = in.readString();
         jumlah = in.readInt();
         harga = in.readInt();
-    }
-
-
-    public void changePosition(int i) {
-        position = i;
-    }
-
-    public String getSatus() {
-        return status;
     }
 }
