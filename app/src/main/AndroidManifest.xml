@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pplb05.balgebun">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".app.AppController"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".costumer.BuyerActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".admin.MainActivity" />
+        <activity android:name=".admin.CounterKredit" />
+        <activity android:name=".admin.PembeliKredit" />
+        <activity android:name=".counter.PenjualActivity" />
+        <activity android:name=".counter.MenuActivity" />
+        <activity
+            android:name=".costumer.MenuActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".costumer.BuyerActivity" />
+        <activity android:name=".counter.MelihatKreditPenjual" />
+        <activity
+            android:name=".costumer.StrukActivity"
+            android:parentActivityName=".costumer.MenuActivity" />
+
+    </application>
+
+</manifest>

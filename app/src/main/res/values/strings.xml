@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Balgebun</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Username</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_register">REGISTER</string>
+    <string name="btn_link_to_register">Not a member? Sign up now.</string>
+    <string name="btn_link_to_login">Already registered! Log me in.</string>
+    <string name="welcome_customer">Welcome Customer</string>
+    <string name="welcome_counter">Welcome Counter</string>
+    <string name="welcome_admin">Welcome Admin</string>
+    <string name="btn_logout">LOGOUT</string>
+    <string name="name">Username</string>
+    <string-array name="list_status">
+        <item>belum</item>
+        <item>dimasak</item>
+        <item>selesai</item>
+    </string-array>
+
+</resources>
