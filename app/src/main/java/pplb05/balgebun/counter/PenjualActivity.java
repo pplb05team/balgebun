@@ -7,6 +7,11 @@ import android.view.View;
 
 import pplb05.balgebun.R;
 
+/**
+ *
+ * @author
+ */
+
 public class PenjualActivity extends AppCompatActivity {
 
     @Override

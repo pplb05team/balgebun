@@ -28,7 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * This class is used as adapter for pesanan penjual, this class also handle about spinner and
  * Created by dananarief on 02-04-16.
+ * @author Danan Arief Desprianto
  */
 public class PesananPenjualAdapter extends BaseAdapter {
 
