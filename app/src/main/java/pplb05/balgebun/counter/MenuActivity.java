@@ -34,6 +34,10 @@ import pplb05.balgebun.counter.Entity.PesananPenjual;
 import pplb05.balgebun.counter.Adapter.PesananPenjualAdapter;
 import pplb05.balgebun.R;
 
+/**
+ * This class is used to show the counter about the list of order
+ * @author Danan Arief Desprianto
+ */
 //import com.example.febriyolaanastasia.balgebun.R;
 
 public class MenuActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -48,25 +52,6 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pesanan);
-        /**
-        spinnerku = (Spinner) findViewById(R.id.planets_spinner);
-        adapterSpinner=ArrayAdapter.createFromResource(this,R.array.list_status,android.R.layout.simple_spinner_item);
-        adapterSpinner.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        spinnerku.setAdapter(adapterSpinner);
-        spinnerku.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getBaseContext(),parent.getItemIdAtPosition(position)+" is selected", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-         */
 
         SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         username = settings.getString("username", "");
@@ -81,11 +66,12 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
 
         Log.d("ukuran",""+order.size());
 
+        //adapter for fenerate view of orders
         pesananAdapter = new PesananPenjualAdapter(order,this);
         GridView fieldMenu = (GridView)findViewById(R.id.menu_field);
         fieldMenu.setAdapter(pesananAdapter);
-        //pesananAdapter.setOn
 
+        //refresh button to make apps gets data from database when needed
         refreshButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 getPesananList();
@@ -104,7 +90,7 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
+    //get list of orders from database using volley library
     public void getPesananList(){
         queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid2/getPesananPenjual.php";
