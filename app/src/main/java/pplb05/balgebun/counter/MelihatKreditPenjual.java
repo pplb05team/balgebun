@@ -30,12 +30,16 @@ import java.util.Map;
 
 import pplb05.balgebun.R;
 
+/**
+ * This class is used to show credits of counter
+ * @author Rahmi Julianasari
+ */
+
 public class MelihatKreditPenjual extends AppCompatActivity {
 
     private String tempNama;
     private String tempUsername;
     private int tempPemasukan;
-    //private String myUrl;
 
     private TextView namaCounter;
     private TextView usernameCounter;
@@ -58,18 +62,18 @@ public class MelihatKreditPenjual extends AppCompatActivity {
         pemasukan = (TextView) findViewById(R.id.textView_nominal);
         image = (ImageView) findViewById(R.id.imageView);
 
-        // Get uername of buyer
+        // Get username of buyer
         SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         tempUsername = settings.getString("username", "");
         TextView counterUsernameText = (TextView)findViewById(R.id.textView_nama);
         counterUsernameText.setText(tempUsername);
 
+        //call the method to show credits
         getPemasukan();
-        //getBitmapFromURL("http://aaa.esy.es/coba_wahid/img/counter/" +tempUsername+".jpg");
-
 
     }
 
+    //The method is used to get profile image of the counter from URL
        void getBitmapFromURL(String src){
            AsyncTask<String, Object, String> task = new AsyncTask<String, Object, String>() {
                @Override
@@ -99,6 +103,7 @@ public class MelihatKreditPenjual extends AppCompatActivity {
 
     }
 
+    //get the credits of counter using volley
     public void getPemasukan(){
         queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getPemasukanCounter.php";
@@ -115,7 +120,6 @@ public class MelihatKreditPenjual extends AppCompatActivity {
                         temp = temp.substring(1, temp.length() - 1);
                         JSONObject jsonPemasukan = new JSONObject(temp.toString());
                         tempNama = jsonPemasukan.getString("nama_counter");
-                        //tempUsername = jsonPemasukan.getString("username");
                         tempPemasukan = Integer.parseInt(jsonPemasukan.getString("pemasukan"));
 
                         namaCounter.setText(tempNama);
