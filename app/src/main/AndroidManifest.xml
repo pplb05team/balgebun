@@ -23,6 +23,7 @@
         <activity android:name=".costumer.BuyerActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".admin.MainActivity" />
+        <activity android:name=".admin.RegisterCounter" />
         <activity android:name=".admin.CounterKredit" />
         <activity android:name=".admin.PembeliKredit" />
         <activity android:name=".counter.PenjualActivity" />
