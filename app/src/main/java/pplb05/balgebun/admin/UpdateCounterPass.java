@@ -62,6 +62,7 @@ public class UpdateCounterPass extends Activity {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if(!error){
+                        // Create user array
                         JSONArray jArr = jObj.getJSONArray("user");
                         for(int i = 0; i < jArr.length(); i++){
                             JSONObject item = jArr.getJSONObject(i);
