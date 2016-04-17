@@ -26,16 +26,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void updateCounterPass(View view) {
-        Intent i = new Intent(this, UpdateCounterPass.class);
-        startActivity(i);
-    }
-
-    public void deleteCounter(View view) {
-        Intent i = new Intent(this, DeleteCounter.class);
-        startActivity(i);
-    }
-
     /**
      * Once button counter is pressed, method counterKredit will be called
      * This method will start next activity for the admin to check & pay counter's income

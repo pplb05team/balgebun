@@ -37,34 +37,6 @@
             <Button
                 android:layout_width="225dp"
                 android:layout_height="wrap_content"
-                android:text="Ganti Password Counter"
-                android:id="@+id/update_button"
-                android:onClick="updateCounterPass"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp">
-
-            <Button
-                android:layout_width="225dp"
-                android:layout_height="wrap_content"
-                android:text="Hapus Counter"
-                android:id="@+id/delete_button"
-                android:onClick="deleteCounter"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp">
-
-            <Button
-                android:layout_width="225dp"
-                android:layout_height="wrap_content"
                 android:text="Bayar Counter"
                 android:id="@+id/counter_button"
                 android:onClick="counterKredit"/>
