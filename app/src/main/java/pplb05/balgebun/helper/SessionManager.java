@@ -39,8 +39,10 @@ public class SessionManager {
 
     public void setLogin(boolean isLoggedIn, String role, String username) {
 
+        //set login flag
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
 
+        //set user details
         editor.putString(KEY_ROLE, role);
         editor.putString(KEY_USERNAME, username);
 

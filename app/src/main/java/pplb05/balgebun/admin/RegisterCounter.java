@@ -1,4 +1,4 @@
-package pplb05.balgebun;
+package pplb05.balgebun.admin;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -14,13 +14,10 @@ import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+
 import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.AppController;
-import pplb05.balgebun.costumer.BuyerActivity;
 import pplb05.balgebun.helper.SQLiteHandler;
-import pplb05.balgebun.helper.SessionManager;
-import pplb05.balgebun.counter.PenjualActivity;
-import pplb05.balgebun.admin.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,63 +25,40 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import pplb05.balgebun.R;
+
 /**
- * Created by Haris Dwi Prakoso on 3/27/2016.
+ * Created by Haris Dwi Prakoso on 4/17/2016.
  */
-public class RegisterActivity extends Activity {
-    private static final String TAG = RegisterActivity.class.getSimpleName();
+public class RegisterCounter extends Activity {
+    private static final String TAG = RegisterCounter.class.getSimpleName();
     private Button btnRegister;
-    private Button btnLinkToLogin;
+    private Button btnLinkToMain;
     private EditText inputUserName;
     private EditText inputEmail;
     private EditText inputPassword;
     private ProgressDialog pDialog;
-    private SessionManager session;
     private SQLiteHandler db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_adm_register);
 
         inputUserName = (EditText) findViewById(R.id.name);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         btnRegister = (Button) findViewById(R.id.btnRegister);
-        btnLinkToLogin = (Button) findViewById(R.id.btnLinkToLoginScreen);
+        btnLinkToMain = (Button) findViewById(R.id.btnLinkToMainMenu);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        // Session manager
-        session = new SessionManager(getApplicationContext());
-
         // SQLite database handler
         db = new SQLiteHandler(getApplicationContext());
 
-        // Check if user is already logged in or not
-        if (session.isLoggedIn()) {
-            // User is already logged in. Take him to main activity
-            if (session.getRole().equals("1")){
-                // GOTO customer main activity
-                Intent intent = new Intent(RegisterActivity.this, BuyerActivity.class);
-                startActivity(intent);
-                finish();
-            }
-            else if (session.getRole().equals("2")){
-                // GOTO counter main activity
-                Intent intent = new Intent(RegisterActivity.this, PenjualActivity.class);
-                startActivity(intent);
-                finish();
-            }
-            else if (session.getRole().equals("3")){
-                // GOTO admin main activity
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }
+
 
         // Register Button Click event
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -104,18 +78,17 @@ public class RegisterActivity extends Activity {
         });
 
         // Link to Login Screen
-        btnLinkToLogin.setOnClickListener(new View.OnClickListener() {
+        btnLinkToMain.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),
-                        LoginActivity.class);
+                        MainActivity.class);
                 startActivity(i);
                 finish();
             }
         });
 
     }
-
     /**
      * Function to store user in MySQL database will post parameters(tag, username,
      * email, password) to register url
@@ -150,12 +123,12 @@ public class RegisterActivity extends Activity {
                         // Inserting row in users table
                         db.addUser(name, email, role);
 
-                        Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "User successfully registered.", Toast.LENGTH_LONG).show();
 
                         // Launch login activity
                         Intent intent = new Intent(
-                                RegisterActivity.this,
-                                LoginActivity.class);
+                                RegisterCounter.this,
+                                MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
@@ -190,7 +163,7 @@ public class RegisterActivity extends Activity {
                 params.put("username", name);
                 params.put("email", email);
                 params.put("password", password);
-                params.put("role", "1");
+                params.put("role", "2");
 
                 return params;
             }

@@ -21,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_adm_main);
     }
 
+    public void registerCounter(View view) {
+        Intent i = new Intent(this, RegisterCounter.class);
+        startActivity(i);
+    }
+
     /**
      * Once button counter is pressed, method counterKredit will be called
      * This method will start next activity for the admin to check & pay counter's income
