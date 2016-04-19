@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="75dp"
                 android:src="@drawable/food"
-                android:id="@+id/counter_image_id" />
+                android:id="@+id/counter_image_id_struk" />
 
         </LinearLayout>
 
