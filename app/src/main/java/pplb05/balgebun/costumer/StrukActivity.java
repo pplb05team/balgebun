@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -40,6 +42,7 @@ import java.util.Map;
 import pplb05.balgebun.R;
 import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.AppController;
+import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.costumer.Adapter.StrukAdapter;
 import pplb05.balgebun.costumer.Entity.CounterEntity;
 import pplb05.balgebun.costumer.Entity.Menu;
@@ -60,6 +63,8 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
     private int id_struk;
     private String buyerUsername;
     private String counterName;
+    private String counterUsername;
+    private ImageView _imv;
 
 
     @Override
@@ -71,6 +76,7 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = getIntent();
         Pemesanan pesan = intent.getExtras().getParcelable("pemesan");
         counterName = intent.getExtras().getString("counterName");
+        counterUsername = intent.getExtras().getString("counterUsername");
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -103,6 +109,9 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
         buyerUsernameText.setText(buyerUsername);
         TextView counterNameText = (TextView)findViewById(R.id.counter_id);
         counterNameText.setText(counterName);
+        _imv = (ImageView)findViewById(R.id.counter_image_id_struk);
+
+        getImage();
 
         //set total pada text
         int tot = pesan.getTotal();
@@ -284,46 +293,30 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     * This method will show the image of the counter
+     * Get image (bitmap) from hosting and draw it on ImageView of the counter
+     *
      */
-    void downloadImage(final ImageView imageView, String fileUrl, final CounterEntity counter) {
+    private void getImage() {
+        String fileUrl = AppConfig.URL_IMG  + counterUsername + ".jpg";
+        ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
 
-        if(counter.getBitmap() != null) {
-            imageView.setImageBitmap(counter.getBitmap());
-        } else {
-            AsyncTask<String, Object, String> task = new AsyncTask<String, Object, String>() {
-                Bitmap bmImg;
-                @Override
-                protected String doInBackground(String... params) {
-                    URL myFileUrl = null;
-                    try {
-                        myFileUrl = new URL(params[0]);
-                    } catch (MalformedURLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+            /**
+             * Drae thw image to the imageviw
+             * @param response
+             */
+            @Override
+            public void onResponse(Bitmap response) {
+                _imv.setImageBitmap(response);
+            }
+        }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+
                     }
-                    try {
-                        HttpURLConnection conn = (HttpURLConnection) myFileUrl
-                                .openConnection();
-                        conn.setDoInput(true);
-                        conn.connect();
-                        InputStream is = conn.getInputStream();
+                });
 
-                        bmImg = BitmapFactory.decodeStream(is);
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+        // Use VolleySingelton
+        VolleySingleton.getInstance(this).addToRequestQueue(imgReqCtr);
 
-                    return null;
-                }
-
-                protected void onPostExecute(String unused) {
-                    imageView.setImageBitmap(bmImg);
-                    counter.setBitmap(bmImg);
-                }
-            };
-            task.execute(fileUrl);
-        }
     }
 }
