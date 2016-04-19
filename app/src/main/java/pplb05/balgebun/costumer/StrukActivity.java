@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -30,11 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +36,6 @@ import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.AppController;
 import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.costumer.Adapter.StrukAdapter;
-import pplb05.balgebun.costumer.Entity.CounterEntity;
 import pplb05.balgebun.costumer.Entity.Menu;
 import pplb05.balgebun.costumer.Entity.Pemesanan;
 
@@ -57,7 +48,7 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
 
     private static final String TAG = StrukActivity.class.getSimpleName();
     private StrukAdapter strukAdapter;
-    private TextView total;
+    private TextView total, saldo;
     private ArrayList<Menu> foods = new ArrayList<>();
     private ProgressDialog pDialog;
     private int id_struk;
@@ -65,12 +56,17 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
     private String counterName;
     private String counterUsername;
     private ImageView _imv;
+    private int saldoInt, totalInt;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_struk);
+
+        total = (TextView) findViewById(R.id.total_view);
+        saldo = (TextView) findViewById(R.id.saldo_id);
+
 
         //get object & variable from previous activity using parcelable
         Intent intent = getIntent();
@@ -98,8 +94,6 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
                     makanan.getJumlah()
             ));
         }
-
-        total = (TextView) findViewById(R.id.total_view);
 
         // Get username of buyer
         SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
@@ -151,6 +145,13 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(getApplicationContext(),
                     "Anda belum memesan apapun", Toast.LENGTH_LONG)
                     .show();
+            return;
+        }
+
+        if(saldoInt < totalInt){
+            String errorMsg = "Saldo tidak mencukupi";
+            Toast.makeText(getApplicationContext(),
+                    errorMsg, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -318,5 +319,62 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
         // Use VolleySingelton
         VolleySingleton.getInstance(this).addToRequestQueue(imgReqCtr);
 
+    }
+
+    public void setKredit(){
+        final String username = buyerUsername;
+
+        RequestQueue queue = Volley.newRequestQueue(this.getApplicationContext());
+        String url = "http://aaa.esy.es/coba_wahid/getPemasukanPembeli.php";
+        final StringRequest stringReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("RESPONSE", "Login Response: " + response.toString());
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    if (!error) {
+                        String temp = jObj.getString("user");
+                        JSONArray temp2 = new JSONArray(temp);
+                        Log.d("RESPONSE", temp);
+                        JSONObject jsonPemasukan = new JSONObject(temp2.get(0).toString());
+                        saldoInt = Integer.parseInt(jsonPemasukan.getString("kredit"));
+
+
+
+                        int temp3 = saldoInt;
+                        int ribuan = temp3/1000;
+                        temp3 = saldoInt - ribuan*1000;
+                        if(temp3 == 0)
+                            saldo.setText("Rp. " + ribuan +".000,00");
+                        else
+                            saldo.setText("Rp. " +ribuan +"." + temp3 +",00");
+
+                    } else {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Error get saldo", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to getPemasukanPembeli url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username", username);
+                return params;
+            }
+        };
+        queue.add(stringReq);
     }
 }
