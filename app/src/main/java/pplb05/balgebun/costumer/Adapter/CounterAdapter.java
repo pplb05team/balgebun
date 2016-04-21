@@ -13,11 +13,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 
+import java.util.ArrayList;
+
+import pplb05.balgebun.R;
 import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.costumer.Entity.CounterEntity;
-import pplb05.balgebun.R;
-
-import java.util.ArrayList;
 
 /**
  * Created by Wahid Nur Rohman on 3/24/2016.
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * This Adapter used for making view and accessing item of counter.
  */
 public class CounterAdapter extends BaseAdapter {
-    ArrayList<CounterEntity> counters;
+    ArrayList<CounterEntity> counters = new ArrayList<>();
     private Context context;
     private ImageView imgView;
     private TextView txtView;

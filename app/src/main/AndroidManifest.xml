@@ -37,7 +37,6 @@
         <activity
             android:name=".costumer.StrukActivity"
             android:parentActivityName=".costumer.MenuActivity" />
-
     </application>
 
 </manifest>
