@@ -9,6 +9,7 @@ import pplb05.balgebun.app.AppConfig;
  */
 public class CounterEntity {
     private long id;
+    private int pemasukan;
     private String counterName;
     private String username;
     private String imageName;
@@ -19,6 +20,14 @@ public class CounterEntity {
         this.counterName = counterName;
         this.username = username;
         this.imageName = username;
+    }
+
+    public CounterEntity(long id, String counterName, String username, int pemasukan) {
+        this.id = id;
+        this.counterName = counterName;
+        this.username = username;
+        this.imageName = username;
+        this.pemasukan = pemasukan;
     }
 
     public long getId() {
@@ -63,5 +72,13 @@ public class CounterEntity {
     }
     public String toString(){
         return username + " " + counterName;
+    }
+
+    public int getPemasukan() {
+        return pemasukan;
+    }
+
+    public void bayar(){
+        pemasukan = 0;
     }
 }

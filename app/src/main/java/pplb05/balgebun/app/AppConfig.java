@@ -10,4 +10,5 @@ public class AppConfig {
 	public static String URL_IMG = "http://aaa.esy.es/coba_wahid/img/counter/";
 	public static String URL_CANCEL_ORDER = "http://aaa.esy.es/coba_wahid2/UpdateStatusPesananPenjual.php";
 	public static String URL_DELETE_ORDER = "http://aaa.esy.es/coba_wahid2/deletePesanan.php";
+	public static String URL_BAYAR_COUNTER = "http://aaa.esy.es/coba_wahid/bayar.php";
 }
