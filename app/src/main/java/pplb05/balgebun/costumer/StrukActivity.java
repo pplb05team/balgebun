@@ -84,8 +84,6 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
         //initialize id_struk
         setIdStruk();
 
-        setKredit();
-
         ArrayList<Menu> foodsTemp = pesan.getPesanan();
 
         int i = 0;
@@ -105,6 +103,7 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
         // Get username of buyer
         SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         buyerUsername = settings.getString("username", "");
+        setKredit(); //set kredit untuk buyer tsb
 
         buyerUsernameText = (TextView)findViewById(R.id.pembeli_id);
         buyerUsernameText.setText(buyerUsername);
