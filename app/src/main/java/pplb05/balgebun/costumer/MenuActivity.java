@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -35,6 +36,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.app.AppConfig;
+import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.costumer.Adapter.MenuAdapter;
 import pplb05.balgebun.costumer.Entity.Menu;
 import pplb05.balgebun.costumer.Entity.Pemesanan;
@@ -76,7 +79,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         _imv = (ImageView)findViewById(R.id.counter_image_id);
 
         //set counter image for each counter
-        downloadImage(_imv, counterName);
+        getImage();
 
         //if Arraylist foods == empty, get menu list.
         if(foods.isEmpty()){
@@ -161,7 +164,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             }
 
         };
-        queue.add(stringResp);
+        VolleySingleton.getInstance(this).addToRequestQueue(stringResp);
     }
 
     @Override
@@ -174,50 +177,35 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
         //send variables to next activity
         i.putExtra("pemesan", pesan);
-        i.putExtra("counterName", counterName);
+        i.putExtra("counterUsername", counterUsername);
         startActivity(i);
     }
 
     /**
      * This method will show the image of the counter
-     * @param imageView the ImageView used to show the image
-     * @param fileUrl used to complete the url
      */
-    void downloadImage(final ImageView imageView, String fileUrl) {
-        fileUrl = "http://aaa.eys.es/coba_wahid/img/counter/"+fileUrl+".jpg";
+    private void getImage() {
+        final String fileUrl = AppConfig.URL_IMG + counterUsername + ".jpg";
 
-            AsyncTask<String, Object, String> task = new AsyncTask<String, Object, String>() {
-                Bitmap bmImg;
-                @Override
-                protected String doInBackground(String... params) {
-                    URL myFileUrl = null;
-                    try {
-                        myFileUrl = new URL(params[0]);
-                    } catch (MalformedURLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+        ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
+
+            /**
+             * Drae thw image to the imageviw
+             *
+             * @param response
+             */
+            @Override
+            public void onResponse(Bitmap response) {
+                _imv.setImageBitmap(response);
+                Log.d("SUKSES IMAGE", fileUrl);
+            }
+        }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+
                     }
-                    try {
-                        HttpURLConnection conn = (HttpURLConnection) myFileUrl
-                                .openConnection();
-                        conn.setDoInput(true);
-                        conn.connect();
-                        InputStream is = conn.getInputStream();
-
-                        bmImg = BitmapFactory.decodeStream(is);
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-                    return null;
-                }
-
-                protected void onPostExecute(String unused) {
-                    imageView.setImageBitmap(bmImg);
-                }
-            };
-            task.execute(fileUrl);
-
+                });
+        // Use VolleySingelton
+        VolleySingleton.getInstance(this).addToRequestQueue(imgReqCtr);
     }
 }
