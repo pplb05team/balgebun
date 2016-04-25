@@ -24,4 +24,10 @@ public class PenjualActivity extends AppCompatActivity {
         Intent i = new Intent(this, MelihatKreditPenjual.class);
         startActivity(i);
     }
+
+    public void editMenu(View view) {
+        Intent i = new Intent(this, EditMenu.class);
+        startActivity(i);
+    }
+
 }

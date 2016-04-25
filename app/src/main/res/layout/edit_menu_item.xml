@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/menu_layout_id"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.53">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="225dp"
+                    android:layout_height="37dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/nama_menu"
+                    android:text="bakso"
+                    android:autoText="false"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="0dp"
+                    android:textSize="15dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="225dp"
+                    android:layout_height="23dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/harga_view"
+                    android:text="bakso"
+                    android:autoText="false"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="0dp"
+                    android:textSize="11dp"
+                    android:gravity="top" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="edit"
+                android:id="@+id/edit_button"
+                android:layout_marginRight="0dp"
+                android:layout_margin="0dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
