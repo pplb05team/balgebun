@@ -96,8 +96,10 @@ public class History extends Fragment {
                         for(int i = 0; i < menuTemp.length(); i++){
                             JSONObject jsonMenu = new JSONObject(menuTemp.get(i).toString());
                             if(jsonMenu.getString("status").equals("selesai")) {
+                                //Integer.parseInt((jsonMenu.getString("id_order")));
                                 foods.add(new Menu(
                                                 i,
+                                                Integer.parseInt((jsonMenu.getString("id_order"))),
                                                 Integer.parseInt(jsonMenu.getString("id_menu")),
                                                 jsonMenu.getString("nama_menu"),
                                                 Integer.parseInt(jsonMenu.getString("jumlah")),

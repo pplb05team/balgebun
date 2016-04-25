@@ -69,6 +69,7 @@ public class PesananSaya extends AppCompatActivity {
                             //create object Menu with its id, nama, jumlah, status, nama counter
                             foods.add(new Menu(
                                             i,
+                                            Integer.parseInt(jsonMenu.getString("id_order")),
                                             Integer.parseInt(jsonMenu.getString("id_menu")),
                                             jsonMenu.getString("nama_menu"),
                                             Integer.parseInt(jsonMenu.getString("jumlah")),

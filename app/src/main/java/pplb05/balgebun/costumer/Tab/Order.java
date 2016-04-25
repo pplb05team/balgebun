@@ -29,9 +29,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.costumer.Adapter.PesananAdapter;
 import pplb05.balgebun.costumer.Entity.Menu;
 import pplb05.balgebun.costumer.Entity.Pemesanan;
-import pplb05.balgebun.costumer.Adapter.PesananAdapter;
 
 
 /**
@@ -97,6 +97,7 @@ public class Order extends Fragment {
                             if(!jsonMenu.getString("status").equals("selesai")) {
                                 foods.add(new Menu(
                                     i,
+                                    Integer.parseInt(jsonMenu.getString("id_order")),
                                     Integer.parseInt(jsonMenu.getString("id_menu")),
                                     jsonMenu.getString("nama_menu"),
                                     Integer.parseInt(jsonMenu.getString("jumlah")),
