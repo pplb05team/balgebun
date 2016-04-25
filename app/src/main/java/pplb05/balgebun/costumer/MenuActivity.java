@@ -3,9 +3,8 @@ package pplb05.balgebun.costumer;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,11 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +69,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         total = (TextView) findViewById(R.id.total_view);
         Button next = (Button) findViewById(R.id.next_btn);
         counterNameText = (TextView) findViewById(R.id.counter_name_id);
-        counterNameText.setText(counterUsername);
+        counterNameText.setText(counterName);
         _imv = (ImageView)findViewById(R.id.counter_image_id);
 
         //set counter image for each counter
@@ -173,11 +167,19 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
      * from MenuActivity to StrukActivity
      */
     public void onClick(View v) {
+
+        if(pesan.getTotal() == 0){
+            Snackbar.make(v, "Anda belum memesan apapun", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            return;
+        }
+
         Intent i = new Intent(this, StrukActivity.class);
 
         //send variables to next activity
         i.putExtra("pemesan", pesan);
         i.putExtra("counterUsername", counterUsername);
+        i.putExtra("counterName", counterName);
         startActivity(i);
     }
 

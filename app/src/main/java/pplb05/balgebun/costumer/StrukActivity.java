@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -48,7 +49,7 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
 
     private static final String TAG = StrukActivity.class.getSimpleName();
     private StrukAdapter strukAdapter;
-    private TextView total, saldo;
+    private TextView total, saldo, buyerUsernameText, counterNameText;
     private ArrayList<Menu> foods = new ArrayList<>();
     private ProgressDialog pDialog;
     private int id_struk;
@@ -67,18 +68,24 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
         total = (TextView) findViewById(R.id.total_view);
         saldo = (TextView) findViewById(R.id.saldo_id);
 
-
         //get object & variable from previous activity using parcelable
         Intent intent = getIntent();
         Pemesanan pesan = intent.getExtras().getParcelable("pemesan");
         counterName = intent.getExtras().getString("counterName");
         counterUsername = intent.getExtras().getString("counterUsername");
 
+        System.out.println("counter username" + counterUsername);
+        System.out.println("counter name" + counterName);
+
+
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
         //initialize id_struk
         setIdStruk();
+
+        setKredit();
+
         ArrayList<Menu> foodsTemp = pesan.getPesanan();
 
         int i = 0;
@@ -99,18 +106,19 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
         SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         buyerUsername = settings.getString("username", "");
 
-        TextView buyerUsernameText = (TextView)findViewById(R.id.pembeli_id);
+        buyerUsernameText = (TextView)findViewById(R.id.pembeli_id);
         buyerUsernameText.setText(buyerUsername);
-        TextView counterNameText = (TextView)findViewById(R.id.counter_id);
+        counterNameText = (TextView)findViewById(R.id.counter_id);
         counterNameText.setText(counterName);
         _imv = (ImageView)findViewById(R.id.counter_image_id_struk);
+
 
         getImage();
 
         //set total pada text
-        int tot = pesan.getTotal();
-        int ribuan = tot/1000;
-        int sisa = tot-ribuan*1000;
+        totalInt = pesan.getTotal();
+        int ribuan = totalInt/1000;
+        int sisa = totalInt-ribuan*1000;
         if(sisa == 0){
             total.setText("Rp. " + ribuan + ".000,00");
         }else{
@@ -141,17 +149,9 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
      */
     public void onClick(View v) {
 
-        if(foods.isEmpty()){
-            Toast.makeText(getApplicationContext(),
-                    "Anda belum memesan apapun", Toast.LENGTH_LONG)
-                    .show();
-            return;
-        }
-
         if(saldoInt < totalInt){
-            String errorMsg = "Saldo tidak mencukupi";
-            Toast.makeText(getApplicationContext(),
-                    errorMsg, Toast.LENGTH_LONG).show();
+            Snackbar.make(v, "Saldo tidak mencukupi", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
             return;
         }
 
@@ -324,6 +324,8 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
     public void setKredit(){
         final String username = buyerUsername;
 
+        System.out.println("masuk set kredit untuk username = " + username);
+
         RequestQueue queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getPemasukanPembeli.php";
         final StringRequest stringReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -336,13 +338,14 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
+
                         String temp = jObj.getString("user");
                         JSONArray temp2 = new JSONArray(temp);
                         Log.d("RESPONSE", temp);
                         JSONObject jsonPemasukan = new JSONObject(temp2.get(0).toString());
                         saldoInt = Integer.parseInt(jsonPemasukan.getString("kredit"));
 
-
+                        System.out.println("SALDO = "+saldoInt);
 
                         int temp3 = saldoInt;
                         int ribuan = temp3/1000;

@@ -21,21 +21,23 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:src="@drawable/food"
-                android:id="@+id/counter_image_id_struk" />
+                android:id="@+id/counter_image_id_struk"
+                android:layout_marginLeft="15dp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp">
 
             <TextView
                 android:layout_width="229dp"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Konfirmasi"
                 android:id="@+id/konfirmasi_id"
@@ -57,7 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/linearLayout"
-        android:layout_above="@+id/linearLayout2">
+        android:layout_above="@+id/linearLayout2"
+        android:layout_marginTop="7dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -94,7 +97,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Medium Text"
                         android:id="@+id/pembeli_id" />
                 </LinearLayout>
 
@@ -129,7 +131,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Medium Text"
                         android:id="@+id/saldo_id" />
                 </LinearLayout>
 
@@ -164,7 +165,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Medium Text"
                         android:id="@+id/counter_id" />
                 </LinearLayout>
             </LinearLayout>

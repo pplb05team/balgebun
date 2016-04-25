@@ -18,10 +18,11 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:src="@drawable/food"
                 android:id="@+id/counter_image_id" />
@@ -31,7 +32,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -79,10 +81,11 @@
 
     <GridView
         android:layout_width="wrap_content"
-        android:layout_height="330dp"
+        android:layout_height="340dp"
         android:numColumns="1"
         android:layout_below="@+id/linearLayout"
-        android:id="@+id/menu_field">
+        android:id="@+id/menu_field"
+        android:layout_alignParentEnd="true">
 
 
     </GridView>
@@ -95,9 +98,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="false"
         android:gravity="end"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/menu_field">
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="true">
 
         <LinearLayout
             android:orientation="vertical"
