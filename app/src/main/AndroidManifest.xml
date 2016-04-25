@@ -37,6 +37,7 @@
         <activity
             android:name=".costumer.StrukActivity"
             android:parentActivityName=".costumer.MenuActivity" />
+        <activity android:name=".counter.EditMenu"></activity>
     </application>
 
 </manifest>
