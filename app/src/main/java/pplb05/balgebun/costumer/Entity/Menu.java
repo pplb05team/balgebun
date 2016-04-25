@@ -9,7 +9,7 @@ import android.os.Parcelable;
  * Implements parcelable because Menu will be sent to another activity
  */
 public class Menu implements Parcelable {
-    private int id, position;
+    private int id, position, idOrder;
     private String namaMenu, hargaText;
     private String status;
     private int jumlah, harga;
@@ -37,7 +37,8 @@ public class Menu implements Parcelable {
     }
 
     //generator for object Menu created in class PesananSaya
-    public Menu(int i, int id_menu, String nama_menu, int jumlah, String status, String nama_counter) {
+    public Menu(int i, int idOrder, int id_menu, String nama_menu, int jumlah, String status, String nama_counter) {
+        this.idOrder = idOrder;
         position = i;
         this.id = id_menu;
         this.jumlah = jumlah;
@@ -72,6 +73,11 @@ public class Menu implements Parcelable {
 
     public int getId() {
         return id;
+    }
+
+    public int getIdOrder() {
+
+        return idOrder;
     }
 
     public String getHargaText(){
@@ -122,6 +128,7 @@ public class Menu implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
+        dest.writeInt(idOrder);
         dest.writeInt(position);
         dest.writeString(namaMenu);
         dest.writeString(hargaText);
@@ -145,6 +152,7 @@ public class Menu implements Parcelable {
     // "De-parcel object
     public Menu(Parcel in) {
         id = in.readInt();
+        idOrder=in.readInt();
         position = in.readInt();
         namaMenu = in.readString();
         hargaText = in.readString();
