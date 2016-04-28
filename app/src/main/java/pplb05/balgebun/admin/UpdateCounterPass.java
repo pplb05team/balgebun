@@ -111,6 +111,7 @@ public class UpdateCounterPass extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 toUpdate = userListAdapter.getItem(position);
+                // Create alert dialog
                 final AlertDialog.Builder warning = new AlertDialog.Builder(UpdateCounterPass.this);
                 warning.setMessage("Input new password");
                 final EditText input = new EditText(UpdateCounterPass.this);
