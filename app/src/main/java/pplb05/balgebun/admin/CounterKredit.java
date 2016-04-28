@@ -3,8 +3,6 @@ package pplb05.balgebun.admin;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -36,7 +34,6 @@ public class CounterKredit extends AppCompatActivity {
     private TextView jumlah,nama;
     private ArrayList<CounterEntity> counters;
     private RequestQueue queue;
-    private Button refresh;
     private BayarPemasukanAdapter counterKreditAdapter;
 
     @Override
@@ -54,16 +51,6 @@ public class CounterKredit extends AppCompatActivity {
         counterKreditAdapter = new BayarPemasukanAdapter(counters, this);
         GridView fieldBayar = (GridView)findViewById(R.id.kredit_counter);
         fieldBayar.setAdapter(counterKreditAdapter);
-
-        refresh= (Button) findViewById(R.id.refresh_btn);
-
-        refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getCounterList();
-                counterKreditAdapter.notifyDataSetChanged();
-            }
-        });
 
     }
 
