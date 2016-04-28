@@ -14,19 +14,20 @@ import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import pplb05.balgebun.app.AppConfig;
-import pplb05.balgebun.app.AppController;
-import pplb05.balgebun.costumer.BuyerActivity;
-import pplb05.balgebun.helper.SQLiteHandler;
-import pplb05.balgebun.helper.SessionManager;
-import pplb05.balgebun.counter.PenjualActivity;
-import pplb05.balgebun.admin.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import pplb05.balgebun.admin.MainActivity;
+import pplb05.balgebun.app.AppConfig;
+import pplb05.balgebun.app.AppController;
+import pplb05.balgebun.costumer.BuyerActivity;
+import pplb05.balgebun.counter.PenjualActivity;
+import pplb05.balgebun.helper.SQLiteHandler;
+import pplb05.balgebun.helper.SessionManager;
 
 
 /**
@@ -150,13 +151,19 @@ public class LoginActivity extends Activity {
 
                         // Now store the user in SQLite
                         JSONObject user = jObj.getJSONObject("user");
-                        String name = user.getString("username");
+                        String username = user.getString("username");
                         String email = user.getString("email");
+
                         String role = Integer.toString(user.getInt("role"));
+                        String name = "";
+
+                        if(role.equals("2")){
+                            name = user.getString("name");
+                        }
 
                         // user successfully logged in
                         // Create login session
-                        session.setLogin(true, role, name);
+                        session.setLogin(true, role, username, name);
 
                         // Inserting row in users table
                         db.addUser(name, email, role);

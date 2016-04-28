@@ -30,6 +30,8 @@ public class SessionManager {
 
     private static final String KEY_USERNAME = "username";
 
+    private static final String KEY_NAME = "name";
+
     public SessionManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -37,7 +39,7 @@ public class SessionManager {
     }
 
 
-    public void setLogin(boolean isLoggedIn, String role, String username) {
+    public void setLogin(boolean isLoggedIn, String role, String username, String name) {
 
         //set login flag
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
@@ -45,6 +47,7 @@ public class SessionManager {
         //set user details
         editor.putString(KEY_ROLE, role);
         editor.putString(KEY_USERNAME, username);
+        editor.putString(KEY_NAME, name);
 
         // commit changes
         editor.commit();
