@@ -9,15 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.febriyolaanastasia.admin.CounterKredit">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Refresh"
-        android:id="@+id/refresh_btn"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -39,7 +30,7 @@
 
         <GridView
             android:layout_width="wrap_content"
-            android:layout_height="401dp"
+            android:layout_height="wrap_content"
             android:id="@+id/kredit_counter" />
 
     </LinearLayout>
