@@ -163,7 +163,7 @@ public class LoginActivity extends Activity {
 
                         // user successfully logged in
                         // Create login session
-                        session.setLogin(true, role, username, name);
+                        session.setLogin(true, role, username);
 
                         // Inserting row in users table
                         db.addUser(name, email, role);

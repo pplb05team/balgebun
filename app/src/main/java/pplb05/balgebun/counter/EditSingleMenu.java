@@ -20,6 +20,11 @@ import java.util.Map;
 
 import pplb05.balgebun.R;
 
+/**
+ * @author FebriyolaAnastasia
+ * This class is used to edit & delete a single menu
+ * edit: name & price
+ */
 public class EditSingleMenu extends AppCompatActivity {
 
     private EditText namaMenu, hargaMenu;

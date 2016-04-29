@@ -28,6 +28,10 @@ import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.costumer.Entity.Menu;
 import pplb05.balgebun.counter.Adapter.MenuListAdapter;
 
+/**
+ * @author febriyola anastasia
+ * Main class for edit menu
+ */
 public class EditMenu extends AppCompatActivity {
 
     private String usernameCounter, namaCounter;
