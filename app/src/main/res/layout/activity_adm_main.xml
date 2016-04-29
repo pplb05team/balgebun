@@ -83,5 +83,20 @@
                 android:id="@+id/pembeli_button"
                 android:onClick="pembeliKredit"/>
         </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="20dp">
+
+            <Button
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:text="Edit Counter"
+                android:id="@+id/editCounter_button"
+                android:onClick="editCounterActivity"/>
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

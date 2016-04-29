@@ -21,10 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_adm_main);
     }
 
-    public void registerCounter(View view) {
-        Intent i = new Intent(this, RegisterCounter.class);
-        startActivity(i);
-    }
+
 
     public void updateCounterPass(View view) {
         Intent i = new Intent(this, UpdateCounterPass.class);
@@ -51,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
      */
     public void pembeliKredit(View view) {
         Intent i = new Intent(this, PembeliKredit.class);
+        startActivity(i);
+    }
+
+    /**
+     * Once button is pressed, method editCounter will be called
+     * This method will start next activity for showing list of the counters
+     */
+    public void editCounterActivity(View view){
+        Intent i = new Intent(this, EditListCounterActivity.class);
         startActivity(i);
     }
 }
