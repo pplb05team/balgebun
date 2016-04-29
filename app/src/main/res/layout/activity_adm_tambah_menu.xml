@@ -10,10 +10,19 @@
         android:layout_height="match_parent"
         android:padding="10dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Tambah Menu"
+            android:id="@+id/textView11"
+            android:layout_marginTop="8dp" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -69,12 +78,20 @@
                 android:paddingRight="5dp" />
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="258dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/edit_harga"
                 android:hint="Harga Menu" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=",00"
+                android:id="@+id/textView12"
+                android:paddingRight="5dp" />
 
         </LinearLayout>
 

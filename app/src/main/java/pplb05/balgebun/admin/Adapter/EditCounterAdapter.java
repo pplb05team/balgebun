@@ -12,7 +12,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import pplb05.balgebun.R;
-import pplb05.balgebun.admin.EditCounterActivity;
 import pplb05.balgebun.admin.Entity.EditCounterEntity;
 
 /**
@@ -68,9 +67,10 @@ public class EditCounterAdapter extends BaseAdapter {
                 String strCounter = counters.get(position).getCounterName();
                 String strUsername = counters.get(position).getUsername();
 
-                Intent i = new Intent(v.getContext(), EditCounterActivity.class);
+                Intent i = new Intent(v.getContext(), pplb05.balgebun.counter.EditMenu.class);
                 i.putExtra("counterUsername", strUsername);
                 i.putExtra("counterName", strCounter);
+
                 v.getContext().startActivity(i);
             }
         });

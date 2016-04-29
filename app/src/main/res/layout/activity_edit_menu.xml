@@ -31,18 +31,18 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp">
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:foregroundGravity="center_vertical|fill_vertical">
+                android:foregroundGravity="center_vertical|fill_vertical" >
 
                 <TextView
-                    android:layout_width="228dp"
+                    android:layout_width="183dp"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/counter_name_id"
@@ -72,5 +72,14 @@
 
 
     </GridView>
+
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/tambah_menu"
+        android:background="@android:drawable/ic_menu_add"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/linearLayout"
+        android:layout_marginLeft="0dp" />
 
 </RelativeLayout>

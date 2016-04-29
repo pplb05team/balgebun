@@ -103,11 +103,11 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/harga_menu"
             android:textSize="15dp"
-            android:layout_weight="0.69" />
+            android:layout_weight="0.69"
+            android:inputType="number" />
 
         <TextView
             android:layout_width="wrap_content"

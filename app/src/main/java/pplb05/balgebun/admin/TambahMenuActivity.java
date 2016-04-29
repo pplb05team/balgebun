@@ -1,6 +1,8 @@
 package pplb05.balgebun.admin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +24,7 @@ import java.util.Map;
 
 import pplb05.balgebun.R;
 import pplb05.balgebun.app.AppController;
+import pplb05.balgebun.counter.EditMenu;
 
 /**
  * Created by Rahmi Julianasari on 26/04/2016.
@@ -29,7 +32,7 @@ import pplb05.balgebun.app.AppController;
 public class TambahMenuActivity extends AppCompatActivity {
     private EditText namaInput, hargaInput;
     private Button tambahButton,batalButton;
-    private String unameCounter,namaMenu,hargaMenu;
+    private String unameCounter,nameCounter,namaMenu,hargaMenu;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,8 @@ public class TambahMenuActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         unameCounter = i.getStringExtra("counterUsername");
+        nameCounter = i.getStringExtra("nameCounter");
+
 
         namaInput = (EditText)findViewById(R.id.edit_nama);
         hargaInput = (EditText)findViewById(R.id.edit_harga);
@@ -68,14 +73,35 @@ public class TambahMenuActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
-                Intent i = new Intent(TambahMenuActivity.this, EditCounterActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(i);
-                finish();
+                nextActivity();
             }
         });
 
+    }
+
+    private void nextActivity(){
+        SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
+        String role = settings.getString("role", "");
+        if(role.equals("2")){
+            toCounter();
+        }
+        else{
+            toAdmin();
+        }
+    }
+
+    private void toAdmin(){
+        Intent i = new Intent(TambahMenuActivity.this, EditMenu.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("counterName", nameCounter);
+        i.putExtra("counterUsername", unameCounter);
+        startActivity(i);
+    }
+
+    private void toCounter(){
+        Intent intent= new Intent(TambahMenuActivity.this, EditMenu.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        TambahMenuActivity.this.startActivity(intent);
     }
 
     private void tambahMenu(){
@@ -92,13 +118,8 @@ public class TambahMenuActivity extends AppCompatActivity {
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
                         Log.d("addmenu","addmenu");
-
                         Toast.makeText(getApplicationContext(), "Menu berhasil ditambahkan", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(TambahMenuActivity.this, EditCounterActivity.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        startActivity(i);
-                        finish();
-
+                        nextActivity();
                     } else {
 
                         // Error occurred in registration. Get the error

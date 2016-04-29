@@ -1,10 +1,13 @@
 package pplb05.balgebun.counter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -34,7 +37,7 @@ import pplb05.balgebun.counter.Adapter.MenuListAdapter;
  */
 public class EditMenu extends AppCompatActivity {
 
-    private String usernameCounter, namaCounter;
+    private String usernameCounter, namaCounter, role;
     private ArrayList<Menu> foods = new ArrayList<>();
     private  MenuListAdapter menuAdapter;
 
@@ -44,8 +47,16 @@ public class EditMenu extends AppCompatActivity {
         setContentView(R.layout.activity_edit_menu);
 
         SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
-        usernameCounter = settings.getString("username", "");
-        namaCounter = settings.getString("name", "");
+        role = settings.getString("role", "");
+
+        if(role.equals("3")){//admin side
+            Intent i = getIntent();
+            namaCounter =i.getStringExtra("counterName");
+            usernameCounter =i.getStringExtra("counterUsername");
+        }else{//counter side
+            usernameCounter = settings.getString("username", "");
+            namaCounter = settings.getString("name", "");
+        }
 
         System.out.println("username = " + usernameCounter + "nama = " + namaCounter);
 
@@ -54,9 +65,23 @@ public class EditMenu extends AppCompatActivity {
 
         getMenuList(usernameCounter);
 
-        menuAdapter = new MenuListAdapter(foods,this);
+        menuAdapter = new MenuListAdapter(foods,this,usernameCounter,namaCounter);
         GridView fieldMenu = (GridView)findViewById(R.id.menu_field);
         fieldMenu.setAdapter(menuAdapter);
+
+        Button addButton = (Button) findViewById(R.id.tambah_menu);
+
+        //if button is pressed, edit that menu
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getApplicationContext(), pplb05.balgebun.admin.TambahMenuActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("counterUsername", usernameCounter);
+                intent.putExtra("nameCounter", namaCounter);
+                getApplicationContext().startActivity(intent);
+            }
+        });
 
     }
 

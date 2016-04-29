@@ -25,8 +25,7 @@
                 android:layout_width="225dp"
                 android:layout_height="wrap_content"
                 android:text="Daftar Pesanan"
-                android:id="@+id/counter_button"
-                android:onClick="counterKredit"/>
+                android:id="@+id/pesanan" />
         </LinearLayout>
 
         <LinearLayout
@@ -40,7 +39,6 @@
                 android:layout_height="wrap_content"
                 android:text="Edit Menu"
                 android:id="@+id/edit_menu"
-                android:onClick="editMenu"
                 android:nestedScrollingEnabled="false" />
         </LinearLayout>
 
@@ -54,8 +52,7 @@
                 android:layout_width="225dp"
                 android:layout_height="wrap_content"
                 android:text="Kredit Anda"
-                android:id="@+id/pembeli_button"
-                android:onClick="pembeliKredit"/>
+                android:id="@+id/kredit" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

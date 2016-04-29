@@ -28,7 +28,7 @@ import pplb05.balgebun.R;
 public class EditSingleMenu extends AppCompatActivity {
 
     private EditText namaMenu, hargaMenu;
-    private String namaString, hargaString, idString;
+    private String namaString, hargaString, idString, usernameCounter, nameCounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,9 @@ public class EditSingleMenu extends AppCompatActivity {
         idString = i.getStringExtra("id_menu");
         namaString = i.getStringExtra("nama_menu");
         hargaString = i.getStringExtra("harga_menu");
+        usernameCounter = i.getStringExtra("counterUsername");
+        nameCounter = i.getStringExtra("counterName");
+
 
         //set text
         namaMenu.setText(namaString);
@@ -77,6 +80,8 @@ public class EditSingleMenu extends AppCompatActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), "Berhasil merubah data", Toast.LENGTH_LONG);
                 toast.show();
                 Intent intent= new Intent(getApplicationContext(), EditMenu.class);
+                intent.putExtra("counterUsername", usernameCounter);
+                intent.putExtra("counterName", nameCounter);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent);
 

@@ -1,9 +1,10 @@
 package pplb05.balgebun.counter;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 
 import pplb05.balgebun.R;
 
@@ -13,21 +14,45 @@ public class PenjualActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_penjual);
-    }
 
-    public void counterKredit(View view) {
-        Intent i = new Intent(this, MenuActivity.class);
-        startActivity(i);
-    }
 
-    public void pembeliKredit(View view) {
-        Intent i = new Intent(this, MelihatKreditPenjual.class);
-        startActivity(i);
-    }
+        Button edit_menu = (Button)findViewById(R.id.edit_menu);
 
-    public void editMenu(View view) {
-        Intent i = new Intent(this, EditMenu.class);
-        startActivity(i);
-    }
+        edit_menu.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), EditMenu.class);
+                startActivity(i);
+
+            }
+        });
+
+        Button kredit = (Button)findViewById(R.id.kredit);
+
+        kredit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(getApplicationContext(), MelihatKreditPenjual.class);
+                startActivity(i);
+
+            }
+        });
+
+        Button pesanan = (Button)findViewById(R.id.pesanan);
+
+        pesanan.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(i);
+
+            }
+        });
+
+    }
 }

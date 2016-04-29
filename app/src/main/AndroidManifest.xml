@@ -30,6 +30,11 @@
         <activity android:name=".admin.UpdateCounterPass" />
         <activity android:name=".counter.PenjualActivity" />
         <activity android:name=".counter.MenuActivity" />
+        <activity android:name=".counter.EditMenu" />
+        <activity android:name=".admin.TambahMenuActivity" />
+        <activity android:name=".admin.EditListCounterActivity" />
+        <activity android:name=".counter.EditSingleMenu" />
+
         <activity
             android:name=".costumer.MenuActivity"
             android:alwaysRetainTaskState="true"

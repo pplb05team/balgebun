@@ -159,11 +159,12 @@ public class LoginActivity extends Activity {
 
                         if(role.equals("2")){
                             name = user.getString("name");
+                            System.out.println("NAMA USER = " + name);
                         }
 
                         // user successfully logged in
                         // Create login session
-                        session.setLogin(true, role, username);
+                        session.setLogin(true, name, role, username);
 
                         // Inserting row in users table
                         db.addUser(name, email, role);
@@ -172,7 +173,7 @@ public class LoginActivity extends Activity {
                         if (role.equals("1")){
                             // GOTO customer main activity
                             Intent intent = new Intent(LoginActivity.this, BuyerActivity.class);
-                            intent.putExtra("username", name);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                             finish();
                         }

@@ -28,6 +28,8 @@ public class SessionManager {
 
     private static final String KEY_ROLE = "role";
 
+    private static final String KEY_NAME = "name";
+
     private static final String KEY_USERNAME = "username";
 
     public SessionManager(Context context) {
@@ -37,12 +39,13 @@ public class SessionManager {
     }
 
 
-    public void setLogin(boolean isLoggedIn, String role, String username) {
+    public void setLogin(boolean isLoggedIn, String name, String role, String username) {
 
         //set login flag
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
 
         //set user details
+        editor.putString(KEY_NAME, name);
         editor.putString(KEY_ROLE, role);
         editor.putString(KEY_USERNAME, username);
 
@@ -62,5 +65,9 @@ public class SessionManager {
 
     public String getUsername() {
         return pref.getString(KEY_USERNAME, "-1");
+    }
+
+    public String getName() {
+        return pref.getString(KEY_NAME, "-1");
     }
 }

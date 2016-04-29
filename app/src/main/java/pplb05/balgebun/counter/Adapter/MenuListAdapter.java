@@ -43,6 +43,7 @@ public class MenuListAdapter extends BaseAdapter {
     private TextView nama;
     private TextView harga;
     private Button editBtn, delBtn;
+    private String usernameCounter, nameCounter;
 
     OnDataChangeListener mOnDataChangeListener;
 
@@ -57,9 +58,11 @@ public class MenuListAdapter extends BaseAdapter {
     }
 
     //Generator
-    public MenuListAdapter(ArrayList<Menu> food,Context context) {
+    public MenuListAdapter(ArrayList<Menu> food,Context context, String usernameCounter, String nameCounter) {
         this.food = food;
         this.context = context;
+        this.usernameCounter=usernameCounter;
+        this.nameCounter=nameCounter;
     }
 
     @Override
@@ -101,7 +104,12 @@ public class MenuListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(context, EditSingleMenu.class);
+
                 intent.putExtra("id_menu", ""+food.get(position).getId());
+
+                intent.putExtra("counterUsername", usernameCounter);
+                intent.putExtra("counterName", nameCounter);
+
                 System.out.println ("id = " + food.get(position).getId());
 
                 intent.putExtra("nama_menu",food.get(position).getNamaMenu());
@@ -140,6 +148,8 @@ public class MenuListAdapter extends BaseAdapter {
                         toast.show();
 
                         Intent intent= new Intent(context, EditMenu.class);
+                        intent.putExtra("counterUsername", usernameCounter);
+                        intent.putExtra("counterName", nameCounter);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
 
