@@ -287,7 +287,7 @@ public class PesananPenjualAdapter extends BaseAdapter {
             @Override
             public void onResponse(String response) {
                 Log.d("respon batal", "Respon pesanan: " + response.toString());
-                //hideDialog();
+                //hideDialog(); 
 
                 try {
                     JSONObject jObj = new JSONObject(response);
