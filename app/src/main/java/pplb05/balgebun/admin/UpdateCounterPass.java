@@ -1,75 +1,79 @@
 package pplb05.balgebun.admin;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.Toast;
 
-import com.android.volley.Request.Method;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-import pplb05.balgebun.app.AppConfig;
-import pplb05.balgebun.app.AppController;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.admin.Adapter.UpdateCounterPassAdapter;
+import pplb05.balgebun.admin.Entity.EditCounterEntity;
 /**
  * Created by Haris Dwi Prakoso on 4/26/2016.
  */
 public class UpdateCounterPass extends Activity {
     private static final String TAG = UpdateCounterPass.class.getSimpleName();
-    private ProgressDialog pDialog;
-    private List<String> users = new ArrayList<String>();
-    private ArrayAdapter<String> userListAdapter;
+    private ArrayList<EditCounterEntity> counters = new ArrayList<>();
+    private UpdateCounterPassAdapter counterAdapter;
+    private RequestQueue queue;
     private String toUpdate, newPass;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_counter_pass);
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
+        setContentView(R.layout.activity_adm_listcounter);
 
-        String tag_string_req = "req_listing";
+        //get all counters
+        if(counters.isEmpty())
+            getCounterList();
 
-        StringRequest strReq = new StringRequest(Method.POST,
-                AppConfig.URL_LIST_USERNAME_BY_ROLE, new Response.Listener<String>() {
+        //showing the counters in xml
+        GridView gridView = (GridView) findViewById(R.id.list_counter);
+        counterAdapter = new UpdateCounterPassAdapter(counters, this);
+        gridView.setAdapter(counterAdapter);
+
+    }
+
+    /*
+     * This method is used for getting all counters in database
+     */
+    public void getCounterList(){
+        queue = Volley.newRequestQueue(this.getApplicationContext());
+        String url = "http://aaa.esy.es/coba_wahid/getCounter.php";
+        final StringRequest stringChess = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "List Response: " + response.toString());
-                hideDialog();
-
+                Log.d("RESPONSE", "Get Response: " + response.toString());
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
-                    if(!error){
-                        // Create user array
-                        JSONArray jArr = jObj.getJSONArray("user");
-                        for(int i = 0; i < jArr.length(); i++){
-                            JSONObject item = jArr.getJSONObject(i);
-                            String uname = item.getString("username");
-                            users.add(uname);
-                            Log.d(TAG, "users content: " + users.toString());
+                    if (!error) {
+                        String temp = jObj.getString("user");
+                        JSONArray counterTemp = new JSONArray(temp);
+                        for(int i = 0; i < counterTemp.length(); i++){
+                            JSONObject counter = new JSONObject(counterTemp.get(i).toString());
+                            counters.add(new EditCounterEntity(
+                                    counter.getString("username"),
+                                    counter.getString("nama_counter"),
+                                    Integer.parseInt(counter.getString("pemasukan"))
+                            ));
                         }
+                        counterAdapter.notifyDataSetChanged();
                     } else {
                         String errorMsg = jObj.getString("error_msg");
                         Toast.makeText(getApplicationContext(),
@@ -77,122 +81,16 @@ public class UpdateCounterPass extends Activity {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+
                 }
             }
         }, new Response.ErrorListener() {
-
-            //show error message
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Listing Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
+
             }
-        }) {
+        });
 
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to register url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("role", "2");
-                return params;
-            }
-
-        };
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-
-        ListView userListView = (ListView) findViewById(R.id.listView1);
-        userListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, users);
-        userListView.setAdapter(userListAdapter);
-        userListView.deferNotifyDataSetChanged();
-
-        AdapterView.OnItemClickListener itemClickedHandler = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                toUpdate = userListAdapter.getItem(position);
-                // Create alert dialog
-                final AlertDialog.Builder warning = new AlertDialog.Builder(UpdateCounterPass.this);
-                warning.setMessage("Input new password");
-                final EditText input = new EditText(UpdateCounterPass.this);
-                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                warning.setView(input);
-                warning.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        newPass = input.getText().toString();
-                        String tag_string_req2 = "req_update";
-                        pDialog.setMessage("Updating password...");
-                        showDialog();
-                        StringRequest strReq2 = new StringRequest(Method.POST,
-                                AppConfig.URL_UPDATE_PASSWORD, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Log.d(TAG, "Update Response: " + response.toString());
-                                hideDialog();
-
-                                try {
-                                    JSONObject jObj = new JSONObject(response);
-                                    boolean error = jObj.getBoolean("error");
-                                    if (!error) {
-                                        Toast.makeText(getApplicationContext(),
-                                                "Password successfully updated", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        String errorMsg = jObj.getString("error_msg");
-                                        Toast.makeText(getApplicationContext(),
-                                                errorMsg, Toast.LENGTH_LONG).show();
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-
-                            //show error message
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e(TAG, "Update Error: " + error.getMessage());
-                                Toast.makeText(getApplicationContext(),
-                                        error.getMessage(), Toast.LENGTH_LONG).show();
-                                hideDialog();
-                            }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                // Posting parameters to update url
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("username", toUpdate);
-                                params.put("password", newPass);
-                                return params;
-                            }
-
-                        };
-
-                        // Adding request to request queue
-                        AppController.getInstance().addToRequestQueue(strReq2, tag_string_req2);
-                    }
-                });
-                warning.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-            }
-        };
-        userListView.setOnItemClickListener(itemClickedHandler);
-
-    }
-
-    private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hideDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
+        queue.add(stringChess);
     }
 }
