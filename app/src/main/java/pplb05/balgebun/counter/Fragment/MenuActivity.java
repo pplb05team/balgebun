@@ -56,6 +56,7 @@ public class MenuActivity extends Fragment implements AdapterView.OnItemSelected
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_pesanan, container, false);
         super.onCreate(savedInstanceState);
+        Log.d("eaeaea","e");
 
         /**
         spinnerku = (Spinner) findViewById(R.id.planets_spinner);
