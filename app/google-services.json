@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "812129112270",
+    "project_id": "balgebun-1297"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812129112270:android:cd531720d7ff48f9",
+        "android_client_info": {
+          "package_name": "pplb05.balgebun"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3ktiJ3brr8gkBCc-5HJ6lnZ6CAQGZmVY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
