@@ -34,6 +34,7 @@
         <activity android:name=".counter.EditMenu" />
         <activity android:name=".admin.TambahMenuActivity" />
         <activity android:name=".admin.EditListCounterActivity" />
+        <activity android:name=".admin.EditCounterActivity" />
         <activity android:name=".counter.EditSingleMenu" />
 
         <activity

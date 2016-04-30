@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
      * This method will start next activity for showing list of the counters
      */
     public void editCounterActivity(View view){
+        System.out.println("Test=====");
         Intent i = new Intent(this, EditListCounterActivity.class);
         startActivity(i);
     }

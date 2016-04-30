@@ -1,5 +1,6 @@
 package pplb05.balgebun.admin.Adapter;
 
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,39 +30,40 @@ import java.util.Map;
 
 import pplb05.balgebun.R;
 import pplb05.balgebun.admin.EditCounterActivity;
-import pplb05.balgebun.admin.EditMenuActivity;
 import pplb05.balgebun.costumer.Entity.Menu;
+import pplb05.balgebun.counter.EditSingleMenu;
 
 /**
  * Created by Rahmi Julianasari on 28/04/2016.
  */
-public class EditMenuAdapter extends BaseAdapter {
-    private ArrayList<Menu> food;
+public class EditMenuAdapter extends BaseAdapter{
+    private ArrayList<Menu> foods = new ArrayList<>();
     private Context context;
     private TextView nama;
     private TextView harga;
     private Button editBtn, delBtn;
+    private String usernameCounter, nameCounter;
 
-    //OnDataChangeListener mOnDataChangeListener;
-
-    public EditMenuAdapter(ArrayList<Menu> food, Context context) {
-        this.food = food;
+    public EditMenuAdapter(Context context, ArrayList<Menu> foods, String usernameCounter, String nameCounter) {
+        this.foods = foods;
         this.context = context;
+        this.usernameCounter=usernameCounter;
+        this.nameCounter=nameCounter;
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return foods.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return foods.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return foods.get(position).getPosition();
     }
 
     @Override
@@ -76,39 +78,41 @@ public class EditMenuAdapter extends BaseAdapter {
         delBtn = (Button) v.findViewById(R.id.del_button);
 
         //set var
-        nama.setText(food.get(position).getNamaMenu());
-        harga.setText(food.get(position).getHargaText());
+        nama.setText(foods.get(position).getNamaMenu());
+        harga.setText(foods.get(position).getHargaText()); //Get the text from your adapter for example
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(context, EditMenuActivity.class);
-                intent.putExtra("id_menu", ""+food.get(position).getId());
-                System.out.println ("id = " + food.get(position).getId());
+                Intent intent= new Intent(context, EditSingleMenu.class);
 
-                intent.putExtra("nama_menu",food.get(position).getNamaMenu());
-                System.out.println ("nama = " + food.get(position).getNamaMenu());
+                intent.putExtra("id_menu", ""+foods.get(position).getId());
 
-                intent.putExtra("harga_menu",""+food.get(position).getHarga());
-                System.out.println ("harga = " + food.get(position).getHarga());
+                intent.putExtra("counterUsername", usernameCounter);
+                intent.putExtra("counterName", nameCounter);
+
+                System.out.println ("id = " + foods.get(position).getId());
+
+                intent.putExtra("nama_menu",foods.get(position).getNamaMenu());
+                System.out.println ("nama = " + foods.get(position).getNamaMenu());
+
+                intent.putExtra("harga_menu",""+foods.get(position).getHarga());
+                System.out.println ("harga = " + foods.get(position).getHarga());
 
                 context.startActivity(intent);
             }
         });
-
         delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogBox(food.get(position).getNamaMenu(), ""+food.get(position).getId());
+                dialogBox(foods.get(position).getNamaMenu(), ""+foods.get(position).getId());
             }
         });
 
-
-        return null;
+        return v;
     }
 
-    //function delete menu
-    public void delete(final String id_menu){
+    private void delete(final String id_menu) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = "http://aaa.esy.es/coba_wahid/deleteMenu.php";
         final StringRequest stringResp = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -124,6 +128,8 @@ public class EditMenuAdapter extends BaseAdapter {
                         toast.show();
 
                         Intent intent= new Intent(context, EditCounterActivity.class);
+                        intent.putExtra("counterUsername", usernameCounter);
+                        intent.putExtra("counterName", nameCounter);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
 
@@ -152,7 +158,6 @@ public class EditMenuAdapter extends BaseAdapter {
 
         };
         queue.add(stringResp);
-
     }
 
     public void dialogBox(String menu, final String id) {
@@ -180,4 +185,5 @@ public class EditMenuAdapter extends BaseAdapter {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+
 }

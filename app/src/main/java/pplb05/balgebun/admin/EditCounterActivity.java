@@ -37,9 +37,8 @@ public class EditCounterActivity extends AppCompatActivity {
 
     private TextView namaCounter, usernameCounter;
     private String counterUsername, counterName;
-    ArrayList<Menu> foods = new ArrayList<>();
+    private ArrayList<Menu> foods = new ArrayList<>();
     private EditMenuAdapter menuAdapter;
-
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -48,27 +47,29 @@ public class EditCounterActivity extends AppCompatActivity {
         namaCounter = (TextView)findViewById(R.id.nama_counter);
         usernameCounter = (TextView)findViewById(R.id.usernameC);
 
+        //Receiving the Data
         Intent i = getIntent();
         counterUsername = i.getStringExtra("counterUsername");
         counterName = i.getStringExtra("counterName");
 
+        //set text
         namaCounter.setText(counterName);
         usernameCounter.setText(counterUsername);
 
-        /*
-         *Disini buat implementasi edit counter
-         */
+        //call the function
+        getMenuList();
 
-        //get all menu of counters
-        if(foods.isEmpty())
-            getMenuList();
+        menuAdapter = new EditMenuAdapter(this,foods,counterUsername,counterName);
+        GridView fieldMenu = (GridView)findViewById(R.id.menuList);
+        fieldMenu.setAdapter(menuAdapter);
 
-        //showing the menus in xml
-        menuAdapter = new EditMenuAdapter(foods, this);
-        GridView gridView = (GridView) findViewById(R.id.list_menu);
-        gridView.setAdapter(menuAdapter);
+    }
 
-
+    public void tambahMenuActivity(View view){
+        Intent i = new Intent(this, TambahMenuActivity.class);
+        i.putExtra("counterUsername", counterUsername);
+        i.putExtra("counterName", counterName);
+        this.startActivity(i);
     }
 
     public void getMenuList(){
@@ -82,8 +83,7 @@ public class EditCounterActivity extends AppCompatActivity {
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
-                    Log.d("error",""+error);
-                    if (error) {
+                    if (!error) {
                         String temp = jObj.getString("user");
                         JSONArray menuTemp = new JSONArray(temp);
                         for(int i = 0; i < menuTemp.length(); i++){
@@ -123,12 +123,7 @@ public class EditCounterActivity extends AppCompatActivity {
 
         };
         VolleySingleton.getInstance(this).addToRequestQueue(stringResp);
-    }
 
-    public void tambahMenuActivity(View view){
-        Intent i = new Intent(this, TambahMenuActivity.class);
-        i.putExtra("counterUsername", counterUsername);
-        startActivity(i);
     }
 
 }

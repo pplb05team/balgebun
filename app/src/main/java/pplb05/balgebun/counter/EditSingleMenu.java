@@ -1,6 +1,8 @@
 package pplb05.balgebun.counter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.admin.EditCounterActivity;
 
 /**
  * @author FebriyolaAnastasia
@@ -69,6 +72,33 @@ public class EditSingleMenu extends AppCompatActivity {
         });
     }
 
+    private void nextActivity(){
+        SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
+        String role = settings.getString("role", "");
+        if(role.equals("2")){
+            toCounter();
+        }
+        else{
+            toAdmin();
+        }
+    }
+
+    private void toAdmin(){
+        Intent intent= new Intent(getApplicationContext(), EditCounterActivity.class);
+        intent.putExtra("counterUsername", usernameCounter);
+        intent.putExtra("counterName", nameCounter);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
+    }
+
+    private void toCounter(){
+        Intent intent= new Intent(getApplicationContext(), EditMenu.class);
+        intent.putExtra("counterUsername", usernameCounter);
+        intent.putExtra("counterName", nameCounter);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
+    }
+
     private void update(final String nama_menu, final String harga) {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/updateMenu.php";
@@ -79,11 +109,7 @@ public class EditSingleMenu extends AppCompatActivity {
 
                 Toast toast = Toast.makeText(getApplicationContext(), "Berhasil merubah data", Toast.LENGTH_LONG);
                 toast.show();
-                Intent intent= new Intent(getApplicationContext(), EditMenu.class);
-                intent.putExtra("counterUsername", usernameCounter);
-                intent.putExtra("counterName", nameCounter);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
+                nextActivity();
 
             }
         }, new Response.ErrorListener() {
