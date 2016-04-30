@@ -36,7 +36,7 @@ import pplb05.balgebun.R;
 
 //import com.example.febriyolaanastasia.balgebun.R;
 
-public class MenuActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class MenuActivity2 extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private ArrayList<PesananPenjual> order;
     private PesananPenjualAdapter pesananAdapter;
     private RequestQueue queue;
@@ -81,7 +81,7 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
 
         Log.d("ukuran",""+order.size());
 
-        pesananAdapter = new PesananPenjualAdapter(order,this);
+        //pesananAdapter = new PesananPenjualAdapter(order,this);
         GridView fieldMenu = (GridView)findViewById(R.id.menu_field);
         fieldMenu.setAdapter(pesananAdapter);
         //pesananAdapter.setOn
