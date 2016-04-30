@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".EditProfileActivity"></activity>
         <activity android:name=".costumer.BuyerActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".admin.MainActivity" />
@@ -29,7 +30,7 @@
         <activity android:name=".admin.DeleteCounter" />
         <activity android:name=".admin.UpdateCounterPass" />
         <activity android:name=".counter.PenjualActivity" />
-        <activity android:name=".counter.MenuActivity" />
+        <activity android:name=".counter.Entity.MenuActivity2" />
         <activity android:name=".counter.EditMenu" />
         <activity android:name=".admin.TambahMenuActivity" />
         <activity android:name=".admin.EditListCounterActivity" />

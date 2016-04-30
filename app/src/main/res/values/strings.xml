@@ -3,6 +3,7 @@
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="hint_name">Username</string>
+    <string name="hint_retype_password">Retype Password</string>
     <string name="btn_login">LOGIN</string>
     <string name="btn_register">REGISTER</string>
     <string name="btn_link_to_register">Not a member? Sign up now.</string>
@@ -18,5 +19,9 @@
         <item>selesai</item>
     </string-array>
     <string name="title_activity_test">Test</string>
+    <string name="btn_change_profile">Ubah Profil</string>
+    <string name="btn_change_password">Ubah Password</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
 </resources>

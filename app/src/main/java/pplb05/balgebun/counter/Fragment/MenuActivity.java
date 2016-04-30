@@ -1,13 +1,16 @@
-package pplb05.balgebun.counter;
+package pplb05.balgebun.counter.Fragment;
 
 //https://www.youtube.com/watch?v=ZEEYYvVwJGY
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,24 +33,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import pplb05.balgebun.counter.Entity.PesananPenjual;
-import pplb05.balgebun.counter.Adapter.PesananPenjualAdapter;
 import pplb05.balgebun.R;
+import pplb05.balgebun.counter.Adapter.PesananPenjualAdapter;
+import pplb05.balgebun.counter.Entity.PesananPenjual;
 
 //import com.example.febriyolaanastasia.balgebun.R;
 
-public class MenuActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class MenuActivity extends Fragment implements AdapterView.OnItemSelectedListener{
     private ArrayList<PesananPenjual> order;
     private PesananPenjualAdapter pesananAdapter;
     private RequestQueue queue;
     private String username;
     Spinner spinnerku;
     ArrayAdapter<CharSequence> adapterSpinner;
+    public MenuActivity() {
+        // Required empty public constructor
+    }
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_pesanan, container, false);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pesanan);
+
         /**
         spinnerku = (Spinner) findViewById(R.id.planets_spinner);
         adapterSpinner=ArrayAdapter.createFromResource(this,R.array.list_status,android.R.layout.simple_spinner_item);
@@ -68,21 +77,21 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
 
          */
 
-        SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
+        SharedPreferences settings = getActivity().getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         username = settings.getString("username", "");
 
-        TextView counterUsernameText = (TextView)findViewById(R.id.counter_name_id);
+        TextView counterUsernameText = (TextView)v.findViewById(R.id.counter_name_id);
         counterUsernameText.setText(username);
 
-        Button refreshButton = (Button)findViewById(R.id.refresh_pesanan_penjual);
+        Button refreshButton = (Button)v.findViewById(R.id.refresh_pesanan_penjual);
 
         order = new ArrayList<>();
         getPesananList();
 
         Log.d("ukuran",""+order.size());
 
-        pesananAdapter = new PesananPenjualAdapter(order,this);
-        GridView fieldMenu = (GridView)findViewById(R.id.menu_field);
+        pesananAdapter = new PesananPenjualAdapter(order,getActivity());
+        GridView fieldMenu = (GridView)v.findViewById(R.id.menu_field);
         fieldMenu.setAdapter(pesananAdapter);
         //pesananAdapter.setOn
 
@@ -93,6 +102,7 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        return v;
     }
 
     @Override
@@ -106,7 +116,7 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void getPesananList(){
-        queue = Volley.newRequestQueue(this.getApplicationContext());
+        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid2/getPesananPenjual.php";
         final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

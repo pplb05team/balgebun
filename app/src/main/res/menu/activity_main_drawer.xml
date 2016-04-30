@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group>
+
+        <item android:title="Lihat Profil Saya"
+            android:id="@+id/settings_profile_id"
+            android:icon="@drawable/account_circle"/>
+    </group>
+
+    <group android:id="@+id/settings_credit_id">
+
+        <item android:title="Lihat Kredit"
+            android:icon="@drawable/currency_usd"/>
+    </group>
+
+    <group android:id="@+id/log_out_group_id">
+        <item android:title="Log out"
+            android:icon="@drawable/log_out"
+            android:id="@+id/log_out_nav_draw"/>
+    </group>
+
+
+</menu>

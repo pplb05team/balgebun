@@ -55,6 +55,12 @@ public class SessionManager {
         Log.d(TAG, "User login session modified!");
     }
 
+    public void setLogin(boolean isLoggedIn) {
+
+        editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
+        editor.commit();
+    }
+
     public boolean isLoggedIn(){
         return pref.getBoolean(KEY_IS_LOGGEDIN, false);
     }
