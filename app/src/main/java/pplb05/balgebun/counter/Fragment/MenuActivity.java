@@ -102,7 +102,7 @@ public class MenuActivity extends Fragment implements AdapterView.OnItemSelected
                 Log.d("Refresh", "Refreshing");
             }
         });
-
+ 
         return v;
     }
 
