@@ -17,6 +17,7 @@ import pplb05.balgebun.EditProfileActivity;
 import pplb05.balgebun.LoginActivity;
 import pplb05.balgebun.R;
 import pplb05.balgebun.counter.Fragment.MenuActivity;
+import pplb05.balgebun.counter.Fragment.TabFragment;
 import pplb05.balgebun.helper.SQLiteHandler;
 import pplb05.balgebun.helper.SessionManager;
 
@@ -56,7 +57,7 @@ public class PenjualActivity extends AppCompatActivity {
 
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.containerView,new MenuActivity()).commit();
+        mFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
         /**
          * Setup click events on the Navigation View Items.
          */
