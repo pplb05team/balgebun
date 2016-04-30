@@ -1,4 +1,4 @@
-package pplb05.balgebun.counter.Entity;
+package pplb05.balgebun.counter;
 
 //https://www.youtube.com/watch?v=ZEEYYvVwJGY
 
@@ -36,7 +36,7 @@ import pplb05.balgebun.R;
 
 //import com.example.febriyolaanastasia.balgebun.R;
 
-public class MenuActivity2 extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class MenuActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private ArrayList<PesananPenjual> order;
     private PesananPenjualAdapter pesananAdapter;
     private RequestQueue queue;

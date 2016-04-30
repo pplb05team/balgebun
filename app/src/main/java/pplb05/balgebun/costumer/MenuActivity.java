@@ -164,7 +164,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     /**
      * this method will move the activity to next activity
-     * from MenuActivity2 to StrukActivity
+     * from MenuActivity to StrukActivity
      */
     public void onClick(View v) {
 

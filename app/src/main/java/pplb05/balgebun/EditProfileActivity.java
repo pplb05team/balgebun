@@ -144,7 +144,7 @@ public class EditProfileActivity extends Activity{
             @Override
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
-                return params;
+                return new HashMap<String, String>(params);
             }
 
         };
