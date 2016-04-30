@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".EditProfileActivity"></activity>
         <activity android:name=".costumer.BuyerActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".admin.MainActivity" />

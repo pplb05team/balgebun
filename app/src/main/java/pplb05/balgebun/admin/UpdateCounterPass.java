@@ -68,6 +68,7 @@ public class UpdateCounterPass extends Activity {
                             JSONObject item = jArr.getJSONObject(i);
                             String uname = item.getString("username");
                             users.add(uname);
+                            Log.d(TAG, "users content: " + users.toString());
                         }
                     } else {
                         String errorMsg = jObj.getString("error_msg");
@@ -103,9 +104,10 @@ public class UpdateCounterPass extends Activity {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
-        userListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, users);
         ListView userListView = (ListView) findViewById(R.id.listView1);
+        userListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, users);
         userListView.setAdapter(userListAdapter);
+        userListView.deferNotifyDataSetChanged();
 
         AdapterView.OnItemClickListener itemClickedHandler = new AdapterView.OnItemClickListener() {
             @Override
