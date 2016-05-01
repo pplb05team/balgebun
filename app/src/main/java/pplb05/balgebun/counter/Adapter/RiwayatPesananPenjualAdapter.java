@@ -15,6 +15,7 @@ import pplb05.balgebun.counter.Fragment.RiwayatActivity;
 
 /**
  * Created by dananarief on 27-04-16.
+ * Kelas ini merupakan adapter untuk menampilkan riwayat pesanan
  */
 public class RiwayatPesananPenjualAdapter extends BaseAdapter{
     private ArrayList<RiwayatPesananPenjual> listRiwayat;
@@ -49,6 +50,7 @@ public class RiwayatPesananPenjualAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        //beberapa baris kode ini untuk mengatur tampilan sesuai layout xml
         LayoutInflater i = LayoutInflater.from(context);
         final View v = i.inflate(R.layout.penjual_riwayat_layout,parent,false);
         namaMakanan = (TextView) v.findViewById(R.id.nama_menu);
