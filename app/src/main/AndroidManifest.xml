@@ -38,6 +38,7 @@
         <activity android:name=".admin.UpdatePassScreen" />
         <activity android:name=".admin.DeleteCounterScreen" />
         <activity android:name=".costumer.MelihatKreditPembeli" />
+        <activity android:name=".costumer.FAQPage" />
 
         <activity
             android:name=".costumer.MenuActivity"
