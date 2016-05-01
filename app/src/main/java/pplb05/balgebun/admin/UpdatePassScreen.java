@@ -105,6 +105,7 @@ public class UpdatePassScreen extends Activity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("username", toUpdate);
                 params.put("password", newPass);
+                params.put("new_password", newPass);
                 return params;
             }
 
