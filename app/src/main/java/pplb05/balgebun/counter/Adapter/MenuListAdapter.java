@@ -132,6 +132,10 @@ public class MenuListAdapter extends BaseAdapter {
         return v;
     }
 
+    /**
+     * Delete menu
+     * @param id_menu      the id of the menu
+     */
     private void delete(final String id_menu) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = "http://aaa.esy.es/coba_wahid/deleteMenu.php";
@@ -170,7 +174,7 @@ public class MenuListAdapter extends BaseAdapter {
 
             @Override
             protected Map<String, String> getParams() {
-                // Posting parameter counterUsername to getMenu url
+                // Posting parameter id_menu to deleteMenu url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("id_menu", id_menu);
                 return params;
@@ -180,6 +184,11 @@ public class MenuListAdapter extends BaseAdapter {
         queue.add(stringResp);
     }
 
+    /**
+     * dialog box: if user choose "hapus", then delete menu
+     * @param menu      menu's name
+     * @param id        the id
+     */
     public void dialogBox(String menu, final String id) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle("Hapus Menu");

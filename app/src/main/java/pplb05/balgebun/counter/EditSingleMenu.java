@@ -72,6 +72,9 @@ public class EditSingleMenu extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method is used to identify which activity should start next
+     */
     private void nextActivity(){
         SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         String role = settings.getString("role", "");
@@ -83,6 +86,9 @@ public class EditSingleMenu extends AppCompatActivity {
         }
     }
 
+    /**
+     * Next activity if role is admin
+     */
     private void toAdmin(){
         Intent intent= new Intent(getApplicationContext(), EditCounterActivity.class);
         intent.putExtra("counterUsername", usernameCounter);
@@ -91,6 +97,9 @@ public class EditSingleMenu extends AppCompatActivity {
         getApplicationContext().startActivity(intent);
     }
 
+    /**
+     * Next activity if role is counter
+     */
     private void toCounter(){
         Intent intent= new Intent(getApplicationContext(), EditMenu.class);
         intent.putExtra("counterUsername", usernameCounter);
@@ -99,6 +108,11 @@ public class EditSingleMenu extends AppCompatActivity {
         getApplicationContext().startActivity(intent);
     }
 
+    /**
+     * Update menu
+     * @param nama_menu     new menu's name
+     * @param harga         new price
+     */
     private void update(final String nama_menu, final String harga) {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/updateMenu.php";
@@ -106,11 +120,9 @@ public class EditSingleMenu extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-
                 Toast toast = Toast.makeText(getApplicationContext(), "Berhasil merubah data", Toast.LENGTH_LONG);
                 toast.show();
                 nextActivity();
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -120,7 +132,7 @@ public class EditSingleMenu extends AppCompatActivity {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                // Posting params to bayar url
+                // Posting params to update menu url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("id_menu", idString);
                 params.put("nama_menu", nama_menu);

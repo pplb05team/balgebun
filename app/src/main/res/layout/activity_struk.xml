@@ -195,10 +195,11 @@
 
             <GridView
                 android:layout_width="match_parent"
-                android:layout_height="273dp"
+                android:layout_height="316dp"
                 android:numColumns="1"
                 android:layout_below="@+id/linearLayout"
-                android:id="@+id/menu_field">
+                android:id="@+id/menu_field"
+                android:layout_marginTop="10dp">
 
 
             </GridView>

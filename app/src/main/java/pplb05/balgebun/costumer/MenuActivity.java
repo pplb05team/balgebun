@@ -108,8 +108,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAntrian(final String counterUsername) {
         queue = Volley.newRequestQueue(this.getApplicationContext());
-        String url = "http://aaa.esy.es/coba_wahid/getAntrian.php";
-        final StringRequest stringResp = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+        final StringRequest stringResp = new StringRequest(Request.Method.POST, AppConfig.URL_ANTRIAN, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -156,8 +156,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void getMenuList(){
         queue = Volley.newRequestQueue(this.getApplicationContext());
-        String url = "http://aaa.esy.es/coba_wahid/getMenu.php";
-        final StringRequest stringResp = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+        final StringRequest stringResp = new StringRequest(Request.Method.POST, AppConfig.URL_MENU, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

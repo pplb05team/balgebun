@@ -3,18 +3,21 @@ package pplb05.balgebun.counter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -27,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.costumer.Entity.Menu;
 import pplb05.balgebun.counter.Adapter.MenuListAdapter;
@@ -39,7 +43,8 @@ public class EditMenu extends AppCompatActivity {
 
     private String usernameCounter, namaCounter, role;
     private ArrayList<Menu> foods = new ArrayList<>();
-    private  MenuListAdapter menuAdapter;
+    private MenuListAdapter menuAdapter;
+    private ImageView _imv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,9 @@ public class EditMenu extends AppCompatActivity {
         TextView nama = (TextView) findViewById(R.id.counter_name_id);;
         nama.setText(namaCounter);
 
+        _imv = (ImageView)findViewById(R.id.counter_image_id_struk);
+        getImage();
+
         getMenuList(usernameCounter);
 
         menuAdapter = new MenuListAdapter(foods,this,usernameCounter,namaCounter);
@@ -82,6 +90,33 @@ public class EditMenu extends AppCompatActivity {
                 getApplicationContext().startActivity(intent);
             }
         });
+
+    }
+
+    /**
+     * This method is used to get image of the counter
+     */
+    private void getImage() {
+        String fileUrl = AppConfig.URL_IMG  + usernameCounter + ".jpg";
+        ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
+
+            /**
+             * Drae thw image to the imageviw
+             * @param response
+             */
+            @Override
+            public void onResponse(Bitmap response) {
+                _imv.setImageBitmap(response);
+            }
+        }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+        // Use VolleySingelton
+        VolleySingleton.getInstance(this).addToRequestQueue(imgReqCtr);
 
     }
 

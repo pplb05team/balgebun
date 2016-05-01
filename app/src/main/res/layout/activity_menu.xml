@@ -84,7 +84,9 @@
         android:numColumns="1"
         android:layout_below="@+id/linearLayout"
         android:id="@+id/menu_field"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/linearLayout3"
+        android:layout_marginTop="10dp">
 
 
     </GridView>
@@ -98,7 +100,8 @@
         android:layout_alignParentStart="false"
         android:gravity="end"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout3">
 
         <LinearLayout
             android:orientation="vertical"
