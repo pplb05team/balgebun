@@ -1,11 +1,15 @@
 package pplb05.balgebun.admin;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -19,6 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,41 +42,52 @@ import pplb05.balgebun.costumer.Entity.Menu;
  */
 public class EditCounterActivity extends AppCompatActivity {
     //Initialization
-
     private TextView namaCounter, usernameCounter;
     private String counterUsername, counterName;
-    ArrayList<Menu> foods = new ArrayList<>();
+    private ArrayList<Menu> foods = new ArrayList<>();
     private EditMenuAdapter menuAdapter;
+    private ImageView image;
 
+    private Bitmap myBitmap;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adm_edit_counter);
 
+        //init var
         namaCounter = (TextView)findViewById(R.id.nama_counter);
         usernameCounter = (TextView)findViewById(R.id.usernameC);
+        image = (ImageView) findViewById(R.id.imgProfile);
 
+        //Receiving the Data
         Intent i = getIntent();
         counterUsername = i.getStringExtra("counterUsername");
         counterName = i.getStringExtra("counterName");
 
+        //set text
         namaCounter.setText(counterName);
         usernameCounter.setText(counterUsername);
 
-        /*
-         *Disini buat implementasi edit counter
-         */
+        //call the function
+        getMenuList();
+        getBitmapFromURL("http://aaa.esy.es/coba_wahid/img/counter/" +counterUsername+".jpg");
 
-        //get all menu of counters
-        if(foods.isEmpty())
-            getMenuList();
+        //show the list of menu in grid view
+        menuAdapter = new EditMenuAdapter(this,foods,counterUsername,counterName);
+        GridView fieldMenu = (GridView)findViewById(R.id.menuList);
+        fieldMenu.setAdapter(menuAdapter);
 
-        //showing the menus in xml
-        menuAdapter = new EditMenuAdapter(foods, this);
-        GridView gridView = (GridView) findViewById(R.id.list_menu);
-        gridView.setAdapter(menuAdapter);
+    }
 
-
+    /*
+     * Once button Tambah Menu is pressed, method tambahmenuActivity will be called
+     * This method will start next activity for the admin to add new menu
+     */
+    public void tambahMenuActivity(View view){
+        Intent i = new Intent(this, TambahMenuActivity.class);
+        i.putExtra("counterUsername", counterUsername);
+        i.putExtra("counterName", counterName);
+        this.startActivity(i);
     }
 
     public void getMenuList(){
@@ -82,8 +101,7 @@ public class EditCounterActivity extends AppCompatActivity {
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
-                    Log.d("error",""+error);
-                    if (error) {
+                    if (!error) {
                         String temp = jObj.getString("user");
                         JSONArray menuTemp = new JSONArray(temp);
                         for(int i = 0; i < menuTemp.length(); i++){
@@ -98,6 +116,7 @@ public class EditCounterActivity extends AppCompatActivity {
                             );
                         }
                         menuAdapter.notifyDataSetChanged();
+
                     } else {
 
                     }
@@ -123,12 +142,37 @@ public class EditCounterActivity extends AppCompatActivity {
 
         };
         VolleySingleton.getInstance(this).addToRequestQueue(stringResp);
+
     }
 
-    public void tambahMenuActivity(View view){
-        Intent i = new Intent(this, TambahMenuActivity.class);
-        i.putExtra("counterUsername", counterUsername);
-        startActivity(i);
+    //The method is used to get profile image of the counter from URL
+    void getBitmapFromURL(String src){
+        AsyncTask<String, Object, String> task = new AsyncTask<String, Object, String>() {
+            @Override
+            protected String doInBackground(String... params){
+                URL url = null;
+                try{
+                    url = new URL(params[0]);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            protected void onPostExecute(String unused){
+                image.setImageBitmap(myBitmap);
+            }
+        };
+        task.execute(src);
+
     }
 
 }

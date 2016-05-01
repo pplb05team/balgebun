@@ -22,6 +22,7 @@ import pplb05.balgebun.R;
 
 /**
  * Created by Rahmi Julianasari on 28/04/2016.
+ * This class is used for
  */
 public class EditMenuActivity extends AppCompatActivity {
 
