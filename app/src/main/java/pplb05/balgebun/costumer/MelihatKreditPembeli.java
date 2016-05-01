@@ -1,10 +1,13 @@
 package pplb05.balgebun.costumer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,7 @@ public class MelihatKreditPembeli extends AppCompatActivity {
 
     private TextView uname;
     private TextView saldo;
+    private Button faqButton;
 
     private RequestQueue queue;
 
@@ -46,6 +50,7 @@ public class MelihatKreditPembeli extends AppCompatActivity {
         setContentView(R.layout.activity_melihat_kredit_pembeli);
         uname = (TextView) findViewById(R.id.unameView);
         saldo = (TextView) findViewById(R.id.textView_nominal);
+        faqButton = (Button) findViewById(R.id.faqbutton);
 
         // Get username of buyer
         SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
@@ -53,6 +58,13 @@ public class MelihatKreditPembeli extends AppCompatActivity {
         uname.setText(tempUsername);
         // Get buyer credit
         setKredit();
+        // Goto FAQ page on clicking FAQ button
+        faqButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view){
+                Intent intent = new Intent(MelihatKreditPembeli.this, FAQPage.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void setKredit(){
