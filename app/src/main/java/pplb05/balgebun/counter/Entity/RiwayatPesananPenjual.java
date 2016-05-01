@@ -2,6 +2,7 @@ package pplb05.balgebun.counter.Entity;
 
 /**
  * Created by dananarief on 27-04-16.
+ * Kelas ini merupakan entity untuk dalam menampilkan RiwayatPesananPenjual
  */
 public class RiwayatPesananPenjual {
     private String namaPembeli;

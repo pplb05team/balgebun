@@ -31,6 +31,10 @@ import pplb05.balgebun.R;
 import pplb05.balgebun.counter.Adapter.RiwayatPesananPenjualAdapter;
 import pplb05.balgebun.counter.Entity.RiwayatPesananPenjual;
 
+/**
+ * @author dananarief
+ * Kelas ini merupakan kelas activity yang mengatur tampilan riwayat pesanan
+ */
 public class RiwayatActivity extends Fragment {
     private ArrayList<RiwayatPesananPenjual> riwayatPesanan;
     private RiwayatPesananPenjualAdapter riwayatAdapter;
@@ -51,10 +55,6 @@ public class RiwayatActivity extends Fragment {
         counterUsernameText.setText(username);
 
         riwayatPesanan = new ArrayList<RiwayatPesananPenjual>();
-        //riwayatPesanan.add(new RiwayatPesananPenjual("tuti","Nasi Goreng",1,1,"2016-04-27 06:50:20",0));
-        //riwayatPesanan.add(new RiwayatPesananPenjual("tuti","Ayam Goreng",1,2,"2016-04-27 06:50:20",1));
-        //riwayatPesanan.add(new RiwayatPesananPenjual("adi","Nasi Goreng",1,3,"2016-04-27 06:50:20",2));
-        //riwayatPesanan.add(new RiwayatPesananPenjual("adi","Ayam Goreng",1,4,"2016-04-27 06:50:20",3));
 
         getRiwayatList();
 
@@ -99,12 +99,9 @@ public class RiwayatActivity extends Fragment {
                                 Log.d("menu", jsonMenu.getString("nama_menu") + "with id " + jsonMenu.getString("id"));
 
                         }
-                        Log.d("panj", "" + riwayatPesanan.size());
+
                         riwayatAdapter.notifyDataSetChanged();
-                        Log.d("DoNotify", "DoNotify");
 
-
-                        Log.d("ABCD", "ABCD");
                     } else {
                         //kalo database kosong
                         riwayatPesanan.clear();
