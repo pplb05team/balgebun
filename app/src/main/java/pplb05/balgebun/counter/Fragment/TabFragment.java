@@ -69,7 +69,7 @@ public class TabFragment extends Fragment {
         {
             switch (position){
                 case 0 : return new MenuActivity();
-                case 1 : return new RiwayatActivity();
+                //case 1 : return new RiwayatActivity();
             }
             return null;
         }
