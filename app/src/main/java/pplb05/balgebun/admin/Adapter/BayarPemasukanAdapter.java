@@ -1,6 +1,8 @@
 package pplb05.balgebun.admin.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,7 @@ public class BayarPemasukanAdapter extends BaseAdapter {
     private TextView jumlah;
     private Button tombolBayar;
     private OnDataChangeListener mOnDataChangeListener;
+    private boolean dibayar;
 
 
     public interface OnDataChangeListener{
@@ -103,10 +106,38 @@ public class BayarPemasukanAdapter extends BaseAdapter {
         tombolBayar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bayar(counterArr.get(position).getUsername(), counterArr.get(position).getCounterName());
-                tombolBayar.setEnabled(false);
-                counterArr.get(position).bayar();
-                notifyDataSetChanged();
+
+                //show alert dialog
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setTitle("Bayar Pemasukan Counter");
+                alertDialogBuilder.setMessage("Apakah Anda ingin membayar counter " + counterArr.get(position).getCounterName() + "?");
+                alertDialogBuilder.setPositiveButton("Bayar",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) { //if pilih bayar, then bayar counter tsb
+                                bayar(counterArr.get(position).getUsername(), counterArr.get(position).getCounterName());
+                                tombolBayar.setEnabled(false);
+                                counterArr.get(position).bayar();
+                                notifyDataSetChanged();
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                //do nothing if cancel
+                            }
+                        });
+
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+
+
             }
         });
         return v;
@@ -116,7 +147,6 @@ public class BayarPemasukanAdapter extends BaseAdapter {
     public void bayar(String user, final String nama ) {
 
         final String username = user;
-
 
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = "http://aaa.esy.es/coba_wahid/bayar.php";
