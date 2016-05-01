@@ -18,4 +18,8 @@ public class AppConfig {
 	public static String URL_UPDATE_PROFILE = "http://aaa.esy.es/coba_wahid/updateProfile.php";
 	public static String URL_DELETE_COUNTER = "http://aaa.esy.es/coba_wahid/deleteCounter.php";
 	public static String URL_REGISTER_COUNTER = "http://aaa.esy.es/coba_wahid/registerCounter.php";
+
+
+	public static String URL_IMG_CUSTOMER = "http://aaa.esy.es/coba_wahid/img/customer/";
+	public static String URL_UPLOAD_IMAGE = "http://aaa.esy.es/coba_wahid/uploadImage.php";
 }
