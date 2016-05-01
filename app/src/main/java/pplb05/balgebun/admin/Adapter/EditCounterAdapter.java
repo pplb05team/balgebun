@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.admin.EditCounterActivity;
 import pplb05.balgebun.admin.Entity.EditCounterEntity;
 
 /**
@@ -51,14 +52,14 @@ public class EditCounterAdapter extends BaseAdapter {
         LayoutInflater l = LayoutInflater.from(context);
         final View v = l.inflate(R.layout.adm_counter_layout, parent, false);
 
+        //init var
         counterName = (TextView) v.findViewById(R.id.namaCounter);
         username = (TextView) v.findViewById(R.id.usernameCounter);
         editButton = (Button) v.findViewById(R.id.edit_button);
 
-
+        //set text
         counterName.setText(counter.getCounterName());
         username.setText(counter.getUsername());
-
 
 
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +68,7 @@ public class EditCounterAdapter extends BaseAdapter {
                 String strCounter = counters.get(position).getCounterName();
                 String strUsername = counters.get(position).getUsername();
 
-                Intent i = new Intent(v.getContext(), pplb05.balgebun.counter.EditMenu.class);
+                Intent i = new Intent(v.getContext(),EditCounterActivity.class);
                 i.putExtra("counterUsername", strUsername);
                 i.putExtra("counterName", strCounter);
 

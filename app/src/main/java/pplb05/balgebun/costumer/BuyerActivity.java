@@ -1,6 +1,7 @@
 package pplb05.balgebun.costumer;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -22,9 +23,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+
 import pplb05.balgebun.EditProfileActivity;
 import pplb05.balgebun.LoginActivity;
 import pplb05.balgebun.R;
+import pplb05.balgebun.app.AppConfig;
+import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.costumer.Tab.Counter;
 import pplb05.balgebun.costumer.Tab.History;
 import pplb05.balgebun.costumer.Tab.Order;
@@ -32,6 +39,7 @@ import pplb05.balgebun.costumer.Adapter.ViewPageAdapter;
 import pplb05.balgebun.costumer.Tab.TabFragment;
 import pplb05.balgebun.helper.SQLiteHandler;
 import pplb05.balgebun.helper.SessionManager;
+import pplb05.balgebun.tools.RoundedImageView;
 
 public class BuyerActivity extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
@@ -42,6 +50,7 @@ public class BuyerActivity extends AppCompatActivity {
     TextView name;
     private SQLiteHandler db;
     private SessionManager session;
+    private RoundedImageView imageUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +103,6 @@ public class BuyerActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
 
-                if (menuItem.getItemId() == R.id.settings_credit_id) {
-                    //FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    //fragmentTransaction.replace(R.id.containerView,new EditProfileActivity()).commit();
-                    Intent intent = new Intent(BuyerActivity.this, MelihatKreditPembeli.class);
-                    startActivity(intent);
-                }
-
                 return false;
             }
 
@@ -108,6 +110,8 @@ public class BuyerActivity extends AppCompatActivity {
 
 
         View header= LayoutInflater.from(this).inflate(R.layout.nav_header_main, null);
+        imageUser = (RoundedImageView)header.findViewById(R.id.imageViewNav);
+        getImage();
         name = (TextView)header.findViewById(R.id.user_name_nav_draw);
         name.setText(session.getUsername());
 
@@ -138,4 +142,28 @@ public class BuyerActivity extends AppCompatActivity {
         finish();
     }
 
+    private void getImage() {
+        final String fileUrl = AppConfig.URL_IMG_CUSTOMER + session.getUsername() + ".png";
+
+        ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
+
+            /**
+             * Drae thw image to the imageviw
+             *
+             * @param response
+             */
+            @Override
+            public void onResponse(Bitmap response) {
+                imageUser.setImageBitmap(response);
+                Log.d("SUKSES IMAGE", fileUrl);
+            }
+        }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("GAGAL IMAGE", fileUrl);
+                    }
+                });
+        // Use VolleySingelton
+        VolleySingleton.getInstance(this).addToRequestQueue(imgReqCtr);
+    }
 }

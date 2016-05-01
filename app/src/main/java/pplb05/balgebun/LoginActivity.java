@@ -160,6 +160,8 @@ public class LoginActivity extends Activity {
                         if(role.equals("2")){
                             name = user.getString("name");
                             System.out.println("NAMA USER = " + name);
+                        } else {
+                            name=username;
                         }
 
                         // user successfully logged in

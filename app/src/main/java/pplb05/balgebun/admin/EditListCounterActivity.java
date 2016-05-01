@@ -49,7 +49,7 @@ public class EditListCounterActivity extends AppCompatActivity{
     }
 
     /*
-     * This method is used for getting all counters in database
+     * This method is used for getting all counters from database
      */
     public void getCounterList(){
         queue = Volley.newRequestQueue(this.getApplicationContext());

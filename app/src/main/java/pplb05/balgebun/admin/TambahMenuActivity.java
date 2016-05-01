@@ -38,9 +38,10 @@ public class TambahMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adm_tambah_menu);
 
+        //Receiving the Data
         Intent i = getIntent();
         unameCounter = i.getStringExtra("counterUsername");
-        nameCounter = i.getStringExtra("nameCounter");
+        nameCounter = i.getStringExtra("counterName");
 
 
         namaInput = (EditText)findViewById(R.id.edit_nama);
@@ -91,11 +92,11 @@ public class TambahMenuActivity extends AppCompatActivity {
     }
 
     private void toAdmin(){
-        Intent i = new Intent(TambahMenuActivity.this, EditMenu.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("counterName", nameCounter);
-        i.putExtra("counterUsername", unameCounter);
-        startActivity(i);
+        Intent intent= new Intent(TambahMenuActivity.this, EditCounterActivity.class);
+        intent.putExtra("counterUsername", unameCounter);
+        intent.putExtra("counterName", nameCounter);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        TambahMenuActivity.this.startActivity(intent);
     }
 
     private void toCounter(){

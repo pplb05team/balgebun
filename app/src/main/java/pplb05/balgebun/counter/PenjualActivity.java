@@ -1,6 +1,7 @@
 package pplb05.balgebun.counter;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -8,17 +9,26 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+
 import pplb05.balgebun.EditProfileActivity;
 import pplb05.balgebun.LoginActivity;
 import pplb05.balgebun.R;
+import pplb05.balgebun.app.AppConfig;
+import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.counter.Fragment.MenuActivity;
+import pplb05.balgebun.counter.Fragment.TabFragment;
 import pplb05.balgebun.helper.SQLiteHandler;
 import pplb05.balgebun.helper.SessionManager;
+import pplb05.balgebun.tools.RoundedImageView;
 
 public class PenjualActivity extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
@@ -29,6 +39,7 @@ public class PenjualActivity extends AppCompatActivity {
     TextView name;
     private SQLiteHandler db;
     private SessionManager session;
+    private RoundedImageView imageUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +67,7 @@ public class PenjualActivity extends AppCompatActivity {
 
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.containerView,new MenuActivity()).commit();
+        mFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
         /**
          * Setup click events on the Navigation View Items.
          */
@@ -103,7 +114,8 @@ public class PenjualActivity extends AppCompatActivity {
         View header= LayoutInflater.from(this).inflate(R.layout.nav_header_main, null);
         name = (TextView)header.findViewById(R.id.user_name_nav_draw);
         name.setText(session.getUsername());
-
+        imageUser = (RoundedImageView)header.findViewById(R.id.imageViewNav);
+        getImage();
         mNavigationView.addHeaderView(header);
 
         /**
@@ -132,5 +144,29 @@ public class PenjualActivity extends AppCompatActivity {
         finish();
     }
 
+    private void getImage() {
+        final String fileUrl = AppConfig.URL_IMG + session.getUsername() + ".jpg";
+
+        ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
+
+            /**
+             * Drae thw image to the imageviw
+             *
+             * @param response
+             */
+            @Override
+            public void onResponse(Bitmap response) {
+                imageUser.setImageBitmap(response);
+                Log.d("SUKSES IMAGE", fileUrl);
+            }
+        }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("GAGAL IMAGE", fileUrl);
+                    }
+                });
+        // Use VolleySingelton
+        VolleySingleton.getInstance(this).addToRequestQueue(imgReqCtr);
+    }
 
 }

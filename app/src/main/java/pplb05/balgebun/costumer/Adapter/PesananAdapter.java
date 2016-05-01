@@ -1,6 +1,8 @@
 package pplb05.balgebun.costumer.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -87,7 +90,7 @@ public class PesananAdapter extends BaseAdapter {
 
         btnBatal.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                batalPesanan(""+food.get(position).getIdOrder(), position);
+                dialogBox(""+food.get(position).getIdOrder(), position);
                 //showPopUp();
             }
         });
@@ -95,6 +98,32 @@ public class PesananAdapter extends BaseAdapter {
 
         return v;
 
+    }
+
+    public void dialogBox( final String id, final int pos) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setTitle("Hapus Pesanan");
+        alertDialogBuilder.setMessage("Apakah Anda ingin membatalkan pesanan?");
+        alertDialogBuilder.setPositiveButton("Hapus Pesanan",
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        batalPesanan(id, pos); //delete the menu
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        //do nothing if cancel
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     /*
@@ -112,9 +141,8 @@ public class PesananAdapter extends BaseAdapter {
                     Log.d("e",response.toString());
                     if (!error) {
                         Log.d("deletefunct","deletefunct");
-
+                        Toast.makeText(context,"Pesanan berhasil dihapus", Toast.LENGTH_LONG).show();
                     } else {
-
                         String errorMsg = jObj.getString("error_msg");
                         Log.d("erorDelete1","erorDelete1");
                     }

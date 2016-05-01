@@ -23,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+
 import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.AppController;
 import pplb05.balgebun.counter.Entity.PesananPenjual;
@@ -39,6 +40,7 @@ import java.util.Map;
 
 /**
  * Created by dananarief on 02-04-16.
+ * Kelas ini merupakan adapter untuk mengatur segalah hal terkait halaman list pesanan di penjual
  */
 public class PesananPenjualAdapter extends BaseAdapter {
 
@@ -53,14 +55,15 @@ public class PesananPenjualAdapter extends BaseAdapter {
     private int checkSpin = 0;
     MenuActivity frag;
 
-    public interface onDataChangeListener{
+    public interface onDataChangeListener {
 
     }
 
+    //constructor
     public PesananPenjualAdapter(ArrayList<PesananPenjual> listPesanan, Context context, MenuActivity frag) {
         this.listPesanan = listPesanan;
         this.context = context;
-        this.frag=frag;
+        this.frag = frag;
     }
 
     @Override
@@ -81,6 +84,7 @@ public class PesananPenjualAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
+        //Beberapa baris kode ini untuk inisialisasi sesuai tampilan layout
         LayoutInflater i = LayoutInflater.from(context);
         final View v = i.inflate(R.layout.pesanan_layout, parent, false);
         namaMakanan = (TextView) v.findViewById(R.id.nama_menu);
@@ -93,6 +97,7 @@ public class PesananPenjualAdapter extends BaseAdapter {
         namaPembeli.setText(listPesanan.get(position).getNamaPembeli());
         jumlahPesanan.setText(Integer.toString(listPesanan.get(position).getJumlahPesanan()));
 
+        //untuk mengatur tampilan status sesuai data di database
         if (listPesanan.get(position).getStatus().equals("belum")) {
             stat.setSelection(0);
             stat.setTag(0);
@@ -103,30 +108,35 @@ public class PesananPenjualAdapter extends BaseAdapter {
             stat.setSelection(2);
             stat.setTag(2);
         }
-        Log.d("print id order ","id order " + listPesanan.get(position).getId());
+        Log.d("print id order ", "id order " + listPesanan.get(position).getId());
 
+        //Spinner atau dropdown list status
         stat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //agar spinner tidak di load saat inisasliasasi layar
             int countSpin = 0;
 
+            //method yang digunakan ketika memilih salah satu status di dropdown list
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int pos, final long id) {
 
                 if (countSpin >= 1) {
 
+                    //handle untuk kasus status "belum" yang langsung loncat ke status "selesai"
                     if (listPesanan.get(position).getStatus().equals("belum")) {
+                        //jika status dari belum ke selesai, tidak boleh
                         if (parent.getItemAtPosition(pos).equals("selesai")) {
-                            Log.d("boleh status", "gak boleh harusnya");
                             Toast.makeText(context.getApplicationContext(), "Pesanan harus dimasak dahulu", Toast.LENGTH_SHORT).show();
                             notifyDataSetChanged();
 
                         } else {
-                            Log.d("boleh status", "belum ke belum atau belum ke dimasak boleh");
+                            //jika status dari belum ke belum atau dari belum ke diamasak, boleh
                             updateStatus(parent, view, pos, id, position);
+                            Toast.makeText(context.getApplicationContext(), "Berhasil Ubah Status", Toast.LENGTH_SHORT).show();
                         }
                     } else {
+                        //jika status berada di "dimasak" dan akan memilih status "selesai"
                         if (parent.getItemAtPosition(pos).equals("selesai")) {
-                            Log.d("pesanan selesai", "pesanan selsai");
-
+                            //generate dialog box confirmation
                             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                             builder.setTitle("Konfirmasi Pesanan Selesai");
                             inputBatal = new EditText(context);
@@ -134,12 +144,15 @@ public class PesananPenjualAdapter extends BaseAdapter {
                             builder.setMessage("Apa anda yakin telah selesai?").setPositiveButton("Iya", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //deletePesanan(position);
+                                    //update status di database
                                     updateStatus(parent, view, pos, id, position);
+                                    Toast.makeText(context.getApplicationContext(), "Pesanan selesai", Toast.LENGTH_SHORT).show();
+
                                 }
                             }).setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    //jika tidak jadi mimilih status "selesai"
                                     notifyDataSetChanged();
                                 }
                             });
@@ -165,11 +178,11 @@ public class PesananPenjualAdapter extends BaseAdapter {
 
         });
 
+        //tombol batal untuk cancel pesanan
         batal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                // AlertDialog builder = new AlertDialog.Builder(context).create();
                 builder.setTitle("Konfirmasi Pembatalan");
                 inputBatal = new EditText(context);
 
@@ -198,19 +211,16 @@ public class PesananPenjualAdapter extends BaseAdapter {
         return v;
     }
 
+    //method untuk mengatur tampilan konfirmasi pembatalan
     public static float convertDpToPixel(float dp) {
         DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return Math.round(px);
     }
 
+    //method update status yang akan mengubah database dan merefesh tampilan
     public void updateStatus(final AdapterView<?> parent, View view, final int pos, long id, final int position) {
-        Log.d("apakah loading25", "loadd");
-
-        System.out.println("POSISINYA = " + position);
-        Log.d("statusListenerku1", listPesanan.get(position).getNamaMakanan() + " " + parent.getItemAtPosition(pos) + "");
-        Log.d("ButtonStatus", "id" + listPesanan.get(position).getId());
-        Log.d("cek status sebelum", "status sebelumnya adalah" + listPesanan.get(position).getStatus());
+        Log.d("apakah loading27", "loadd");
 
         String tag_string_order = "req_order";
 
@@ -226,17 +236,12 @@ public class PesananPenjualAdapter extends BaseAdapter {
                     Log.d("e", response.toString());
                     if (!error) {
                         Log.d("update", "update");
-                        //listPesanan.get(position).setStatus("" + parent.getItemAtPosition(pos));
-                        //notifyDataSetChanged();
 
                         frag.getPesananList();
-                        //Toast.makeText(getApplicationContext(), "Berhasil memesan!", Toast.LENGTH_LONG).show();
 
                     } else {
 
                         String errorMsg = jObj.getString("error_msg");
-                        // Toast.makeText(getApplicationContext(),
-                        //       errorMsg, Toast.LENGTH_LONG).show();
                         Log.d("erorUpdate1", "erorUpdate1");
                     }
                 } catch (JSONException e) {
@@ -269,11 +274,9 @@ public class PesananPenjualAdapter extends BaseAdapter {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, "req_order");
 
-        //((MenuActivity)context).getPesananList();
-        Log.d("debugg", "kesini");
-
     }
 
+    //method delete pesanan yang akan mengubpdate database dan merefresh tampilan
     public void deletePesanan(final int position) {
         Log.d("confirmation", "berhasil menghapus Lagi");
         Log.d("tesButtonkuGitu", "sukses");
@@ -287,7 +290,6 @@ public class PesananPenjualAdapter extends BaseAdapter {
             @Override
             public void onResponse(String response) {
                 Log.d("respon batal", "Respon pesanan: " + response.toString());
-                //hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -295,15 +297,11 @@ public class PesananPenjualAdapter extends BaseAdapter {
                     Log.d("deleteRespon", response.toString());
                     if (!error) {
                         Log.d("deletefunct", "deletefunct");
-                        //Toast.makeText(getApplicationContext(), "Berhasil memesan!", Toast.LENGTH_LONG).show();
-                        Log.d("AAAversi2", "AAAversi2");
                         frag.getPesananList();
 
                     } else {
 
                         String errorMsg = jObj.getString("error_msg");
-                        // Toast.makeText(getApplicationContext(),
-                        //       errorMsg, Toast.LENGTH_LONG).show();
                         Log.d("erorDelete1", "erorDelete1");
                     }
                 } catch (JSONException e) {
@@ -338,6 +336,5 @@ public class PesananPenjualAdapter extends BaseAdapter {
         AppController.getInstance().addToRequestQueue(strReq, "req_order");
 
     }
-
 
 }
