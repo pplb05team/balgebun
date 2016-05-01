@@ -1,11 +1,15 @@
 package pplb05.balgebun.admin;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -19,6 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +46,9 @@ public class EditCounterActivity extends AppCompatActivity {
     private String counterUsername, counterName;
     private ArrayList<Menu> foods = new ArrayList<>();
     private EditMenuAdapter menuAdapter;
+    private ImageView image;
+
+    private Bitmap myBitmap;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -46,6 +57,7 @@ public class EditCounterActivity extends AppCompatActivity {
         //init var
         namaCounter = (TextView)findViewById(R.id.nama_counter);
         usernameCounter = (TextView)findViewById(R.id.usernameC);
+        image = (ImageView) findViewById(R.id.imgProfile);
 
         //Receiving the Data
         Intent i = getIntent();
@@ -58,6 +70,7 @@ public class EditCounterActivity extends AppCompatActivity {
 
         //call the function
         getMenuList();
+        getBitmapFromURL("http://aaa.esy.es/coba_wahid/img/counter/" +counterUsername+".jpg");
 
         //show the list of menu in grid view
         menuAdapter = new EditMenuAdapter(this,foods,counterUsername,counterName);
@@ -103,6 +116,7 @@ public class EditCounterActivity extends AppCompatActivity {
                             );
                         }
                         menuAdapter.notifyDataSetChanged();
+
                     } else {
 
                     }
@@ -128,6 +142,36 @@ public class EditCounterActivity extends AppCompatActivity {
 
         };
         VolleySingleton.getInstance(this).addToRequestQueue(stringResp);
+
+    }
+
+    //The method is used to get profile image of the counter from URL
+    void getBitmapFromURL(String src){
+        AsyncTask<String, Object, String> task = new AsyncTask<String, Object, String>() {
+            @Override
+            protected String doInBackground(String... params){
+                URL url = null;
+                try{
+                    url = new URL(params[0]);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            protected void onPostExecute(String unused){
+                image.setImageBitmap(myBitmap);
+            }
+        };
+        task.execute(src);
 
     }
 
