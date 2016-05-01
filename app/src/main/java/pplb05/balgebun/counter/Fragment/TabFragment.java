@@ -20,7 +20,7 @@ public class TabFragment extends Fragment {
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static int int_items = 3 ;
+    public static int int_items = 2 ;
 
     @Nullable
     @Override
@@ -68,9 +68,8 @@ public class TabFragment extends Fragment {
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new Counter();
-                case 1 : return new History();
-                case 2 : return new Order();
+                case 0 : return new MenuActivity();
+                case 1 : return new RiwayatActivity();
             }
             return null;
         }
@@ -93,7 +92,7 @@ public class TabFragment extends Fragment {
                 case 0 :
                     return "Daftar Pesanan";
                 case 1 :
-                    return "Edit Menu";
+                    return "Riwayat Pesanan";
             }
             return null;
         }
