@@ -94,6 +94,13 @@ public class BuyerActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
 
+                if (menuItem.getItemId() == R.id.settings_credit_id) {
+                    //FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                    //fragmentTransaction.replace(R.id.containerView,new EditProfileActivity()).commit();
+                    Intent intent = new Intent(BuyerActivity.this, MelihatKreditPembeli.class);
+                    startActivity(intent);
+                }
+
                 return false;
             }
 

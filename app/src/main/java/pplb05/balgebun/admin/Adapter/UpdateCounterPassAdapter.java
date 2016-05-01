@@ -57,6 +57,7 @@ public class UpdateCounterPassAdapter extends BaseAdapter {
         counterName.setText(counter.getCounterName());
         username.setText(counter.getUsername());
 
+        // Goto update password screen activity on edit button click
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
