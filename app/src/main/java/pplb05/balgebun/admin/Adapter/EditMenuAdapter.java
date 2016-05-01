@@ -35,8 +35,10 @@ import pplb05.balgebun.counter.EditSingleMenu;
 
 /**
  * Created by Rahmi Julianasari on 28/04/2016.
+ * This class is used as adapter for showing a spesific menu
  */
 public class EditMenuAdapter extends BaseAdapter{
+    //initialization
     private ArrayList<Menu> foods = new ArrayList<>();
     private Context context;
     private TextView nama;
@@ -112,6 +114,10 @@ public class EditMenuAdapter extends BaseAdapter{
         return v;
     }
 
+    /*
+     *This method is used for call the function to delete the selected menu
+     * After deletig menu user is refered to EditCounterActivity
+     */
     private void delete(final String id_menu) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = "http://aaa.esy.es/coba_wahid/deleteMenu.php";
@@ -160,6 +166,9 @@ public class EditMenuAdapter extends BaseAdapter{
         queue.add(stringResp);
     }
 
+    /*
+     *This method is used for showing the dialog box if the user will delete the menu
+     */
     public void dialogBox(String menu, final String id) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle("Hapus Menu");

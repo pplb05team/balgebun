@@ -28,7 +28,6 @@ import pplb05.balgebun.counter.EditMenu;
 
 /**
  * Created by Rahmi Julianasari on 26/04/2016.
- * This class is used to add menu
  */
 public class TambahMenuActivity extends AppCompatActivity {
     private EditText namaInput, hargaInput;

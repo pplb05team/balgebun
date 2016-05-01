@@ -34,7 +34,6 @@ import pplb05.balgebun.costumer.Entity.Menu;
  */
 public class EditCounterActivity extends AppCompatActivity {
     //Initialization
-
     private TextView namaCounter, usernameCounter;
     private String counterUsername, counterName;
     private ArrayList<Menu> foods = new ArrayList<>();
@@ -44,6 +43,7 @@ public class EditCounterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adm_edit_counter);
 
+        //init var
         namaCounter = (TextView)findViewById(R.id.nama_counter);
         usernameCounter = (TextView)findViewById(R.id.usernameC);
 
@@ -59,12 +59,17 @@ public class EditCounterActivity extends AppCompatActivity {
         //call the function
         getMenuList();
 
+        //show the list of menu in grid view
         menuAdapter = new EditMenuAdapter(this,foods,counterUsername,counterName);
         GridView fieldMenu = (GridView)findViewById(R.id.menuList);
         fieldMenu.setAdapter(menuAdapter);
 
     }
 
+    /*
+     * Once button Tambah Menu is pressed, method tambahmenuActivity will be called
+     * This method will start next activity for the admin to add new menu
+     */
     public void tambahMenuActivity(View view){
         Intent i = new Intent(this, TambahMenuActivity.class);
         i.putExtra("counterUsername", counterUsername);

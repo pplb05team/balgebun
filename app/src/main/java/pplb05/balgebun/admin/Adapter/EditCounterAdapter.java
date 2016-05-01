@@ -52,11 +52,12 @@ public class EditCounterAdapter extends BaseAdapter {
         LayoutInflater l = LayoutInflater.from(context);
         final View v = l.inflate(R.layout.adm_counter_layout, parent, false);
 
+        //init var
         counterName = (TextView) v.findViewById(R.id.namaCounter);
         username = (TextView) v.findViewById(R.id.usernameCounter);
         editButton = (Button) v.findViewById(R.id.edit_button);
 
-
+        //set text
         counterName.setText(counter.getCounterName());
         username.setText(counter.getUsername());
 
