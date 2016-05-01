@@ -210,7 +210,6 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
                     System.out.println("MASUK JSON EXCEPTION");
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
 

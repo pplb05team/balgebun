@@ -45,8 +45,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     private ArrayList<Menu> foods = new ArrayList<>();
     private MenuAdapter menuAdapter;
-    private TextView total;
-    private TextView counterNameText;
+    private TextView total, counterNameText, antrianText;
     private Pemesanan pesan = new Pemesanan ();
     private RequestQueue queue;
     private String counterUsername;
@@ -69,6 +68,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         total = (TextView) findViewById(R.id.total_view);
         Button next = (Button) findViewById(R.id.next_btn);
         counterNameText = (TextView) findViewById(R.id.counter_name_id);
+
+        antrianText = (TextView) findViewById(R.id.antrian_id);
+        setAntrian(counterUsername);
+
         counterNameText.setText(counterName);
         _imv = (ImageView)findViewById(R.id.counter_image_id);
 
@@ -101,6 +104,49 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         next.setOnClickListener(this);
+    }
+
+    private void setAntrian(final String counterUsername) {
+        queue = Volley.newRequestQueue(this.getApplicationContext());
+        String url = "http://aaa.esy.es/coba_wahid/getAntrian.php";
+        final StringRequest stringResp = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("RESPONSE", "Menu Response: " + response.toString());
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    if (!error) {
+                        JSONObject tempUser = jObj.getJSONObject("user");
+                        String tempAntrian = tempUser.getString("antrian");
+                        antrianText.setText(tempAntrian);
+
+                    } else {
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameter counterUsername to getMenu url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username", counterUsername);
+                return params;
+            }
+
+        };
+        VolleySingleton.getInstance(this).addToRequestQueue(stringResp);
     }
 
 
