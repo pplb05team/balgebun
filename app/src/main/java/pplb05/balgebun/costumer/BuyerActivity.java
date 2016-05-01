@@ -37,6 +37,7 @@ import pplb05.balgebun.costumer.Tab.History;
 import pplb05.balgebun.costumer.Tab.Order;
 import pplb05.balgebun.costumer.Adapter.ViewPageAdapter;
 import pplb05.balgebun.costumer.Tab.TabFragment;
+import pplb05.balgebun.counter.MelihatKreditPenjual;
 import pplb05.balgebun.helper.SQLiteHandler;
 import pplb05.balgebun.helper.SessionManager;
 import pplb05.balgebun.tools.RoundedImageView;
@@ -100,6 +101,13 @@ public class BuyerActivity extends AppCompatActivity {
                     //FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                     //fragmentTransaction.replace(R.id.containerView,new EditProfileActivity()).commit();
                     Intent intent = new Intent(BuyerActivity.this, EditProfileActivity.class);
+                    startActivity(intent);
+                }
+
+                if (menuItem.getItemId() == R.id.settings_credit_id) {
+                    //FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                    //fragmentTransaction.replace(R.id.containerView,new EditProfileActivity()).commit();
+                    Intent intent = new Intent(BuyerActivity.this, MelihatKreditPembeli.class);
                     startActivity(intent);
                 }
 
