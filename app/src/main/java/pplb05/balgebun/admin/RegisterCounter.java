@@ -17,7 +17,6 @@ import com.android.volley.toolbox.StringRequest;
 
 import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.AppController;
-import pplb05.balgebun.helper.SQLiteHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,8 +36,8 @@ public class RegisterCounter extends Activity {
     private EditText inputUserName;
     private EditText inputEmail;
     private EditText inputPassword;
+    private EditText inputCounterName;
     private ProgressDialog pDialog;
-    private SQLiteHandler db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +47,7 @@ public class RegisterCounter extends Activity {
         inputUserName = (EditText) findViewById(R.id.name);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
+        inputCounterName = (EditText) findViewById(R.id.countername);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         btnLinkToMain = (Button) findViewById(R.id.btnLinkToMainMenu);
 
@@ -55,20 +55,16 @@ public class RegisterCounter extends Activity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        // SQLite database handler
-        db = new SQLiteHandler(getApplicationContext());
-
-
-
         // Register Button Click event
         btnRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String name = inputUserName.getText().toString().trim();
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
+                String cName = inputCounterName.getText().toString().trim();
 
-                if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                    registerUser(name, email, password);
+                if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !cName.isEmpty()) {
+                    registerUser(name, email, password, cName);
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Please enter your details!", Toast.LENGTH_LONG)
@@ -94,7 +90,7 @@ public class RegisterCounter extends Activity {
      * email, password) to register url
      * */
     private void registerUser(final String name, final String email,
-                              final String password) {
+                              final String password, final String counterName) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
@@ -102,7 +98,7 @@ public class RegisterCounter extends Activity {
         showDialog();
 
         StringRequest strReq = new StringRequest(Method.POST,
-                AppConfig.URL_REGISTER, new Response.Listener<String>() {
+                AppConfig.URL_REGISTER_COUNTER, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -113,16 +109,6 @@ public class RegisterCounter extends Activity {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
-                        // User successfully stored in MySQL
-                        // Now store the user in sqlite
-                        JSONObject user = jObj.getJSONObject("user");
-                        String name = user.getString("username");
-                        String email = user.getString("email");
-                        String role = Integer.toString(user.getInt("role"));
-
-                        // Inserting row in users table
-                        db.addUser(name, email, role);
-
                         Toast.makeText(getApplicationContext(), "User successfully registered.", Toast.LENGTH_LONG).show();
 
                         // Launch login activity
@@ -163,7 +149,7 @@ public class RegisterCounter extends Activity {
                 params.put("username", name);
                 params.put("email", email);
                 params.put("password", password);
-                params.put("role", "2");
+                params.put("countername", counterName);
 
                 return params;
             }

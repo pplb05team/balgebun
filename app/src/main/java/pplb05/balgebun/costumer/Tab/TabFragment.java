@@ -66,8 +66,8 @@ public class TabFragment extends Fragment {
         {
             switch (position){
                 case 0 : return new Counter();
-                case 1 : return new History();
-                case 2 : return new Order();
+                case 1 : return new Order();
+                case 2 : return new History();
             }
             return null;
         }

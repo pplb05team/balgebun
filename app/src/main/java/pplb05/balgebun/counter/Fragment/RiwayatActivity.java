@@ -1,7 +1,5 @@
 package pplb05.balgebun.counter.Fragment;
 
-//https://www.youtube.com/watch?v=ZEEYYvVwJGY
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,11 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -34,68 +28,48 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
-import pplb05.balgebun.counter.Adapter.PesananPenjualAdapter;
-import pplb05.balgebun.counter.Entity.PesananPenjual;
-
-//import com.example.febriyolaanastasia.balgebun.R;
+import pplb05.balgebun.counter.Adapter.RiwayatPesananPenjualAdapter;
+import pplb05.balgebun.counter.Entity.RiwayatPesananPenjual;
 
 /**
  * @author dananarief
- * Kelas ini merupakan kelas fragmen yang akan menamipilkan list pesanan pada suatu counter
+ * Kelas ini merupakan kelas activity yang mengatur tampilan riwayat pesanan
  */
-
-public class MenuActivity extends Fragment {
-    private ArrayList<PesananPenjual> order;
-    private PesananPenjualAdapter pesananAdapter;
-    private RequestQueue queue;
+public class RiwayatActivity extends Fragment {
+    private ArrayList<RiwayatPesananPenjual> riwayatPesanan;
+    private RiwayatPesananPenjualAdapter riwayatAdapter;
     private String username;
-    Spinner spinnerku;
-    ArrayAdapter<CharSequence> adapterSpinner;
-    public MenuActivity() {
-        // Required empty public constructor
-    }
+    private RequestQueue queue;
 
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_pesanan, container, false);
+        View v = inflater.inflate(R.layout.activity_riwayat_antrian_penjual, container, false);
+
         super.onCreate(savedInstanceState);
-        Log.d("apakah loading 25", "load");
+        //setContentView(R.layout.activity_riwayat_antrian_penjual);
 
         SharedPreferences settings = getActivity().getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         username = settings.getString("username", "");
 
-        TextView counterUsernameText = (TextView)v.findViewById(R.id.counter_name_id);
+        TextView counterUsernameText = (TextView) v.findViewById(R.id.counter_name_id_riwayat);
         counterUsernameText.setText(username);
 
-        Button refreshButton = (Button)v.findViewById(R.id.refresh_pesanan_penjual);
+        riwayatPesanan = new ArrayList<RiwayatPesananPenjual>();
 
-        //membuat array berisi pesanan
-        order = new ArrayList<>();
+        getRiwayatList();
 
-        //ambil data dari database untuk ditampilkan
-        getPesananList();
+        riwayatAdapter = new RiwayatPesananPenjualAdapter(riwayatPesanan,getActivity(),RiwayatActivity.this);
+        GridView riwayatList = (GridView) v.findViewById(R.id.riwayat_field);
+        riwayatList.setAdapter(riwayatAdapter);
 
-        pesananAdapter = new PesananPenjualAdapter(order,getActivity(),MenuActivity.this);
-        GridView fieldMenu = (GridView)v.findViewById(R.id.menu_field);
-        fieldMenu.setAdapter(pesananAdapter);
-
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                getPesananList();
-                Log.d("Refresh", "Refreshing");
-            }
-        });
-
+        riwayatAdapter.notifyDataSetChanged();
         return v;
     }
 
-    //Method untuk mendapatkan data yang dibutuhkan untuk ditampilkan pada list pesanan
-    public void getPesananList() {
-        //order.clear();
+
+    public void getRiwayatList(){
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        String url = "http://aaa.esy.es/coba_wahid2/getPesananPenjual.php";
+        String url = "http://aaa.esy.es/coba_wahid2/getRiwayatPesananPenjual.php";
         final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -105,31 +79,33 @@ public class MenuActivity extends Fragment {
                     boolean error = jObj.getBoolean("error");
                     Log.d("try", "try");
                     if (!error) {
-                        order.clear();
-
+                        riwayatPesanan.clear();
+                        Log.d("if", "" + error);
                         String temp = jObj.getString("user");
                         JSONArray menuTemp = new JSONArray(temp);
-
+                        Log.d("panjang", "" + menuTemp.length());
                         for (int i = 0; i < menuTemp.length(); i++) {
                             JSONObject jsonMenu = new JSONObject(menuTemp.get(i).toString());
-                            if (!jsonMenu.getString("status").equals("selesai")) {
-                                order.add(new PesananPenjual(
-                                        jsonMenu.getString("nama_menu"),
-                                        jsonMenu.getString("username_pembeli"),
-                                        Integer.parseInt(jsonMenu.getString("jumlah")),
-                                        jsonMenu.getString("status")
-                                        , i, Integer.parseInt(jsonMenu.getString("id")))
-                                );
 
-                            }
+                                riwayatPesanan.add(new RiwayatPesananPenjual(
+                                        jsonMenu.getString("username_pembeli"),
+                                        jsonMenu.getString("nama_menu"),
+                                        Integer.parseInt(jsonMenu.getString("jumlah")),
+                                        Integer.parseInt(jsonMenu.getString("id"))
+                                        ,jsonMenu.getString("waktu")
+                                        , i)
+                                );
+                                Log.d("i=", "" + i);
+                                Log.d("menu", jsonMenu.getString("nama_menu") + "with id " + jsonMenu.getString("id"));
+
                         }
 
-                        pesananAdapter.notifyDataSetChanged();
+                        riwayatAdapter.notifyDataSetChanged();
 
                     } else {
                         //kalo database kosong
-                        order.clear();
-                        pesananAdapter.notifyDataSetChanged();
+                        riwayatPesanan.clear();
+                        riwayatAdapter.notifyDataSetChanged();
                         Log.d("A", "A");
                     }
                 } catch (JSONException e) {
@@ -157,5 +133,4 @@ public class MenuActivity extends Fragment {
 
         queue.add(stringChess);
     }
-    }
-
+}

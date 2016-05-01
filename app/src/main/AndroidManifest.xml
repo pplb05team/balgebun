@@ -36,6 +36,9 @@
         <activity android:name=".admin.EditListCounterActivity" />
         <activity android:name=".admin.EditCounterActivity" />
         <activity android:name=".counter.EditSingleMenu" />
+        <activity android:name=".admin.UpdatePassScreen" />
+        <activity android:name=".admin.DeleteCounterScreen" />
+        <activity android:name=".costumer.MelihatKreditPembeli" />
 
         <activity
             android:name=".costumer.MenuActivity"

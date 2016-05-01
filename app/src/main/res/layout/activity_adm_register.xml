@@ -43,6 +43,16 @@
             android:padding="10dp"
             android:singleLine="true"/>
 
+        <EditText
+            android:id="@+id/countername"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="Counter Name"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:inputType="textNoSuggestions"/>
+
         <!-- Login Button -->
 
         <Button

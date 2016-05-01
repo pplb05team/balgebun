@@ -194,7 +194,7 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
 
                 try {
                     JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
+                    boolean error = (jObj.getBoolean("error"));
                     if (!error) {
 
                         Toast.makeText(getApplicationContext(), "Berhasil memesan!", Toast.LENGTH_LONG).show();
@@ -204,9 +204,10 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
                         // Error occurred in ordering. Get the error
                         String errorMsg = jObj.getString("error_msg");
                         Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                                "Tidak berhasil memesan", Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
+                    System.out.println("MASUK JSON EXCEPTION");
                     e.printStackTrace();
                 }
 
