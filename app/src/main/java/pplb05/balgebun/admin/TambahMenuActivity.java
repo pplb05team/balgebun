@@ -28,6 +28,8 @@ import pplb05.balgebun.counter.EditMenu;
 
 /**
  * Created by Rahmi Julianasari on 26/04/2016.
+ * Kelas ini adalah kelas activity untuk menambahkan menu
+ * user dapat melakukan tambah menu atau meng-cancel activity tersebut
  */
 public class TambahMenuActivity extends AppCompatActivity {
     private EditText namaInput, hargaInput;
@@ -43,12 +45,14 @@ public class TambahMenuActivity extends AppCompatActivity {
         unameCounter = i.getStringExtra("counterUsername");
         nameCounter = i.getStringExtra("counterName");
 
-
+        //set variable
         namaInput = (EditText)findViewById(R.id.edit_nama);
         hargaInput = (EditText)findViewById(R.id.edit_harga);
         tambahButton = (Button)findViewById(R.id.button_tambah);
         batalButton = (Button)findViewById(R.id.button_batal);
 
+        //jika button tambah menu di-click maka menu yang ditambahkan akan dimasukan ke data base
+        //user harud mengiri semua field untuk tambah menu
         tambahButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -60,7 +64,7 @@ public class TambahMenuActivity extends AppCompatActivity {
                     // login user
                     tambahMenu();
 
-                } else {
+                } else {//error jika ada field yang belum diisi
 
                     Toast.makeText(getApplicationContext(),
                             "Please enter the credentials!", Toast.LENGTH_LONG)
@@ -70,6 +74,7 @@ public class TambahMenuActivity extends AppCompatActivity {
             }
         });
 
+        //jika button batal di-click maka user akan dialihkan ke EditCounterActivity
         batalButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -80,6 +85,10 @@ public class TambahMenuActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method ini untuk mengalihkan user ke activity selanjutnya
+     * next activity tergantung user login (admin/counter)
+     */
     private void nextActivity(){
         SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         String role = settings.getString("role", "");
@@ -91,6 +100,9 @@ public class TambahMenuActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method untuk mengalihkan user(admin) ke EditCounterActivity
+     */
     private void toAdmin(){
         Intent intent= new Intent(TambahMenuActivity.this, EditCounterActivity.class);
         intent.putExtra("counterUsername", unameCounter);
@@ -99,12 +111,19 @@ public class TambahMenuActivity extends AppCompatActivity {
         TambahMenuActivity.this.startActivity(intent);
     }
 
+    /**
+     * Method untuk mengalihkan user(counter) ke EditMenu
+     */
     private void toCounter(){
         Intent intent= new Intent(TambahMenuActivity.this, EditMenu.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         TambahMenuActivity.this.startActivity(intent);
     }
 
+    /**
+     * Method untuk memanggil fungsi tambahMenu di API
+     * fungsi tersebut akan menambahkan menu baru pada database
+     */
     private void tambahMenu(){
 
         String url = "http://aaa.esy.es/coba_wahid/addMenu.php";

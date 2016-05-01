@@ -35,7 +35,7 @@ import pplb05.balgebun.counter.EditSingleMenu;
 
 /**
  * Created by Rahmi Julianasari on 28/04/2016.
- * This class is used as adapter for showing a spesific menu
+ * TKelass ini sebagai adapter menu yang akan ditampilkan di list of menu
  */
 public class EditMenuAdapter extends BaseAdapter{
     //initialization
@@ -46,6 +46,7 @@ public class EditMenuAdapter extends BaseAdapter{
     private Button editBtn, delBtn;
     private String usernameCounter, nameCounter;
 
+    //generator
     public EditMenuAdapter(Context context, ArrayList<Menu> foods, String usernameCounter, String nameCounter) {
         this.foods = foods;
         this.context = context;
@@ -83,6 +84,8 @@ public class EditMenuAdapter extends BaseAdapter{
         nama.setText(foods.get(position).getNamaMenu());
         harga.setText(foods.get(position).getHargaText()); //Get the text from your adapter for example
 
+        //set button edit menu
+        //jika button edit di click maka user akan di refer ke EditSingleMenu
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +107,10 @@ public class EditMenuAdapter extends BaseAdapter{
                 context.startActivity(intent);
             }
         });
+
+        //set button delete menu
+        //jika button delete di click maka user akan ditampilkan sebuah dialogBox
+        //dialogBox meminta konfirmasi hapus menu
         delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,8 +122,9 @@ public class EditMenuAdapter extends BaseAdapter{
     }
 
     /*
-     *This method is used for call the function to delete the selected menu
-     * After deletig menu user is refered to EditCounterActivity
+     *Method ini untuk memanggil fungsi delete menu di API
+     *dan fungsi API akan meghapus menu tersebut dari database
+     *@param id_menu : id menu yang akan di hapus
      */
     private void delete(final String id_menu) {
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -133,6 +141,7 @@ public class EditMenuAdapter extends BaseAdapter{
                         Toast toast = Toast.makeText(context, "Berhasil menghapus data", Toast.LENGTH_LONG);
                         toast.show();
 
+                        //Setelah dihapus user dialihkan ke halaman EditCounterActivity
                         Intent intent= new Intent(context, EditCounterActivity.class);
                         intent.putExtra("counterUsername", usernameCounter);
                         intent.putExtra("counterName", nameCounter);
@@ -167,7 +176,9 @@ public class EditMenuAdapter extends BaseAdapter{
     }
 
     /*
-     *This method is used for showing the dialog box if the user will delete the menu
+     *Method ini untuk menampilkan dialogBox konfirmasi hapus menu
+     * @param menu : nama menu yang akan dihapus
+     * @param id : id menu yang akan dihapus
      */
     public void dialogBox(String menu, final String id) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);

@@ -8,7 +8,7 @@ import android.view.View;
 import pplb05.balgebun.R;
 
 /**
- * @author febriyola anastasia
+ * @author febriyola anastasia, rahmi julianasari, haris dwi
  * This class will show 2 button: Counter & Pembeli
  * Counter -> pay the counter's income
  * Pembeli -> top up kredit buyer
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
      * This method will start next activity for showing list of the counters
      */
     public void editCounterActivity(View view){
-        System.out.println("Test=====");
         Intent i = new Intent(this, EditListCounterActivity.class);
         startActivity(i);
     }

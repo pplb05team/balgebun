@@ -38,7 +38,7 @@ import pplb05.balgebun.costumer.Entity.Menu;
 
 /**
  * Created by Rahmi Julianasari on 26/04/2016.
- * This class is used for showing a specific counter will be edited
+ * Kelas ini sebagai kelas activity untuk edit counter
  */
 public class EditCounterActivity extends AppCompatActivity {
     //Initialization
@@ -47,7 +47,6 @@ public class EditCounterActivity extends AppCompatActivity {
     private ArrayList<Menu> foods = new ArrayList<>();
     private EditMenuAdapter menuAdapter;
     private ImageView image;
-
     private Bitmap myBitmap;
 
     protected void onCreate(Bundle savedInstanceState){
@@ -90,6 +89,10 @@ public class EditCounterActivity extends AppCompatActivity {
         this.startActivity(i);
     }
 
+    /*
+     *Method ini untuk memanggil fungsi getMenuList pada API
+     * fungsi tersebut akan menampilkan semua menu ypada suatu counter
+     */
     public void getMenuList(){
         RequestQueue queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getMenu.php";
