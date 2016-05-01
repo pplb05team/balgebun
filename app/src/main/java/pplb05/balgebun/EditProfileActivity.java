@@ -251,7 +251,7 @@ public class EditProfileActivity extends Activity{
 
 
                 //Getting Image Name
-                String name =  user.get("name");
+                String name =  session.getUsername();
 
                 //Creating parameters
                 Map<String,String> params = new Hashtable<String, String>();
@@ -259,7 +259,7 @@ public class EditProfileActivity extends Activity{
                 //Adding parameters
                 params.put(KEY_IMAGE, image);
                 params.put(KEY_NAME, name);
-                params.put("role", user.get("role"));
+                params.put("role", session.getRole());
 
                 //returning parameters
                 return params;

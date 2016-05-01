@@ -20,6 +20,7 @@
     </string-array>
     <string name="title_activity_test">Test</string>
     <string name="btn_change_profile">Ubah Profil</string>
+    <string name="btn_change_img">Ubah Avatar</string>
     <string name="btn_change_password">Ubah Password</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
