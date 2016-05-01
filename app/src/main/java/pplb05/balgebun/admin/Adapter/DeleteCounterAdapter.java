@@ -1,5 +1,6 @@
 package pplb05.balgebun.admin.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -58,6 +59,7 @@ public class DeleteCounterAdapter extends BaseAdapter {
         counterName.setText(counter.getCounterName());
         username.setText(counter.getUsername());
 
+        // Goto delete confirmation screen activity and finish parent activity on delete button click
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +69,7 @@ public class DeleteCounterAdapter extends BaseAdapter {
                 i.putExtra("counterUsername", strUsername);
 
                 v.getContext().startActivity(i);
+                ((Activity)context).finish();
             }
         });
 

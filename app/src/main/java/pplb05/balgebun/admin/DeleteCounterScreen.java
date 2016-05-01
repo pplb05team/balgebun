@@ -43,20 +43,28 @@ public class DeleteCounterScreen extends Activity {
         confirm = (Button) findViewById(R.id.yesButton);
         cancel = (Button) findViewById(R.id.noButton);
         toDelete = (TextView) findViewById(R.id.toDelete);
+        // Get username to delete from parent activity
         Intent i = getIntent();
         username = i.getStringExtra("counterUsername");
         toDelete.setText(username);
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
 
         confirm.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
+                // If confirmed, delete user, finish activity and restart parent activity
                 deleteUser(username);
-                Intent intent = new Intent(DeleteCounterScreen.this, MainActivity.class);
+                Intent intent = new Intent(DeleteCounterScreen.this, DeleteCounter.class);
+                startActivity(intent);
                 finish();
             }
         });
 
         cancel.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
+                // If canceled, finish activity and restart parent activity
+                Intent intent = new Intent(DeleteCounterScreen.this, DeleteCounter.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -67,7 +75,7 @@ public class DeleteCounterScreen extends Activity {
         pDialog.setMessage("Deleting user...");
         showDialog();
         StringRequest strReq = new StringRequest(Method.POST,
-                AppConfig.URL_DELETE_USER, new Response.Listener<String>() {
+                AppConfig.URL_DELETE_COUNTER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "Delete Response: " + response.toString());

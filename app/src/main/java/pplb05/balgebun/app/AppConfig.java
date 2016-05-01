@@ -16,4 +16,6 @@ public class AppConfig {
 	public static String URL_UPDATE_PASSWORD = "http://aaa.esy.es/coba_wahid/updatePassword.php";
 	public static String URL_DELETE_USER = "http://aaa.esy.es/coba_wahid/deleteUser.php";
 	public static String URL_UPDATE_PROFILE = "http://aaa.esy.es/coba_wahid/updateProfile.php";
+	public static String URL_DELETE_COUNTER = "http://aaa.esy.es/coba_wahid/deleteCounter.php";
+	public static String URL_REGISTER_COUNTER = "http://aaa.esy.es/coba_wahid/registerCounter.php";
 }
