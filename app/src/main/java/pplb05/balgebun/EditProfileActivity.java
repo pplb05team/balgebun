@@ -87,7 +87,7 @@ public class EditProfileActivity extends Activity{
         imageUser = (RoundedImageView)findViewById(R.id.editImageView);
 
         getImage();
-        editName.setText(user.get("name"));
+        editName.setText(session.getName());
         editEmail.setText(user.get("email"));
 
         if(user.get("role").equals("1")){
@@ -101,8 +101,10 @@ public class EditProfileActivity extends Activity{
 
                     if(!checkInput(newName, "") && !checkInput(newEmail, "")){
                         Map<String, String> params = new HashMap<String, String>();
-                        params.put("old_username", user.get("user"));
-                        params.put("new_username", newName);
+                        Log.d("Suskes profile",newName + " " + newEmail );
+                        params.put("role", session.getRole());
+                        params.put("username", session.getUsername());
+                        params.put("new_name", newName);
                         params.put("new_email", newEmail);
                         sendRequest(AppConfig.URL_UPDATE_PROFILE, params);
                     } else {
@@ -126,10 +128,13 @@ public class EditProfileActivity extends Activity{
                 newPassword = editNewPassword.getText().toString();
                 retypePassword = editRetypePassword.getText().toString();
 
-                if(checkInput(newPassword, retypePassword)){
+                Log.d("Password", "" + newPassword + "=="+ retypePassword);
+                if(newPassword.equals(retypePassword)){
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("username", newName);
-                    params.put("password", newPassword);
+                    params.put("username", session.getUsername());
+                    params.put("password", oldPassword);
+                    params.put("new_password", newPassword);
+
                     sendRequest(AppConfig.URL_UPDATE_PASSWORD, params);
                 } else {
                     Toast.makeText(getApplicationContext(),
@@ -181,17 +186,22 @@ public class EditProfileActivity extends Activity{
 
             @Override
             public void onResponse(String response) {
-                Log.d("respoinses:", response);
+                Log.d("responses:", response);
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
+                        session.setEmail(newEmail);
+                        if(session.getRole().equals("2")){
+                            session.setEmail(newName);
+                        }
                         Toast.makeText(getApplicationContext(),
                                 "Sukses update profile Anda", Toast.LENGTH_SHORT)
                                 .show();
                     } else {
+                        String msg = jObj.getString("error_msg");
                         Toast.makeText(getApplicationContext(),
-                                "Gagal update profile Anda", Toast.LENGTH_SHORT)
+                                msg, Toast.LENGTH_SHORT)
                                 .show();
                     }
                 } catch (JSONException e) {
@@ -310,4 +320,6 @@ public class EditProfileActivity extends Activity{
         // Use VolleySingelton
         VolleySingleton.getInstance(this).addToRequestQueue(imgReqCtr);
     }
+
+
 }

@@ -70,21 +70,21 @@
                 android:text="@string/btn_change_profile"/>
 
             <EditText
-                android:id="@+id/edit_password"
+                android:id="@+id/edit_old_password"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="@string/hint_password"
+                android:hint="Current Password"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:singleLine="true"/>
 
             <EditText
-                android:id="@+id/edit_old_password"
+                android:id="@+id/edit_password"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="@string/hint_password"
+                android:hint="New Password"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:singleLine="true"/>

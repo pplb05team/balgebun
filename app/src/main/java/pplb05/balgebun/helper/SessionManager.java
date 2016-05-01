@@ -32,6 +32,8 @@ public class SessionManager {
 
     private static final String KEY_USERNAME = "username";
 
+    private static final String KEY_EMAIL = "email";
+
     public SessionManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -75,5 +77,18 @@ public class SessionManager {
 
     public String getName() {
         return pref.getString(KEY_NAME, "-1");
+    }
+
+
+    public String getEmail() {
+        return pref.getString(KEY_EMAIL, "-1");
+    }
+
+    public void setName(String name){
+        editor.putString(KEY_NAME, name);
+    }
+
+    public void setEmail(String email){
+        editor.putString(KEY_EMAIL, email);
     }
 }
