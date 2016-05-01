@@ -9,9 +9,10 @@
             android:icon="@drawable/account_circle"/>
     </group>
 
-    <group android:id="@+id/settings_credit_id">
+    <group android:id="@+id/settings_credit_id_group">
 
         <item android:title="Lihat Kredit"
+            android:id="@+id/settings_credit_id"
             android:icon="@drawable/currency_usd"/>
     </group>
 

@@ -39,6 +39,11 @@ import pplb05.balgebun.counter.Entity.PesananPenjual;
 
 //import com.example.febriyolaanastasia.balgebun.R;
 
+/**
+ * @author dananarief
+ * Kelas ini merupakan kelas fragmen yang akan menamipilkan list pesanan pada suatu counter
+ */
+
 public class MenuActivity extends Fragment {
     private ArrayList<PesananPenjual> order;
     private PesananPenjualAdapter pesananAdapter;
@@ -66,15 +71,15 @@ public class MenuActivity extends Fragment {
 
         Button refreshButton = (Button)v.findViewById(R.id.refresh_pesanan_penjual);
 
+        //membuat array berisi pesanan
         order = new ArrayList<>();
-        getPesananList();
 
-        Log.d("ukuran",""+order.size());
+        //ambil data dari database untuk ditampilkan
+        getPesananList();
 
         pesananAdapter = new PesananPenjualAdapter(order,getActivity(),MenuActivity.this);
         GridView fieldMenu = (GridView)v.findViewById(R.id.menu_field);
         fieldMenu.setAdapter(pesananAdapter);
-        //pesananAdapter.setOn
 
         refreshButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -86,7 +91,7 @@ public class MenuActivity extends Fragment {
         return v;
     }
 
-
+    //Method untuk mendapatkan data yang dibutuhkan untuk ditampilkan pada list pesanan
     public void getPesananList() {
         //order.clear();
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -101,10 +106,10 @@ public class MenuActivity extends Fragment {
                     Log.d("try", "try");
                     if (!error) {
                         order.clear();
-                        Log.d("if", "" + error);
+
                         String temp = jObj.getString("user");
                         JSONArray menuTemp = new JSONArray(temp);
-                        Log.d("panjang", "" + menuTemp.length());
+
                         for (int i = 0; i < menuTemp.length(); i++) {
                             JSONObject jsonMenu = new JSONObject(menuTemp.get(i).toString());
                             if (!jsonMenu.getString("status").equals("selesai")) {
@@ -115,16 +120,12 @@ public class MenuActivity extends Fragment {
                                         jsonMenu.getString("status")
                                         , i, Integer.parseInt(jsonMenu.getString("id")))
                                 );
-                                Log.d("i=", "" + i);
-                                Log.d("menu", jsonMenu.getString("nama_menu") + "with id " + jsonMenu.getString("id"));
+
                             }
                         }
-                        Log.d("panj", "" + order.size());
+
                         pesananAdapter.notifyDataSetChanged();
-                        Log.d("DoNotify", "DoNotify");
 
-
-                        Log.d("ABCD", "ABCD");
                     } else {
                         //kalo database kosong
                         order.clear();
