@@ -17,7 +17,7 @@ import pplb05.balgebun.admin.Entity.EditCounterEntity;
 
 /**
  * Created by Rahmi Julianasari on 25/04/2016.
- * This class is used as adapter for showing a spesific counter
+ * Kelas ini sebagai adapter counter yang akan ditampilkan di list of counter
  */
 public class EditCounterAdapter extends BaseAdapter {
     //initialization
@@ -26,6 +26,7 @@ public class EditCounterAdapter extends BaseAdapter {
     private Button editButton;
     Context context;
 
+    //generator
     public EditCounterAdapter(ArrayList<EditCounterEntity> counters, Context context){
         this.counters = counters;
         this.context = context;
@@ -61,7 +62,8 @@ public class EditCounterAdapter extends BaseAdapter {
         counterName.setText(counter.getCounterName());
         username.setText(counter.getUsername());
 
-
+        //set button
+        //jika button edit ditekan akan di refer ke EditCounterActivity
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

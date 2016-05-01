@@ -24,9 +24,11 @@ import pplb05.balgebun.admin.Entity.EditCounterEntity;
 
 /**
  * Created by Rahmi Julianasari on 25/04/2016.
- * This class is used for showing the all counters will be edited
+ * Kelas ini sebagai kelas activity untuk menampilkan semua counter yang akan di edit
  */
 public class EditListCounterActivity extends AppCompatActivity{
+
+    //inisialisasi
     private ArrayList<EditCounterEntity> counters = new ArrayList<>();
     private EditCounterAdapter counterAdapter;
     private RequestQueue queue;
@@ -49,7 +51,8 @@ public class EditListCounterActivity extends AppCompatActivity{
     }
 
     /*
-     * This method is used for getting all counters from database
+     * Method ini untuk memanggil fungsi gatCounterList pada API
+     * fungsi tersebut akan menampilkan semua counter pada database
      */
     public void getCounterList(){
         queue = Volley.newRequestQueue(this.getApplicationContext());
@@ -68,6 +71,8 @@ public class EditListCounterActivity extends AppCompatActivity{
                         JSONArray counterTemp = new JSONArray(temp);
                         for(int i = 0; i < counterTemp.length(); i++){
                             JSONObject counter = new JSONObject(counterTemp.get(i).toString());
+
+                            //membuat object counter
                             counters.add(new EditCounterEntity(
                                     counter.getString("username"),
                                     counter.getString("nama_counter"),

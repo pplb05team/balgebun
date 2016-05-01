@@ -22,10 +22,11 @@ import pplb05.balgebun.R;
 
 /**
  * Created by Rahmi Julianasari on 28/04/2016.
- * This class is used for
+ * TKelas ini sebagai kelas activity untuk mengedit menu
  */
 public class EditMenuActivity extends AppCompatActivity {
 
+    //inisialisasi
     private EditText namaMenu, hargaMenu;
     private String namaString, hargaString, idString;
 
@@ -34,6 +35,7 @@ public class EditMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_single_menu);
 
+        //sey var
         namaMenu  = (EditText)findViewById(R.id.nama_menu);
         hargaMenu  = (EditText)findViewById(R.id.harga_menu);
 
@@ -65,6 +67,12 @@ public class EditMenuActivity extends AppCompatActivity {
         });
     }
 
+    /*
+     * Method ini untuk memanggil fungsi update menu pada API
+     * fungsi tersebut akan meng-update menu yang diedit pada database
+     * @param nama_menu : nama menu yang di edit
+     * @param harga: harga menu yang diedit
+     */
     public void update(final String nama_menu, final String harga){
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/updateMenu.php";
