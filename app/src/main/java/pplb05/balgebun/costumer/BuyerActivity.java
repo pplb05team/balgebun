@@ -42,6 +42,11 @@ import pplb05.balgebun.helper.SQLiteHandler;
 import pplb05.balgebun.helper.SessionManager;
 import pplb05.balgebun.tools.RoundedImageView;
 
+/**
+ * Created by Wahid Nur Rohman on 4/29/2016.
+ *
+ * Kelas untuk menampilkan halaman utama pembeli/customer
+ */
 public class BuyerActivity extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
@@ -58,7 +63,6 @@ public class BuyerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter);
 
-        Log.d("Back :", "Back");
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
 
@@ -90,25 +94,21 @@ public class BuyerActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
 
+                // User memilih logout
                 if (menuItem.getItemId() == R.id.log_out_nav_draw) {
                     logoutUser();
-                    // FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    // fragmentTransaction.replace(R.id.containerView,new SentFragment()).commit();
 
                 }
 
-
+                // User memilih menu edit profile, akan diarahkan ke EditProfileActivity
                 if (menuItem.getItemId() == R.id.settings_profile_id) {
-                    //FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    //fragmentTransaction.replace(R.id.containerView,new EditProfileActivity()).commit();
                     Intent intent = new Intent(BuyerActivity.this, EditProfileActivity.class);
                     startActivity(intent);
                     finish();
                 }
 
+                // User memilioh menu lihat credit
                 if (menuItem.getItemId() == R.id.settings_credit_id) {
-                    //FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    //fragmentTransaction.replace(R.id.containerView,new EditProfileActivity()).commit();
                     Intent intent = new Intent(BuyerActivity.this, MelihatKreditPembeli.class);
                     startActivity(intent);
                 }
@@ -119,6 +119,7 @@ public class BuyerActivity extends AppCompatActivity {
         });
 
 
+        // Menambah header pada navigation drawer
         View header= LayoutInflater.from(this).inflate(R.layout.nav_header_main, null);
         imageUser = (RoundedImageView)header.findViewById(R.id.imageViewNav);
         getImage();
@@ -127,10 +128,9 @@ public class BuyerActivity extends AppCompatActivity {
 
         mNavigationView.addHeaderView(header);
 
-        /**
+        /*
          * Setup Drawer Toggle of the Toolbar
          */
-
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, toolbar,R.string.app_name,
                 R.string.app_name);
@@ -141,6 +141,9 @@ public class BuyerActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method untuk melakukan funsgi logout
+     */
     private void logoutUser() {
         session.setLogin(false);
 
@@ -152,6 +155,9 @@ public class BuyerActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Method untuk mendapatkan gambar user
+     */
     private void getImage() {
         final String fileUrl = AppConfig.URL_IMG_CUSTOMER + session.getUsername() + ".png";
 
