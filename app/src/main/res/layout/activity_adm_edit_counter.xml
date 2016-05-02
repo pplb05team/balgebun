@@ -37,7 +37,7 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Large Text"
                     android:id="@+id/nama_counter"
-                    android:textSize="18dp"/>
+                    android:textSize="25dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -46,19 +46,6 @@
                     android:text="Medium Text"
                     android:id="@+id/usernameC"
                     android:textSize="15dp"/>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="10dp">
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Edit Profile"
-                        android:id="@+id/edit_counter_button" />
-                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
