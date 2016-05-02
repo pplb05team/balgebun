@@ -112,6 +112,9 @@ public class PenjualActivity extends AppCompatActivity {
         });
 
 
+        /*
+         * Set the header for navigation drawer
+         */
         View header= LayoutInflater.from(this).inflate(R.layout.nav_header_main, null);
         name = (TextView)header.findViewById(R.id.user_name_nav_draw);
         name.setText(session.getUsername());

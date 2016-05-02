@@ -6,6 +6,8 @@ import pplb05.balgebun.app.AppConfig;
 
 /**
  * Created by Wahid Nur Rohman on 3/24/2016.
+ *
+ * Method untuk merepresentasikan objek counter
  */
 public class CounterEntity {
     private long id;
@@ -15,6 +17,13 @@ public class CounterEntity {
     private String imageName;
     private Bitmap bitmap;
 
+    /**
+     * Constructor
+     *
+     * @param id
+     * @param counterName
+     * @param username
+     */
     public CounterEntity(long id, String counterName, String username) {
         this.id = id;
         this.counterName = counterName;
@@ -22,6 +31,14 @@ public class CounterEntity {
         this.imageName = username;
     }
 
+    /**
+     * Contructor
+     *
+     * @param id
+     * @param counterName
+     * @param username
+     * @param pemasukan
+     */
     public CounterEntity(long id, String counterName, String username, int pemasukan) {
         this.id = id;
         this.counterName = counterName;
@@ -29,6 +46,11 @@ public class CounterEntity {
         this.imageName = username;
         this.pemasukan = pemasukan;
     }
+
+    /*
+     * Setter dan Getter di kelas CoutnerEntity
+     */
+
 
     public long getId() {
         return id;

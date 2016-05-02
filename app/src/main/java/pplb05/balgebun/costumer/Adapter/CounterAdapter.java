@@ -21,7 +21,7 @@ import pplb05.balgebun.costumer.Entity.CounterEntity;
 
 /**
  * Created by Wahid Nur Rohman on 3/24/2016.
- * <p>
+ *
  * This Adapter used for making view and accessing item of counter.
  */
 public class CounterAdapter extends BaseAdapter {
