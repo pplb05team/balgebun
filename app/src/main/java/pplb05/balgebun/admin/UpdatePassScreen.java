@@ -66,7 +66,7 @@ public class UpdatePassScreen extends Activity {
         pDialog.setMessage("Updating password...");
         showDialog();
         StringRequest strReq = new StringRequest(Method.POST,
-                AppConfig.URL_UPDATE_PASSWORD, new Response.Listener<String>() {
+                AppConfig.URL_UPDATE_PASSWORD_FROM_ADMIN, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "Update Response: " + response.toString());

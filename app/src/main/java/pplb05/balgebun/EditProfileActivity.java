@@ -197,6 +197,9 @@ public class EditProfileActivity extends Activity{
                         if(session.getRole().equals("2")){
                             session.setEmail(newName);
                         }
+                        editRetypePassword.setText("");
+                        editNewPassword.setText("");
+                        editOldPassword.setText("");
                         Toast.makeText(getApplicationContext(),
                                 "Sukses update profile Anda", Toast.LENGTH_SHORT)
                                 .show();
