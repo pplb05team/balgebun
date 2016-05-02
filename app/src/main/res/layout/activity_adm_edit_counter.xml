@@ -6,7 +6,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -53,11 +54,12 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="330dp">
+            android:layout_height="330dp"
+            android:layout_weight="1.16">
 
             <GridView
                 android:layout_width="match_parent"
-                android:layout_height="340dp"
+                android:layout_height="match_parent"
                 android:numColumns="1"
                 android:id="@+id/menuList"
                 android:paddingLeft="5dp"
