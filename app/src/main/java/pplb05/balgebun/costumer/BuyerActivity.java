@@ -58,6 +58,7 @@ public class BuyerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter);
 
+        Log.d("Back :", "Back");
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
 
@@ -102,6 +103,7 @@ public class BuyerActivity extends AppCompatActivity {
                     //fragmentTransaction.replace(R.id.containerView,new EditProfileActivity()).commit();
                     Intent intent = new Intent(BuyerActivity.this, EditProfileActivity.class);
                     startActivity(intent);
+                    finish();
                 }
 
                 if (menuItem.getItemId() == R.id.settings_credit_id) {

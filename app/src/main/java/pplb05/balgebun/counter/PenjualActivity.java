@@ -96,6 +96,7 @@ public class PenjualActivity extends AppCompatActivity {
                     //fragmentTransaction.replace(R.id.containerView,new EditProfileActivity()).commit();
                     Intent intent = new Intent(PenjualActivity.this, EditProfileActivity.class);
                     startActivity(intent);
+                    finish();
                 }
 
                 if (menuItem.getItemId() == R.id.settings_credit_id) {
