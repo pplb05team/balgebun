@@ -184,6 +184,7 @@ public class EditProfileActivity extends Activity{
 
     public void sendRequest(String url, final Map<String, String> params){
 
+        final ProgressDialog loading = ProgressDialog.show(this,"Please wait...","Please wait...",false,false);
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
             @Override
@@ -197,6 +198,7 @@ public class EditProfileActivity extends Activity{
                         if(session.getRole().equals("2")){
                             session.setEmail(newName);
                         }
+                        loading.dismiss();
                         editRetypePassword.setText("");
                         editNewPassword.setText("");
                         editOldPassword.setText("");
@@ -205,12 +207,14 @@ public class EditProfileActivity extends Activity{
                                 .show();
                     } else {
                         String msg = jObj.getString("error_msg");
+                        loading.dismiss();
                         Toast.makeText(getApplicationContext(),
                                 msg, Toast.LENGTH_SHORT)
                                 .show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    loading.dismiss();
                     Toast.makeText(getApplicationContext(),
                             "Koneksi error", Toast.LENGTH_SHORT)
                             .show();
