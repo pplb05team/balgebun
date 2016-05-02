@@ -34,6 +34,8 @@ import java.util.Map;
 import pplb05.balgebun.admin.MainActivity;
 import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.VolleySingleton;
+import pplb05.balgebun.costumer.BuyerActivity;
+import pplb05.balgebun.counter.PenjualActivity;
 import pplb05.balgebun.helper.SQLiteHandler;
 import pplb05.balgebun.helper.SessionManager;
 import pplb05.balgebun.tools.RoundedImageView;
@@ -321,5 +323,16 @@ public class EditProfileActivity extends Activity{
         VolleySingleton.getInstance(this).addToRequestQueue(imgReqCtr);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent;
+        if(session.getRole().equals("1"))
+            intent = new Intent(EditProfileActivity.this, BuyerActivity.class);
+        else
+            intent = new Intent(EditProfileActivity.this, PenjualActivity.class);
+        startActivity(intent);
+        finish();
+
+    }
 
 }

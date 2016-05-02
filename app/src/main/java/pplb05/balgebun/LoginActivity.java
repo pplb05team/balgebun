@@ -69,10 +69,10 @@ public class LoginActivity extends Activity {
             if (session.getRole().equals("1")){
                 // GOTO customer main activity
 
-                HashMap<String, String> user = new HashMap<String, String>();
-                user = db.getUserDetails();
+                //HashMap<String, String> user = new HashMap<String, String>();
+                //user = db.getUserDetails();
                 Intent intent = new Intent(LoginActivity.this, BuyerActivity.class);
-                intent.putExtra("username", user.get("name"));
+                intent.putExtra("username", session.getUsername());
                 startActivity(intent);
                 finish();
             }
