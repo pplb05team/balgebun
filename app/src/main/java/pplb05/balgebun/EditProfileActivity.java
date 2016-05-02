@@ -131,16 +131,22 @@ public class EditProfileActivity extends Activity{
                 retypePassword = editRetypePassword.getText().toString();
 
                 Log.d("Password", "" + newPassword + "=="+ retypePassword);
-                if(newPassword.equals(retypePassword)){
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("username", session.getUsername());
-                    params.put("password", oldPassword);
-                    params.put("new_password", newPassword);
+                if(!checkInput(oldPassword, "") && !checkInput(newPassword, "") && !checkInput(retypePassword, "")) {
+                    if (newPassword.equals(retypePassword)) {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("username", session.getUsername());
+                        params.put("password", oldPassword);
+                        params.put("new_password", newPassword);
 
-                    sendRequest(AppConfig.URL_UPDATE_PASSWORD, params);
-                } else {
+                        sendRequest(AppConfig.URL_UPDATE_PASSWORD, params);
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Password berbeda!", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                } else{
                     Toast.makeText(getApplicationContext(),
-                            "Password berbeda", Toast.LENGTH_SHORT)
+                            "Password kosong!", Toast.LENGTH_SHORT)
                             .show();
                 }
 
@@ -205,6 +211,7 @@ public class EditProfileActivity extends Activity{
                         Toast.makeText(getApplicationContext(),
                                 "Sukses update profile Anda", Toast.LENGTH_SHORT)
                                 .show();
+
                     } else {
                         String msg = jObj.getString("error_msg");
                         loading.dismiss();
