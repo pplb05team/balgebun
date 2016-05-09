@@ -21,18 +21,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_adm_main);
     }
 
-    public void registerCounter(View view) {
-        Intent i = new Intent(this, RegisterCounter.class);
-        startActivity(i);
-    }
-
     public void updateCounterPass(View view) {
         Intent i = new Intent(this, UpdateCounterPass.class);
-        startActivity(i);
-    }
-
-    public void deleteCounter(View view) {
-        Intent i = new Intent(this, DeleteCounter.class);
         startActivity(i);
     }
 
