@@ -32,6 +32,11 @@ public class RiwayatPesananPenjualAdapter extends BaseAdapter{
         this.frag=frag;
     }
 
+    public RiwayatPesananPenjualAdapter(ArrayList<RiwayatPesananPenjual> listRiwayat, Context context) {
+        this.listRiwayat = listRiwayat;
+        this.context = context;
+    }
+
 
     @Override
     public int getCount() {
@@ -52,7 +57,8 @@ public class RiwayatPesananPenjualAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         //beberapa baris kode ini untuk mengatur tampilan sesuai layout xml
         LayoutInflater i = LayoutInflater.from(context);
-        final View v = i.inflate(R.layout.penjual_riwayat_layout,parent,false);
+        View v = i.inflate(R.layout.penjual_riwayat_layout,parent,false);
+
         namaMakanan = (TextView) v.findViewById(R.id.nama_menu);
         namaPembeli = (TextView) v.findViewById(R.id.nama_pembeli);
         jumlahPesanan = (TextView) v.findViewById(R.id.jumlah_pesanan);
