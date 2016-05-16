@@ -5,8 +5,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <permission
+        android:name="pplb05.balgebun.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="pplb05.balgebun.permission.C2D_MESSAGE" />
 
     <application
         android:name=".app.AppController"
@@ -22,7 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".EditProfileActivity"></activity>
         <activity android:name=".costumer.BuyerActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".admin.MainActivity" />
@@ -41,6 +45,7 @@
         <activity android:name=".admin.DeleteCounterScreen" />
         <activity android:name=".costumer.MelihatKreditPembeli" />
         <activity android:name=".costumer.FAQPage" />
+
         <activity
             android:name=".costumer.MenuActivity"
             android:alwaysRetainTaskState="true"
@@ -50,7 +55,26 @@
         <activity
             android:name=".costumer.StrukActivity"
             android:parentActivityName=".costumer.MenuActivity" />
-        <activity android:name=".admin.Entity.DetailPemasukan"></activity>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="com.gnirt69.gcmexample"/>
+            </intent-filter>
+        </receiver>
+        <service android:name=".gcm.GCMPushReceiverService" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </service>
+        <service android:name=".gcm.GCMRegistrationIntentService" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ package pplb05.balgebun.costumer.Tab;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,6 +56,7 @@ public class Order extends Fragment {
         View v = inflater.inflate(R.layout.activity_pesanan_saya, container, false);
         super.onCreate(savedInstanceState);
 
+
         SharedPreferences settings = getContext().getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         username = settings.getString("username", "");
 
@@ -74,8 +76,19 @@ public class Order extends Fragment {
             }
         });
 
+        Log.d("Sukses ", "fragment2");
+
         return  v;
     }
+
+    /*
+    @Override
+    public void onResume()
+    {
+        //do the data changes. In this case, I am refreshing the arrayList cart_list and then calling the listview to refresh.
+        getPesanan();
+    }
+    */
 
     public void getPesanan() {
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());

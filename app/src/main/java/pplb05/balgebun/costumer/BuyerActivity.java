@@ -1,12 +1,16 @@
 package pplb05.balgebun.costumer;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -23,9 +27,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import pplb05.balgebun.EditProfileActivity;
 import pplb05.balgebun.LoginActivity;
@@ -38,6 +52,7 @@ import pplb05.balgebun.costumer.Tab.Order;
 import pplb05.balgebun.costumer.Adapter.ViewPageAdapter;
 import pplb05.balgebun.costumer.Tab.TabFragment;
 import pplb05.balgebun.counter.MelihatKreditPenjual;
+import pplb05.balgebun.gcm.GCMRegistrationIntentService;
 import pplb05.balgebun.helper.SQLiteHandler;
 import pplb05.balgebun.helper.SessionManager;
 import pplb05.balgebun.tools.RoundedImageView;
@@ -57,11 +72,49 @@ public class BuyerActivity extends AppCompatActivity {
     private SQLiteHandler db;
     private SessionManager session;
     private RoundedImageView imageUser;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    String lala = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter);
+
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //Check type of intent filter
+                if(intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_SUCCESS)){
+                    //Registration success
+                    String token = intent.getStringExtra("token");
+                    lala = token;
+                    Toast.makeText(getApplicationContext(), "GCM token:" + token, Toast.LENGTH_LONG).show();
+                } else if(intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_ERROR)){
+                    //Registration error
+                    Toast.makeText(getApplicationContext(), "GCM registration error!!!", Toast.LENGTH_LONG).show();
+                } else {
+                    //Tobe define
+                    Toast.makeText(getApplicationContext(), "GCM registration ???!!!", Toast.LENGTH_LONG).show();
+                }
+            }
+        };          //Check status of Google play service in device
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+        if(ConnectionResult.SUCCESS != resultCode) {
+            Log.d("Connection Result", "Sukses");
+            //Check type of error
+            if(GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                Toast.makeText(getApplicationContext(), "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
+                //So notification
+                GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
+            } else {
+                Toast.makeText(getApplicationContext(), "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Log.d("Connection Result", "Gagal");
+            //Start service
+            Intent itent = new Intent(this, GCMRegistrationIntentService.class);
+            startService(itent);
+        }
 
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -138,8 +191,25 @@ public class BuyerActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mDrawerToggle.syncState();
-
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.w("MainActivity", lala);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(GCMRegistrationIntentService.REGISTRATION_SUCCESS));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(GCMRegistrationIntentService.REGISTRATION_ERROR));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.w("MainActivity", lala);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+    }
+
 
     /**
      * Method untuk melakukan funsgi logout
@@ -148,6 +218,7 @@ public class BuyerActivity extends AppCompatActivity {
         session.setLogin(false);
 
         db.deleteUsers();
+        storeNewToken("");
 
         // Launching the login activity
         Intent intent = new Intent(this, LoginActivity.class);
@@ -181,5 +252,46 @@ public class BuyerActivity extends AppCompatActivity {
                 });
         // Use VolleySingelton
         VolleySingleton.getInstance(this).addToRequestQueue(imgReqCtr);
+    }
+
+    public void storeNewToken(final String token){
+        String url = "http://aaa.esy.es/coba_wahid/updateToken.php";
+        final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("RESPONSE TOKEN", "Response: " + response.toString());
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    if (!error) {
+
+                    } else {
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+
+            @Override
+            protected Map<String, String> getParams() {
+                //Log.d("USERNAME", session.getUsername());
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username", session.getUsername());
+                params.put("token", token);
+                return params;
+            }
+        };
+
+        VolleySingleton.getInstance(this).addToRequestQueue(stringChess);
     }
 }

@@ -19,6 +19,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.costumer.Adapter.CounterAdapter;
 import pplb05.balgebun.costumer.Entity.CounterEntity;
 import pplb05.balgebun.R;
@@ -45,18 +47,18 @@ public class Counter extends Fragment {
     ArrayList<CounterEntity> counters;
     private RequestQueue queue;
     private  CounterAdapter counterAdapter;
+
     public Counter() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Log.d("Fragmet", "Counter");
         counters = new ArrayList<>();
-        //getCounterList();
-        downloadFile("http://aaa.esy.es/coba_wahid/login.php");
+        getCounterList();
+        //downloadFile("http://aaa.esy.es/coba_wahid/login.php");
 
         View v = inflater.inflate(R.layout.fragment_counter, container, false);
         super.onCreate(savedInstanceState);
@@ -86,14 +88,14 @@ public class Counter extends Fragment {
         return v;
     }
 
+
     public void getCounterList(){
-        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/login.php";
         final StringRequest stringChess = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                //Log.d("RESPONSE", "Login Response: " + response.toString());
+               //Log.d("RESPONSE", "Get counter Response: " + response.toString());
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
@@ -101,9 +103,10 @@ public class Counter extends Fragment {
                         String temp = jObj.getString("user");
                         JSONArray counter = new JSONArray(temp);
                         for(int i = 0; i < counter.length(); i++){
-                            JSONObject acounter = new JSONObject(counter.get(0).toString());
+                            JSONObject acounter = new JSONObject(counter.get(i).toString());
                             counters.add(new CounterEntity(0, acounter.getString("nama_counter"), acounter.getString("username")));
                         }
+                        counterAdapter.notifyDataSetChanged();
                         //Log.d("ABCD", "ABCD");
                     } else {
 
@@ -120,61 +123,7 @@ public class Counter extends Fragment {
             }
         });
 
-        queue.add(stringChess);
-    }
-
-    void downloadFile(String fileUrl) {
-        AsyncTask<String, Object, String> task = new AsyncTask<String, Object, String>() {
-            String response = "";
-            @Override
-            protected String doInBackground(String... params) {
-                URL myFileUrl = null;
-                try {
-                    myFileUrl = new URL(params[0]);
-                } catch (MalformedURLException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                try {
-                    HttpURLConnection conn = (HttpURLConnection) myFileUrl
-                            .openConnection();
-                    conn.setDoInput(true);
-                    conn.connect();
-                    InputStream is = conn.getInputStream();
-                    Scanner in = new Scanner(is);
-                    response = in.nextLine();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-                return null;
-            }
-
-            protected void onPostExecute(String unused){
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    if (!error) {
-                        String temp = jObj.getString("user");
-                        JSONArray counter = new JSONArray(temp);
-                        for(int i = 0; i < counter.length(); i++){
-
-                            JSONObject acounter = new JSONObject(counter.get(i).toString());
-                            counters.add(new CounterEntity(0, acounter.getString("nama_counter"), acounter.getString("username")));
-                        }
-                        counterAdapter.notifyDataSetChanged();
-                    } else {
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-
-                }
-            }
-        };
-        task.execute(fileUrl);
-        Log.d("RESPONSE", fileUrl);
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringChess);
     }
 
 }

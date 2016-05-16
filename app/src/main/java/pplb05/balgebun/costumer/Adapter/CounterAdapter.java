@@ -84,18 +84,27 @@ public class CounterAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+
+        if (convertView == null) {
+            LayoutInflater l = LayoutInflater.from(context);
+            convertView = l.inflate(R.layout.counter_layout, parent, false);
+
+            holder = new ViewHolder();
+            holder.txtView = (TextView) convertView.findViewById(R.id.textCounter);
+            holder.imgView = (ImageView) convertView.findViewById(R.id.imageCounter);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder)convertView.getTag();
+            holder.imgView.setImageResource(R.drawable.food);
+        }
         CounterEntity counter = counters.get(position);
-        LayoutInflater l = LayoutInflater.from(context);
-        View v = l.inflate(R.layout.counter_layout, parent, false);
-
-        txtView = (TextView) v.findViewById(R.id.textCounter);
-        imgView = (ImageView) v.findViewById(R.id.imageCounter);
-
+        holder.txtView.setText(counter.getCounterName());
         // get image from the hosting
-        getImage(imgView, counter.getImageURL());
+        getImage(holder.imgView, counter.getImageURL());
 
-        txtView.setText(counter.getCounterName());
-        return v;
+        return convertView;
     }
 
     /**
@@ -126,4 +135,12 @@ public class CounterAdapter extends BaseAdapter {
         VolleySingleton.getInstance(context).addToRequestQueue(imgReq);
 
     }
+
+    private static class ViewHolder{
+        TextView txtView;
+        ImageView imgView;
+    }
+
 }
+
+
