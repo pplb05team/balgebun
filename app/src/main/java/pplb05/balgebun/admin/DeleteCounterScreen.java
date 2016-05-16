@@ -54,6 +54,7 @@ public class DeleteCounterScreen extends Activity {
             public void onClick(View view){
                 // If confirmed, delete user, finish activity and restart parent activity
                 deleteUser(username);
+                pDialog.dismiss();
                 Intent intent = new Intent(DeleteCounterScreen.this, DeleteCounter.class);
                 startActivity(intent);
                 finish();

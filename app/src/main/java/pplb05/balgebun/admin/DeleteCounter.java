@@ -46,6 +46,7 @@ public class DeleteCounter extends Activity {
         GridView gridView = (GridView) findViewById(R.id.list_counter);
         counterAdapter = new DeleteCounterAdapter(counters, this);
         gridView.setAdapter(counterAdapter);
+        counterAdapter.notifyDataSetChanged();
     }
 
     /*
