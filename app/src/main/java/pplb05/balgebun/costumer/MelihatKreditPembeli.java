@@ -2,7 +2,6 @@ package pplb05.balgebun.costumer;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.helper.SessionManager;
 
 /**
  * Created by Haris Dwi Prakoso on 5/1/2016.
@@ -33,12 +33,11 @@ import pplb05.balgebun.R;
 public class MelihatKreditPembeli extends AppCompatActivity {
     private String tempUsername;
     private int tempSaldo;
-
     private TextView uname;
     private TextView saldo;
     private Button faqButton;
-
     private RequestQueue queue;
+    private SessionManager session;
 
     public MelihatKreditPembeli(){
 
@@ -53,8 +52,8 @@ public class MelihatKreditPembeli extends AppCompatActivity {
         faqButton = (Button) findViewById(R.id.faqbutton);
 
         // Get username of buyer
-        SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
-        tempUsername = settings.getString("username", "");
+        session = new SessionManager(getApplicationContext());
+        tempUsername = session.getUsername();
         uname.setText(tempUsername);
         // Get buyer credit
         setKredit();

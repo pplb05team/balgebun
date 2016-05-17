@@ -77,9 +77,9 @@ public class SessionManager {
 
     public void setLogin(boolean isLoggedIn) {
         Log.d("Clear","Success");
-        editor.clear();
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
         editor.commit();
+        editor.clear();
     }
 
     public boolean isLoggedIn(){

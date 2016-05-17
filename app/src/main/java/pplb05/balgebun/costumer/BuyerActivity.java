@@ -7,23 +7,16 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,14 +39,8 @@ import pplb05.balgebun.LoginActivity;
 import pplb05.balgebun.R;
 import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.VolleySingleton;
-import pplb05.balgebun.costumer.Tab.Counter;
-import pplb05.balgebun.costumer.Tab.History;
-import pplb05.balgebun.costumer.Tab.Order;
-import pplb05.balgebun.costumer.Adapter.ViewPageAdapter;
 import pplb05.balgebun.costumer.Tab.TabFragment;
-import pplb05.balgebun.counter.MelihatKreditPenjual;
 import pplb05.balgebun.gcm.GCMRegistrationIntentService;
-import pplb05.balgebun.helper.SQLiteHandler;
 import pplb05.balgebun.helper.SessionManager;
 import pplb05.balgebun.tools.RoundedImageView;
 
@@ -63,17 +50,15 @@ import pplb05.balgebun.tools.RoundedImageView;
  * Kelas untuk menampilkan halaman utama pembeli/customer
  */
 public class BuyerActivity extends AppCompatActivity {
-    DrawerLayout mDrawerLayout;
-    NavigationView mNavigationView;
-    FragmentManager mFragmentManager;
-    FragmentTransaction mFragmentTransaction;
-    NavigationView navigationView;
-    TextView name;
-    private SQLiteHandler db;
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mFragmentTransaction;
+    private NavigationView navigationView;
+    private TextView name;
     private SessionManager session;
     private RoundedImageView imageUser;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    String lala = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +72,6 @@ public class BuyerActivity extends AppCompatActivity {
                 if(intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_SUCCESS)){
                     //Registration success
                     String token = intent.getStringExtra("token");
-                    lala = token;
                     Toast.makeText(getApplicationContext(), "GCM token:" + token, Toast.LENGTH_LONG).show();
                 } else if(intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_ERROR)){
                     //Registration error
@@ -115,9 +99,6 @@ public class BuyerActivity extends AppCompatActivity {
             Intent itent = new Intent(this, GCMRegistrationIntentService.class);
             startService(itent);
         }
-
-        // SqLite database handler
-        db = new SQLiteHandler(getApplicationContext());
 
         // session manager
         session = new SessionManager(getApplicationContext());
@@ -196,7 +177,6 @@ public class BuyerActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.w("MainActivity", lala);
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(GCMRegistrationIntentService.REGISTRATION_SUCCESS));
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
@@ -206,7 +186,6 @@ public class BuyerActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.w("MainActivity", lala);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
     }
 
@@ -216,8 +195,6 @@ public class BuyerActivity extends AppCompatActivity {
      */
     private void logoutUser() {
         session.setLogin(false);
-
-        db.deleteUsers();
         storeNewToken("");
 
         // Launching the login activity

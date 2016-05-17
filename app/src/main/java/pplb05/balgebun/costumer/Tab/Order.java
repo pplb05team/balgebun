@@ -2,9 +2,7 @@ package pplb05.balgebun.costumer.Tab;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +31,7 @@ import pplb05.balgebun.R;
 import pplb05.balgebun.costumer.Adapter.PesananAdapter;
 import pplb05.balgebun.costumer.Entity.Menu;
 import pplb05.balgebun.costumer.Entity.Pemesanan;
+import pplb05.balgebun.helper.SessionManager;
 
 
 /**
@@ -44,6 +43,7 @@ public class Order extends Fragment {
     private TextView total;
     private Pemesanan pesan = new Pemesanan ();
     private RequestQueue queue;
+    private SessionManager session;
     String username;
 
     public Order() {
@@ -57,8 +57,8 @@ public class Order extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-        SharedPreferences settings = getContext().getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
-        username = settings.getString("username", "");
+        session = new SessionManager(getActivity());
+        username = session.getUsername();
 
         getPesanan();
 

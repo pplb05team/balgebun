@@ -107,8 +107,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setAntrian(final String counterUsername) {
-        queue = Volley.newRequestQueue(this.getApplicationContext());
-
         final StringRequest stringResp = new StringRequest(Request.Method.POST, AppConfig.URL_ANTRIAN, new Response.Listener<String>() {
 
             @Override
@@ -155,8 +153,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
      * then put it to array 'foods'
      */
     public void getMenuList(){
-        queue = Volley.newRequestQueue(this.getApplicationContext());
-
         final StringRequest stringResp = new StringRequest(Request.Method.POST, AppConfig.URL_MENU, new Response.Listener<String>() {
 
             @Override
