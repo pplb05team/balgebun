@@ -1,7 +1,6 @@
 package pplb05.balgebun.counter.Adapter;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -28,7 +27,6 @@ import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.AppController;
 import pplb05.balgebun.counter.Entity.PesananPenjual;
 import pplb05.balgebun.R;
-import pplb05.balgebun.counter.Fragment.TabFragment;
 import pplb05.balgebun.counter.Fragment.MenuActivity;
 
 import org.json.JSONException;

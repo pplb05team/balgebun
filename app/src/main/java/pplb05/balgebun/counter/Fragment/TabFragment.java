@@ -12,9 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import pplb05.balgebun.R;
-import pplb05.balgebun.costumer.Tab.Counter;
-import pplb05.balgebun.costumer.Tab.History;
-import pplb05.balgebun.costumer.Tab.Order;
 
 public class TabFragment extends Fragment {
 

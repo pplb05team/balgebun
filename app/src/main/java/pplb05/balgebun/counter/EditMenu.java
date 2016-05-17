@@ -2,7 +2,6 @@ package pplb05.balgebun.counter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +33,7 @@ import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.costumer.Entity.Menu;
 import pplb05.balgebun.counter.Adapter.MenuListAdapter;
+import pplb05.balgebun.helper.SessionManager;
 
 /**
  * @author febriyola anastasia
@@ -45,22 +45,23 @@ public class EditMenu extends AppCompatActivity {
     private ArrayList<Menu> foods = new ArrayList<>();
     private MenuListAdapter menuAdapter;
     private ImageView _imv;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_menu);
 
-        SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
-        role = settings.getString("role", "");
+        session = new SessionManager(getApplicationContext());
+        role = session.getRole();
 
         if(role.equals("3")){//admin side
             Intent i = getIntent();
             namaCounter =i.getStringExtra("counterName");
             usernameCounter =i.getStringExtra("counterUsername");
         }else{//counter side
-            usernameCounter = settings.getString("username", "");
-            namaCounter = settings.getString("name", "");
+            usernameCounter = session.getUsername();
+            namaCounter = session.getName();
         }
 
         System.out.println("username = " + usernameCounter + "nama = " + namaCounter);
@@ -125,7 +126,6 @@ public class EditMenu extends AppCompatActivity {
      * then put it to array 'foods'
      */
     public void getMenuList(final String counterUsername){
-        RequestQueue queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getMenu.php";
         final StringRequest stringResp = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 

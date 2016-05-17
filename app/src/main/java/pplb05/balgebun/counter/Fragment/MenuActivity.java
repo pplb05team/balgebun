@@ -3,15 +3,12 @@ package pplb05.balgebun.counter.Fragment;
 //https://www.youtube.com/watch?v=ZEEYYvVwJGY
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -19,7 +16,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -34,8 +30,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.counter.Adapter.PesananPenjualAdapter;
 import pplb05.balgebun.counter.Entity.PesananPenjual;
+import pplb05.balgebun.helper.SessionManager;
 
 //import com.example.febriyolaanastasia.balgebun.R;
 
@@ -47,8 +45,8 @@ import pplb05.balgebun.counter.Entity.PesananPenjual;
 public class MenuActivity extends Fragment {
     private ArrayList<PesananPenjual> order;
     private PesananPenjualAdapter pesananAdapter;
-    private RequestQueue queue;
     private String username;
+    private SessionManager session;
     Spinner spinnerku;
     ArrayAdapter<CharSequence> adapterSpinner;
     public MenuActivity() {
@@ -63,8 +61,8 @@ public class MenuActivity extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d("apakah loading 25", "load");
 
-        SharedPreferences settings = getActivity().getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
-        username = settings.getString("username", "");
+        session = new SessionManager(getActivity());
+        username = session.getUsername();
 
         TextView counterUsernameText = (TextView)v.findViewById(R.id.counter_name_id);
         counterUsernameText.setText(username);
@@ -94,7 +92,6 @@ public class MenuActivity extends Fragment {
     //Method untuk mendapatkan data yang dibutuhkan untuk ditampilkan pada list pesanan
     public void getPesananList() {
         //order.clear();
-        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid2/getPesananPenjual.php";
         final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -155,7 +152,7 @@ public class MenuActivity extends Fragment {
 
         };
 
-        queue.add(stringChess);
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringChess);
     }
-    }
+}
 

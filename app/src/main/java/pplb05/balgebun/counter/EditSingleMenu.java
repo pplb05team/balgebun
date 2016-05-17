@@ -2,7 +2,6 @@ package pplb05.balgebun.counter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -22,6 +21,8 @@ import java.util.Map;
 
 import pplb05.balgebun.R;
 import pplb05.balgebun.admin.EditCounterActivity;
+import pplb05.balgebun.app.VolleySingleton;
+import pplb05.balgebun.helper.SessionManager;
 
 /**
  * @author FebriyolaAnastasia
@@ -32,6 +33,7 @@ public class EditSingleMenu extends AppCompatActivity {
 
     private EditText namaMenu, hargaMenu;
     private String namaString, hargaString, idString, usernameCounter, nameCounter;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +78,8 @@ public class EditSingleMenu extends AppCompatActivity {
      * This method is used to identify which activity should start next
      */
     private void nextActivity(){
-        SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
-        String role = settings.getString("role", "");
+       session = new SessionManager(getApplicationContext());
+        String role = session.getRole();
         if(role.equals("2")){
             toCounter();
         }
@@ -114,7 +116,6 @@ public class EditSingleMenu extends AppCompatActivity {
      * @param harga         new price
      */
     private void update(final String nama_menu, final String harga) {
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/updateMenu.php";
         final StringRequest stringReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -140,6 +141,6 @@ public class EditSingleMenu extends AppCompatActivity {
                 return params;
             }
         };
-        queue.add(stringReq);
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringReq);
     }
 }

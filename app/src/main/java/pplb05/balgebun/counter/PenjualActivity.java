@@ -24,9 +24,7 @@ import pplb05.balgebun.LoginActivity;
 import pplb05.balgebun.R;
 import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.VolleySingleton;
-import pplb05.balgebun.counter.Fragment.MenuActivity;
 import pplb05.balgebun.counter.Fragment.TabFragment;
-import pplb05.balgebun.helper.SQLiteHandler;
 import pplb05.balgebun.helper.SessionManager;
 import pplb05.balgebun.tools.RoundedImageView;
 
@@ -35,9 +33,7 @@ public class PenjualActivity extends AppCompatActivity {
     NavigationView mNavigationView;
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
-    NavigationView navigationView;
     TextView name;
-    private SQLiteHandler db;
     private SessionManager session;
     private RoundedImageView imageUser;
 
@@ -45,9 +41,6 @@ public class PenjualActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_penjual);
-
-        // SqLite database handler
-        db = new SQLiteHandler(getApplicationContext());
 
         // session manager
         session = new SessionManager(getApplicationContext());
@@ -139,8 +132,6 @@ public class PenjualActivity extends AppCompatActivity {
 
     private void logoutUser() {
         session.setLogin(false);
-
-        db.deleteUsers();
 
         // Launching the login activity
         Intent intent = new Intent(this, LoginActivity.class);
