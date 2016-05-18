@@ -6,7 +6,25 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="50dp"
+        android:id="@+id/linearLayout4"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Counter"
+            android:id="@+id/textView16"
+            android:textSize="28dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@+id/linearLayout4"
+        android:id="@+id/linearLayout6">
 
         <GridView
             android:layout_width="match_parent"
@@ -14,4 +32,24 @@
             android:columnCount="1"
             android:id="@+id/list_counter"></GridView>
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:weightSum="1"
+        android:padding="10dp"
+        android:layout_below="@+id/linearLayout6">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REGISTER COUNTER"
+            android:id="@+id/registerC"
+            android:onClick="registerCounter" />
+    </LinearLayout>
+
 </RelativeLayout>
