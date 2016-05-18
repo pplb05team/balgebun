@@ -1,29 +1,18 @@
 package pplb05.balgebun.admin.Adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.admin.Entity.DetailPemasukan;
 import pplb05.balgebun.costumer.Entity.CounterEntity;
 
 /**
@@ -107,36 +96,12 @@ public class BayarPemasukanAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                //show alert dialog
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                alertDialogBuilder.setTitle("Bayar Pemasukan Counter");
-                alertDialogBuilder.setMessage("Apakah Anda ingin membayar counter " + counterArr.get(position).getCounterName() + "?");
-                alertDialogBuilder.setPositiveButton("Bayar",
-                        new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) { //if pilih bayar, then bayar counter tsb
-                                bayar(counterArr.get(position).getUsername(), counterArr.get(position).getCounterName());
-                                tombolBayar.setEnabled(false);
-                                counterArr.get(position).bayar();
-                                notifyDataSetChanged();
-                            }
-                        });
-
-                alertDialogBuilder.setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                //do nothing if cancel
-                            }
-                        });
-
-
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-
-
+                Intent intent = new Intent(context, DetailPemasukan.class);
+                intent.putExtra("counterUsername", counterArr.get(position).getUsername());
+                intent.putExtra("counterName", counterArr.get(position).getCounterName());
+                intent.putExtra("counterPemasukan", counterArr.get(position).getPemasukan());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
 
             }
         });
@@ -144,38 +109,5 @@ public class BayarPemasukanAdapter extends BaseAdapter {
     }
 
 
-    public void bayar(String user, final String nama ) {
 
-        final String username = user;
-
-        RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://aaa.esy.es/coba_wahid/bayar.php";
-        final StringRequest stringReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-
-                Log.d("RESPONSE", "BAYAR Response: " + response.toString());
-
-                Toast toast = Toast.makeText(context, "Berhasil membayar " + nama, Toast.LENGTH_SHORT);
-                toast.show();
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting params to bayar url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("username", username);
-                return params;
-            }
-        };
-
-        queue.add(stringReq);
-    }
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,7 +98,6 @@ public class RiwayatActivity extends Fragment {
                                 Log.d("menu", jsonMenu.getString("nama_menu") + "with id " + jsonMenu.getString("id"));
 
                         }
-
                         riwayatAdapter.notifyDataSetChanged();
 
                     } else {
@@ -130,7 +128,6 @@ public class RiwayatActivity extends Fragment {
             }
 
         };
-
         queue.add(stringChess);
     }
 }

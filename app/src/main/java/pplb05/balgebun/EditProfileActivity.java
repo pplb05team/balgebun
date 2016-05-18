@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -63,6 +65,7 @@ public class EditProfileActivity extends Activity{
     private String retypePassword;
     private RoundedImageView imageUser;
     private Bitmap bitmap;
+    private Bitmap decoded;
     private boolean changeImage;
     private String KEY_IMAGE = "image";
     private String KEY_NAME = "name";
@@ -197,6 +200,12 @@ public class EditProfileActivity extends Activity{
                 changeImage = true;
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+                // Compress first
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+
                 //Setting the Bitmap to ImageView
                 imageUser.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 imageUser.setImageBitmap(bitmap);
@@ -320,7 +329,7 @@ public class EditProfileActivity extends Activity{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 //Converting Bitmap to String
-                String image = getStringImage(bitmap);
+                String image = getStringImage(decoded);
 
 
                 //Getting Image Name

@@ -73,6 +73,7 @@ public class LoginActivity extends Activity {
                 user = db.getUserDetails();
                 Intent intent = new Intent(LoginActivity.this, BuyerActivity.class);
                 intent.putExtra("username", session.getUsername());
+                intent.setAction("0");
                 startActivity(intent);
                 finish();
             }
@@ -176,6 +177,7 @@ public class LoginActivity extends Activity {
                             // GOTO customer main activity
                             Intent intent = new Intent(LoginActivity.this, BuyerActivity.class);
                             intent.putExtra("username", username);
+                            intent.setAction("0");
                             startActivity(intent);
                             finish();
                         }

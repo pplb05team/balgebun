@@ -2,6 +2,7 @@ package pplb05.balgebun.costumer.Tab;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,7 +33,24 @@ public class TabFragment extends Fragment {
         /**
          *Set an Apater for the View Pager
          */
-        viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
+        MyAdapter fragmentAdapter = new MyAdapter(getChildFragmentManager());
+        viewPager.setAdapter(fragmentAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                 viewPager.getAdapter().notifyDataSetChanged();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         /**
          * Now , this is a workaround ,
@@ -47,6 +65,12 @@ public class TabFragment extends Fragment {
             }
         });
 
+        String action = getActivity().getIntent().getAction();
+        if(action != null){
+            if(action.equals("order")) {
+                viewPager.setCurrentItem(1);
+            }
+        }
         return x;
 
     }

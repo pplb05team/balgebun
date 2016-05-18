@@ -34,6 +34,8 @@ public class SessionManager {
 
     private static final String KEY_EMAIL = "email";
 
+    private static final String KEY_TOKEN = "token";
+
     public SessionManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -57,8 +59,25 @@ public class SessionManager {
         Log.d(TAG, "User login session modified!");
     }
 
-    public void setLogin(boolean isLoggedIn) {
+    public void setLogin(boolean isLoggedIn, String name, String role, String username, String email) {
 
+        //set login flag
+        editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
+
+        //set user details
+        editor.putString(KEY_NAME, name);
+        editor.putString(KEY_ROLE, role);
+        editor.putString(KEY_USERNAME, username);
+
+        // commit changes
+        editor.commit();
+
+        Log.d(TAG, "User login session modified!");
+    }
+
+    public void setLogin(boolean isLoggedIn) {
+        Log.d("Clear","Success");
+        editor.clear();
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
         editor.commit();
     }
@@ -79,16 +98,26 @@ public class SessionManager {
         return pref.getString(KEY_NAME, "-1");
     }
 
-
     public String getEmail() {
         return pref.getString(KEY_EMAIL, "-1");
     }
 
+    public String getToken() {
+        return pref.getString(KEY_TOKEN, "-1");
+    }
+
     public void setName(String name){
         editor.putString(KEY_NAME, name);
+        editor.commit();
     }
 
     public void setEmail(String email){
         editor.putString(KEY_EMAIL, email);
+        editor.commit();
+    }
+
+    public void setToken(String token){
+        editor.putString(KEY_TOKEN, token);
+        editor.commit();
     }
 }
