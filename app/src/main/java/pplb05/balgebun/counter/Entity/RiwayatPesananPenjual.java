@@ -8,13 +8,23 @@ public class RiwayatPesananPenjual {
     private String namaPembeli;
     private String namaMakanan;
     private int jumlahPesanan;
-    private int id;
+    private int id,harga;
     private String tanggal;
     private int position;
 
     public RiwayatPesananPenjual(String namaPembeli, String namaMakanan, int jumlahPesanan, int id, String tanggal, int position) {
         this.namaPembeli=namaPembeli;
         this.namaMakanan=namaMakanan;
+        this.jumlahPesanan=jumlahPesanan;
+        this.id=id;
+        this.tanggal=tanggal;
+        this.position=position;
+    }
+
+    public RiwayatPesananPenjual(String namaPembeli, String namaMakanan, int harga,int jumlahPesanan, int id, String tanggal, int position) {
+        this.namaPembeli=namaPembeli;
+        this.namaMakanan=namaMakanan;
+        this.harga = harga;
         this.jumlahPesanan=jumlahPesanan;
         this.id=id;
         this.tanggal=tanggal;
@@ -39,6 +49,10 @@ public class RiwayatPesananPenjual {
 
     public int getJumlahPesanan() {
         return jumlahPesanan;
+    }
+
+    public int getHarga(){
+        return harga;
     }
 
     public void setJumlahPesanan(int jumlahPesanan) {

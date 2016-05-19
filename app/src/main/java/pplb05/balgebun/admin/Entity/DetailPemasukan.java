@@ -31,11 +31,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.admin.Adapter.RiwayatPesananAdminAdapter;
 import pplb05.balgebun.admin.CounterKredit;
 import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.VolleySingleton;
-import pplb05.balgebun.costumer.Entity.Pemesanan;
-import pplb05.balgebun.counter.Adapter.RiwayatPesananPenjualAdapter;
 import pplb05.balgebun.counter.Entity.RiwayatPesananPenjual;
 
 /**
@@ -44,7 +43,7 @@ import pplb05.balgebun.counter.Entity.RiwayatPesananPenjual;
  */
 public class DetailPemasukan extends AppCompatActivity implements View.OnClickListener {
 
-    private RiwayatPesananPenjualAdapter riwayatAdapter;
+    private RiwayatPesananAdminAdapter riwayatAdapter;
     private TextView total, namaCounterTxt, usernameTxt;
     private ArrayList<RiwayatPesananPenjual> riwayatPesanan;
     private String counterName;
@@ -69,7 +68,6 @@ public class DetailPemasukan extends AppCompatActivity implements View.OnClickLi
 
         //get object & variable from previous activity using parcelable
         Intent intent = getIntent();
-        Pemesanan pesan = intent.getExtras().getParcelable("pemesan");
         counterName = intent.getExtras().getString("counterName");
         counterUsername = intent.getExtras().getString("counterUsername");
         totalInt = intent.getExtras().getInt("counterPemasukan");
@@ -99,7 +97,7 @@ public class DetailPemasukan extends AppCompatActivity implements View.OnClickLi
         getRiwayatList();
 
         //adapter untuk meload menu yang akan dikonfirmasi
-        riwayatAdapter = new RiwayatPesananPenjualAdapter(riwayatPesanan, this.getApplicationContext());
+        riwayatAdapter = new RiwayatPesananAdminAdapter(riwayatPesanan, this.getApplicationContext());
         GridView fieldMenu = (GridView)findViewById(R.id.menu_field);
         fieldMenu.setAdapter(riwayatAdapter);
 
@@ -179,7 +177,7 @@ public class DetailPemasukan extends AppCompatActivity implements View.OnClickLi
     public void getRiwayatList(){
         final String username=counterUsername;
         queue = Volley.newRequestQueue(this.getApplicationContext());
-        String url = "http://aaa.esy.es/coba_wahid2/getRiwayatPesananPenjual.php";
+        String url = "http://aaa.esy.es/coba_wahid2/getRiwayatHarian.php";
         final StringRequest stringReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -200,6 +198,7 @@ public class DetailPemasukan extends AppCompatActivity implements View.OnClickLi
                             riwayatPesanan.add(new RiwayatPesananPenjual(
                                     jsonMenu.getString("username_pembeli"),
                                     jsonMenu.getString("nama_menu"),
+                                    Integer.parseInt(jsonMenu.getString("harga")),
                                     Integer.parseInt(jsonMenu.getString("jumlah")),
                                     Integer.parseInt(jsonMenu.getString("id"))
                                     ,jsonMenu.getString("waktu")
