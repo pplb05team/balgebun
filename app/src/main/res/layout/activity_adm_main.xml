@@ -67,7 +67,7 @@
             <Button
                 android:layout_width="225dp"
                 android:layout_height="wrap_content"
-                android:text="Edit Counter"
+                android:text="CRUD Counter"
                 android:id="@+id/editCounter_button"
                 android:onClick="editCounterActivity"/>
         </LinearLayout>

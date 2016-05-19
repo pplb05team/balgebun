@@ -35,8 +35,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Tuti"
                         android:id="@+id/nama_pembeli"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="10dp"/>
+                        android:textSize="15dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -49,9 +48,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Ayam Goreng"
-                        android:id="@+id/nama_menu"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="10dp"/>
+                        android:id="@+id/nama_menu" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -65,9 +62,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="2"
-                    android:id="@+id/jumlah_pesanan"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"/>
+                    android:id="@+id/jumlah_pesanan" />
             </LinearLayout>
 
             <LinearLayout

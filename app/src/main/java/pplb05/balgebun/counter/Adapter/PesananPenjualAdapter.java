@@ -1,7 +1,6 @@
 package pplb05.balgebun.counter.Adapter;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -24,19 +23,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import pplb05.balgebun.app.AppConfig;
-import pplb05.balgebun.app.AppController;
-import pplb05.balgebun.counter.Entity.PesananPenjual;
-import pplb05.balgebun.R;
-import pplb05.balgebun.counter.Fragment.TabFragment;
-import pplb05.balgebun.counter.Fragment.MenuActivity;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import pplb05.balgebun.R;
+import pplb05.balgebun.app.AppConfig;
+import pplb05.balgebun.app.AppController;
+import pplb05.balgebun.counter.Entity.PesananPenjual;
+import pplb05.balgebun.counter.Fragment.MenuActivity;
 
 /**
  * Created by dananarief on 02-04-16.
@@ -94,8 +92,8 @@ public class PesananPenjualAdapter extends BaseAdapter {
         batal = (Button) v.findViewById(R.id.cancelButton);
 
         namaMakanan.setText(listPesanan.get(position).getNamaMakanan());
-        namaPembeli.setText(listPesanan.get(position).getNamaPembeli());
-        jumlahPesanan.setText(Integer.toString(listPesanan.get(position).getJumlahPesanan()));
+        namaPembeli.setText("Pembeli: " + listPesanan.get(position).getNamaPembeli());
+        jumlahPesanan.setText("Jumlah: " + Integer.toString(listPesanan.get(position).getJumlahPesanan()));
 
         //untuk mengatur tampilan status sesuai data di database
         if (listPesanan.get(position).getStatus().equals("belum")) {

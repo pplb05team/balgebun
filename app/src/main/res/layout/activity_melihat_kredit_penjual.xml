@@ -3,59 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="70dp">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="120dp">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:id="@+id/foto">
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:scaleType="fitXY"
-                android:id="@+id/imageView"
-                android:layout_gravity="center_horizontal" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="10dp"
-            android:layout_height="match_parent"></LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center|center_horizontal">
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:id="@+id/counter">
+                android:id="@+id/counter"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Large Text"
-                    android:id="@+id/textView_nama" />
+                    android:id="@+id/textView_nama"
+                    android:textSize="30dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/username">
+                android:id="@+id/username"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -69,7 +54,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:id="@+id/label_pemasukan">
+                android:id="@+id/label_pemasukan"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -82,27 +68,15 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:id="@+id/jumlah_pemasukan">
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/Rp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Rp"
-                        android:id="@+id/textView_Rp" />
-                </LinearLayout>
+                android:id="@+id/jumlah_pemasukan"
+                android:gravity="center">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/nominal">
+                    android:id="@+id/nominal"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -113,6 +87,28 @@
                 </LinearLayout>
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:id="@+id/foto"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:scaleType="fitXY"
+                    android:id="@+id/imageView"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
