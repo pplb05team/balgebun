@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="1. Pilih tab &quot;Konter&quot;"
-                android:id="@+id/ans2-1" />
+                android:id="@+id/ans2_1" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="2. Pilih konter yang anda inginkan"
-                android:id="@+id/ans2-2" />
+                android:id="@+id/ans2_2" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="3. Klik &quot;Pesan&quot;"
-                android:id="@+id/ans2-3" />
+                android:id="@+id/ans2_3" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="4. Review pesanan anda, lalu klik &quot;Pesan&quot;"
-                android:id="@+id/ans2-4" />
+                android:id="@+id/ans2_4" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="1. Pilih tab Pesanan"
-                android:id="@+id/ans3-1" />
+                android:id="@+id/ans3_1" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="2. Klik tombol silang pada pesanan"
-                android:id="@+id/ans3-2" />
+                android:id="@+id/ans3_2" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Harap ingat bahwa jika status pesanan sudah masuk &quot;Sedang Dimasak&quot;, anda tidak dapat membatalkannya"
-                android:id="@+id/ans3-3" />
+                android:id="@+id/ans3_3" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -205,7 +205,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="1. Buka navigation drawer"
-                android:id="@+id/ans4-1" />
+                android:id="@+id/ans4_1" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -219,7 +219,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="2. Pilih &quot;Lihat Profil Saya&quot;"
-                android:id="@+id/ans4-2" />
+                android:id="@+id/ans4_2" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -233,7 +233,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="3. Masukkan password lama dan baru di text field yang sesuai"
-                android:id="@+id/ans4-3" />
+                android:id="@+id/ans4_3" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -247,7 +247,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="4. Kluk &quot;Ubah Password&quot;"
-                android:id="@+id/ans4-4" />
+                android:id="@+id/ans4_4" />
         </LinearLayout>
 
     </LinearLayout>
