@@ -1,8 +1,11 @@
 package pplb05.balgebun.admin;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.GridView;
 
 import com.android.volley.Request;
@@ -32,6 +35,7 @@ public class EditListCounterActivity extends AppCompatActivity{
     private ArrayList<EditCounterEntity> counters = new ArrayList<>();
     private EditCounterAdapter counterAdapter;
     private RequestQueue queue;
+    Context context;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -47,7 +51,10 @@ public class EditListCounterActivity extends AppCompatActivity{
         gridView.setAdapter(counterAdapter);
 
 
-
+    }
+    public void registerCounter(View view) {
+        Intent i = new Intent(this, RegisterCounter.class);
+        startActivity(i);
     }
 
     /*

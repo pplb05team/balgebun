@@ -15,9 +15,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import pplb05.balgebun.app.AppConfig;
-import pplb05.balgebun.app.AppController;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.app.AppConfig;
+import pplb05.balgebun.app.AppController;
 
 /**
  * Created by Haris Dwi Prakoso on 4/17/2016.
@@ -114,7 +113,7 @@ public class RegisterCounter extends Activity {
                         // Launch login activity
                         Intent intent = new Intent(
                                 RegisterCounter.this,
-                                MainActivity.class);
+                                EditListCounterActivity.class);
                         startActivity(intent);
                         finish();
                     } else {

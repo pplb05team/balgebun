@@ -127,9 +127,9 @@ public class MelihatKreditPenjual extends AppCompatActivity {
                         int ribuan = temp3/1000;
                         int temp2 = tempPemasukan - ribuan*1000;
                         if(temp2 == 0)
-                            pemasukan.setText(ribuan +".000,00");
+                            pemasukan.setText("Rp." + ribuan +".000,00");
                         else
-                            pemasukan.setText(ribuan +"." + temp2 +",00");
+                            pemasukan.setText("Rp. " + ribuan +"." + temp2 +",00");
 
                         getBitmapFromURL("http://aaa.esy.es/coba_wahid/img/counter/" +tempUsername+".jpg");
 

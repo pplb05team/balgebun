@@ -33,7 +33,6 @@
         <activity android:name=".admin.RegisterCounter" />
         <activity android:name=".admin.CounterKredit" />
         <activity android:name=".admin.PembeliKredit" />
-        <activity android:name=".admin.DeleteCounter" />
         <activity android:name=".admin.UpdateCounterPass" />
         <activity android:name=".counter.PenjualActivity" />
         <activity android:name=".counter.EditMenu" />
@@ -42,7 +41,6 @@
         <activity android:name=".admin.EditCounterActivity" />
         <activity android:name=".counter.EditSingleMenu" />
         <activity android:name=".admin.UpdatePassScreen" />
-        <activity android:name=".admin.DeleteCounterScreen" />
         <activity android:name=".costumer.MelihatKreditPembeli" />
         <activity android:name=".costumer.FAQPage" />
 
