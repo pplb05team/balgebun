@@ -41,7 +41,6 @@ public class LoginActivity extends Activity {
     private EditText inputPassword;
     private ProgressDialog pDialog;
     private SessionManager session;
-    private static SQLiteHandler db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,9 +56,6 @@ public class LoginActivity extends Activity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        // SQLite database handler
-        db = new SQLiteHandler(getApplicationContext());
-
         // Session manager
         session = new SessionManager(getApplicationContext());
 
@@ -68,9 +64,6 @@ public class LoginActivity extends Activity {
             // User is already logged in. Take him to main activity
             if (session.getRole().equals("1")){
                 // GOTO customer main activity
-
-                HashMap<String, String> user = new HashMap<String, String>();
-                user = db.getUserDetails();
                 Intent intent = new Intent(LoginActivity.this, BuyerActivity.class);
                 intent.putExtra("username", session.getUsername());
                 intent.setAction("0");
@@ -167,10 +160,7 @@ public class LoginActivity extends Activity {
 
                         // user successfully logged in
                         // Create login session
-                        session.setLogin(true, name, role, username);
-                        session.setEmail(email);
-                        // Inserting row in users table
-                        db.addUser(name, email, role);
+                        session.setLogin(true, name, role, username, email);
 
                         // Launch main activity
                         if (role.equals("1")){
@@ -243,7 +233,4 @@ public class LoginActivity extends Activity {
             pDialog.dismiss();
     }
 
-    public static SQLiteHandler getDB(){
-        return db;
-    }
 }

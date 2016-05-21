@@ -32,6 +32,7 @@ import pplb05.balgebun.R;
 import pplb05.balgebun.costumer.Entity.Menu;
 import pplb05.balgebun.costumer.Entity.Pemesanan;
 import pplb05.balgebun.costumer.Adapter.PesananAdapter;
+import pplb05.balgebun.helper.SessionManager;
 
 
 /**
@@ -43,6 +44,7 @@ public class History extends Fragment {
     private TextView total;
     private Pemesanan pesan = new Pemesanan ();
     private RequestQueue queue;
+    private SessionManager session;
     String username;
 
     public History() {
@@ -56,8 +58,9 @@ public class History extends Fragment {
         View v = inflater.inflate(R.layout.fragment_history, container, false);
         super.onCreate(savedInstanceState);
 
-        SharedPreferences settings = getContext().getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
-        username = settings.getString("username", "");
+        session = new SessionManager(getActivity());
+
+        username = session.getUsername();
 
         getPesanan();
 

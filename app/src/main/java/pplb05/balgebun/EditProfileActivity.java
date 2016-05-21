@@ -48,8 +48,6 @@ import pplb05.balgebun.tools.RoundedImageView;
  * Kelas untuk edit profil bagi Penjual dan Pembeli
  */
 public class EditProfileActivity extends Activity{
-    private static SQLiteHandler db;
-    private HashMap<String, String> user;
     private EditText editName;
     private EditText editEmail;
     private EditText editOldPassword;
@@ -69,6 +67,7 @@ public class EditProfileActivity extends Activity{
     private boolean changeImage;
     private String KEY_IMAGE = "image";
     private String KEY_NAME = "name";
+    private String role;
     private SessionManager session;
 
 
@@ -79,9 +78,6 @@ public class EditProfileActivity extends Activity{
 
         // session manager
         session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
-        user = new HashMap<String, String>();
-        user = db.getUserDetails();
 
         // Mendapatkan elemen-elemen di halaman
         editName = (EditText)findViewById(R.id.edit_name);
@@ -99,10 +95,11 @@ public class EditProfileActivity extends Activity{
 
         // Set text nama dan email saat ini
         editName.setText(session.getName());
-        editEmail.setText(user.get("email"));
+        editEmail.setText(session.getEmail());
+        role = session.getRole();
 
         // Apabila role pembeli, tidak bisa edit name
-        if(user.get("role").equals("1")){
+        if(role.equals("1")){
             editName.setEnabled(false);
         }
 
@@ -116,7 +113,7 @@ public class EditProfileActivity extends Activity{
                 if(!checkInput(newName, "") && !checkInput(newEmail, "")){
                     Map<String, String> params = new HashMap<String, String>();
                     Log.d("Suskes profile",newName + " " + newEmail );
-                    params.put("role", session.getRole());
+                    params.put("role", role);
                     params.put("username", session.getUsername());
                     params.put("new_name", newName);
                     params.put("new_email", newEmail);
@@ -249,7 +246,7 @@ public class EditProfileActivity extends Activity{
                     // Jika tidak terjadi error
                     if (!error) {
                         session.setEmail(newEmail);
-                        if(session.getRole().equals("2")){
+                        if(role.equals("2")){
                             session.setEmail(newName);
                         }
                         loading.dismiss();
@@ -341,7 +338,7 @@ public class EditProfileActivity extends Activity{
                 //Adding parameters
                 params.put(KEY_IMAGE, image);
                 params.put(KEY_NAME, name);
-                params.put("role", session.getRole());
+                params.put("role", role);
 
                 //returning parameters
                 return params;
@@ -371,12 +368,7 @@ public class EditProfileActivity extends Activity{
      * This method will show the image of the counter
      */
     private void getImage() {
-        final String fileUrl;
-        if(user.get("role").equals("1"))
-            fileUrl = AppConfig.URL_IMG_CUSTOMER + user.get("name") + ".png";
-        else {
-            fileUrl = AppConfig.URL_IMG + session.getUsername() + ".jpg";
-        }
+        final String  fileUrl = AppConfig.URL_IMG + session.getUsername() + ".jpg";
         ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
 
             /**

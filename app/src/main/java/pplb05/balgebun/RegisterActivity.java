@@ -40,7 +40,6 @@ public class RegisterActivity extends Activity {
     private EditText inputPassword;
     private ProgressDialog pDialog;
     private SessionManager session;
-    private SQLiteHandler db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,9 +58,6 @@ public class RegisterActivity extends Activity {
 
         // Session manager
         session = new SessionManager(getApplicationContext());
-
-        // SQLite database handler
-        db = new SQLiteHandler(getApplicationContext());
 
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
@@ -146,9 +142,6 @@ public class RegisterActivity extends Activity {
                         String name = user.getString("username");
                         String email = user.getString("email");
                         String role = Integer.toString(user.getInt("role"));
-
-                        // Inserting row in users table
-                        db.addUser(name, email, role);
 
                         Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 

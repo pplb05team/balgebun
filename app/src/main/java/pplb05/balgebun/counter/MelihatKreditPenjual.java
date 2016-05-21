@@ -1,7 +1,6 @@
 package pplb05.balgebun.counter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -29,6 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.app.VolleySingleton;
+import pplb05.balgebun.helper.SessionManager;
 
 /**
  * This class is used to show credits of counter
@@ -40,15 +41,12 @@ public class MelihatKreditPenjual extends AppCompatActivity {
     private String tempNama;
     private String tempUsername;
     private int tempPemasukan;
-
     private TextView namaCounter;
     private TextView usernameCounter;
     private TextView pemasukan;
     private ImageView image;
-
     private Bitmap myBitmap;
-
-    private RequestQueue queue;
+    private SessionManager session;
 
     public MelihatKreditPenjual() {
     }
@@ -63,8 +61,9 @@ public class MelihatKreditPenjual extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.imageView);
 
         // Get username of buyer
-        SharedPreferences settings = getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
-        tempUsername = settings.getString("username", "");
+        session = new SessionManager(getApplicationContext());
+        session = new SessionManager(getApplicationContext());
+        tempUsername =session.getUsername();
         TextView counterUsernameText = (TextView)findViewById(R.id.textView_nama);
         counterUsernameText.setText(tempUsername);
 
@@ -105,7 +104,6 @@ public class MelihatKreditPenjual extends AppCompatActivity {
 
     //get the credits of counter using volley
     public void getPemasukan(){
-        queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getPemasukanCounter.php";
         final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -161,7 +159,7 @@ public class MelihatKreditPenjual extends AppCompatActivity {
 
         };
 
-        queue.add(stringChess);
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringChess);
 
     }
 }

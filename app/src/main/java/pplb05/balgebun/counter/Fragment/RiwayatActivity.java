@@ -1,7 +1,6 @@
 package pplb05.balgebun.counter.Fragment;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -27,8 +25,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.counter.Adapter.RiwayatPesananPenjualAdapter;
 import pplb05.balgebun.counter.Entity.RiwayatPesananPenjual;
+import pplb05.balgebun.helper.SessionManager;
 
 /**
  * @author dananarief
@@ -38,7 +38,7 @@ public class RiwayatActivity extends Fragment {
     private ArrayList<RiwayatPesananPenjual> riwayatPesanan;
     private RiwayatPesananPenjualAdapter riwayatAdapter;
     private String username;
-    private RequestQueue queue;
+    private SessionManager session;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,8 +47,8 @@ public class RiwayatActivity extends Fragment {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_riwayat_antrian_penjual);
 
-        SharedPreferences settings = getActivity().getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
-        username = settings.getString("username", "");
+        session = new SessionManager(getActivity());
+        username = session.getUsername();
 
         TextView counterUsernameText = (TextView) v.findViewById(R.id.counter_name_id_riwayat);
         counterUsernameText.setText(username);
@@ -67,7 +67,6 @@ public class RiwayatActivity extends Fragment {
 
 
     public void getRiwayatList(){
-        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid2/getRiwayatPesananPenjual.php";
         final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -128,6 +127,6 @@ public class RiwayatActivity extends Fragment {
             }
 
         };
-        queue.add(stringChess);
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringChess);
     }
 }
