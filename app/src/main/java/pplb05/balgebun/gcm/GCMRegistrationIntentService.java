@@ -77,6 +77,7 @@ public class GCMRegistrationIntentService extends IntentService {
 
             if(token.equals(oldToken)){
                 Log.w("GCMRegistrationService", "Old token");
+                storeNewToken(oldToken);
 
             } else {
                 Log.d("OLD vs NEW", token.equals(oldToken) + "");
