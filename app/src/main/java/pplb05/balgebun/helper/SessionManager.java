@@ -68,15 +68,13 @@ public class SessionManager {
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_ROLE, role);
         editor.putString(KEY_USERNAME, username);
+        editor.putString(KEY_EMAIL, email);
 
         // commit changes
         editor.commit();
-
-        Log.d(TAG, "User login session modified!");
     }
 
     public void setLogin(boolean isLoggedIn) {
-        Log.d("Clear","Success");
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
         editor.commit();
         editor.clear();

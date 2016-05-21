@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
+import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.helper.SessionManager;
 
 /**
@@ -70,8 +71,6 @@ public class MelihatKreditPembeli extends AppCompatActivity {
         final String username = tempUsername;
 
         System.out.println("masuk set kredit untuk username = " + username);
-
-        queue = Volley.newRequestQueue(this.getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getPemasukanPembeli.php";
         final StringRequest stringReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -123,6 +122,6 @@ public class MelihatKreditPembeli extends AppCompatActivity {
                 return params;
             }
         };
-        queue.add(stringReq);
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringReq);
     }
 }

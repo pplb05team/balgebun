@@ -140,7 +140,7 @@ public class PenjualActivity extends AppCompatActivity {
     }
 
     private void getImage() {
-        final String fileUrl = AppConfig.URL_IMG + session.getUsername() + ".jpg";
+        final String fileUrl = AppConfig.URL_IMG + session.getUsername() + ".png";
 
         ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
 

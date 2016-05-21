@@ -53,9 +53,7 @@ public class EditProfileActivity extends Activity{
     private EditText editOldPassword;
     private EditText editNewPassword;
     private EditText editRetypePassword;
-    private Button saveProfileButton;
     private Button savePasswordButton;
-    private Button saveImageButton;
     private String newName;
     private String newEmail;
     private String oldPassword;
@@ -69,6 +67,7 @@ public class EditProfileActivity extends Activity{
     private String KEY_NAME = "name";
     private String role;
     private SessionManager session;
+    private boolean errorUpdate;
 
 
     @Override
@@ -85,9 +84,7 @@ public class EditProfileActivity extends Activity{
         editOldPassword = (EditText)findViewById(R.id.edit_old_password);
         editNewPassword = (EditText)findViewById(R.id.edit_password);
         editRetypePassword = (EditText)findViewById(R.id.edit_retypePassword);
-        saveProfileButton = (Button)findViewById(R.id.edit_profile_btn);
         savePasswordButton = (Button)findViewById(R.id.edit_paswd_btn);
-        saveImageButton = (Button)findViewById(R.id.edit_image_btn);
         imageUser = (RoundedImageView)findViewById(R.id.editImageView);
 
         // Download gambar profil
@@ -103,66 +100,57 @@ public class EditProfileActivity extends Activity{
             editName.setEnabled(false);
         }
 
-        // Listener untuk button save profile
-        saveProfileButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                newName = editName.getText().toString();
-                newEmail = editEmail.getText().toString();
-
-                // Cek validitas input user
-                if(!checkInput(newName, "") && !checkInput(newEmail, "")){
-                    Map<String, String> params = new HashMap<String, String>();
-                    Log.d("Suskes profile",newName + " " + newEmail );
-                    params.put("role", role);
-                    params.put("username", session.getUsername());
-                    params.put("new_name", newName);
-                    params.put("new_email", newEmail);
-                    // Kirim request update
-                    sendRequest(AppConfig.URL_UPDATE_PROFILE, params);
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Isian tidak boleh kosong", Toast.LENGTH_SHORT)
-                            .show();
-                }
-
-            }
-        });
-
-        // Listener untuk button save profile image
-        saveImageButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                // Lakukan upload image
-                uploadImage();
-            }
-        });
-
         // Listener untuk button update password
         savePasswordButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                // Profile
+                newName = editName.getText().toString();
+                newEmail = editEmail.getText().toString();
+
+                // Password
                 oldPassword = editOldPassword.getText().toString();
                 newPassword = editNewPassword.getText().toString();
                 retypePassword = editRetypePassword.getText().toString();
 
-                // Cek validitas password
-                if(!checkInput(oldPassword, "") && !checkInput(newPassword, "") && !checkInput(retypePassword, "")) {
-                    if (newPassword.equals(retypePassword)) {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("username", session.getUsername());
-                        params.put("password", oldPassword);
-                        params.put("new_password", newPassword);
+                //Params Upload
+                Map<String, String> params_profile = new HashMap<String, String>();
+                boolean profileChanged = false;
+                boolean passwordChanged = false;
 
-                        // Kirim request ubah password
-                        sendRequest(AppConfig.URL_UPDATE_PASSWORD, params);
+                if(!isEmpty(newName) && !isEmpty(newEmail)){
+                    if(!newName.equals(session.getName()) || !newEmail.equals(session.getEmail())) {
+                        params_profile.put("role", role);
+                        params_profile.put("username", session.getUsername());
+                        params_profile.put("new_name", newName);
+                        params_profile.put("new_email", newEmail);
+                        profileChanged = true;
+
+                    }
+                }
+                // Cek validitas password
+                if(!isEmpty(oldPassword) && !isEmpty(newPassword) && !isEmpty(retypePassword)) {
+                    if (newPassword.equals(retypePassword)) {
+                        params_profile.put("username", session.getUsername());
+                        params_profile.put("password", oldPassword);
+                        params_profile.put("new_password", newPassword);
+                        passwordChanged = true;
+
                     } else {
                         Toast.makeText(getApplicationContext(),
                                 "Password berbeda!", Toast.LENGTH_SHORT)
                                 .show();
                     }
-                } else{
+                }
+
+                if(profileChanged || passwordChanged) {
+                    sendRequest(AppConfig.URL_UPDATE_PROFILE, params_profile);
+                } else {
                     Toast.makeText(getApplicationContext(),
-                            "Password kosong!", Toast.LENGTH_SHORT)
+                            "Tidak ada yang Anda update!", Toast.LENGTH_SHORT)
                             .show();
                 }
+                Log.i("BOOLEAN", "errorUpdate: "+errorUpdate + "-passwordChanged: " + passwordChanged + "-profileChanged: " + profileChanged);
+
 
             }
         });
@@ -206,21 +194,11 @@ public class EditProfileActivity extends Activity{
                 //Setting the Bitmap to ImageView
                 imageUser.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 imageUser.setImageBitmap(bitmap);
+                uploadImage();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    /**
-     * Method untuk cek validitas input user
-     *
-     * @param s1 String pertama
-     * @param s2 String kedua
-     * @return true jika sama, false jika beda
-     */
-    public boolean checkInput(String s1, String s2){
-        return s1.equals(s2);
     }
 
     /**
@@ -231,8 +209,8 @@ public class EditProfileActivity extends Activity{
      */
     public void sendRequest(String url, final Map<String, String> params){
 
-        // Inisialisasi progress dialog
-        final ProgressDialog loading = ProgressDialog.show(this,"Please wait...","Please wait...",false,false);
+        Log.i("URL", url);
+        final ProgressDialog loading = ProgressDialog.show(this,"Updating...","Please wait...",false,false);
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
             @Override
@@ -246,32 +224,33 @@ public class EditProfileActivity extends Activity{
                     // Jika tidak terjadi error
                     if (!error) {
                         session.setEmail(newEmail);
-                        if(role.equals("2")){
-                            session.setEmail(newName);
+                        if (role.equals("2")) {
+                            session.setName(newName);
+                            editName.setText(session.getName());
                         }
-                        loading.dismiss();
+                        editEmail.setText(newEmail);
 
                         // Reset password fill menjadi kosong
                         editRetypePassword.setText("");
                         editNewPassword.setText("");
                         editOldPassword.setText("");
 
-                        // Tampilakn pesan sukses
+                        loading.dismiss();
                         Toast.makeText(getApplicationContext(),
                                 "Sukses update profile Anda", Toast.LENGTH_SHORT)
                                 .show();
 
                     } else {
                         // Error, tampilkan error
-                        String msg = jObj.getString("error_msg");
                         loading.dismiss();
+                        String msg = jObj.getString("error_msg");
                         Toast.makeText(getApplicationContext(),
                                 msg, Toast.LENGTH_SHORT)
                                 .show();
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
                     loading.dismiss();
+                    e.printStackTrace();
                     Toast.makeText(getApplicationContext(),
                             "Koneksi error", Toast.LENGTH_SHORT)
                             .show();
@@ -299,15 +278,14 @@ public class EditProfileActivity extends Activity{
      * Method untuk melakukan request upload image
      */
     private void uploadImage(){
-        //Showing the progress dialog
         final ProgressDialog loading = ProgressDialog.show(this,"Uploading...","Please wait...",false,false);
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_UPLOAD_IMAGE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        //Disimissing the progress dialog
-                        loading.dismiss();
                         //Showing toast message of the response
+                        loading.dismiss();
                         Toast.makeText(EditProfileActivity.this, s , Toast.LENGTH_LONG).show();
                         Log.d("Sukses : ", s);
                     }
@@ -315,9 +293,7 @@ public class EditProfileActivity extends Activity{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        //Dismissing the progress dialog
                         loading.dismiss();
-
                         //Showing toast
                         Toast.makeText(EditProfileActivity.this, volleyError.getMessage().toString(), Toast.LENGTH_LONG).show();
                         Log.d("Masalah : ", "s");
@@ -368,7 +344,13 @@ public class EditProfileActivity extends Activity{
      * This method will show the image of the counter
      */
     private void getImage() {
-        final String  fileUrl = AppConfig.URL_IMG + session.getUsername() + ".jpg";
+        final ProgressDialog loading = ProgressDialog.show(this,"","Please wait...",false,false);
+        final String  fileUrl;
+        if(session.getRole().equals("1")){
+            fileUrl = AppConfig.URL_IMG_CUSTOMER + session.getUsername() + ".png";
+        } else {
+            fileUrl = AppConfig.URL_IMG + session.getUsername() + ".png";
+        }
         ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
 
             /**
@@ -379,12 +361,13 @@ public class EditProfileActivity extends Activity{
             @Override
             public void onResponse(Bitmap response) {
                 imageUser.setImageBitmap(response);
-                Log.d("SUKSES IMAGE", fileUrl);
+                loading.dismiss();
             }
         }, 0, 0, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("GAGAL IMAGE", fileUrl);
+                        loading.dismiss();
                     }
                 });
         // Use VolleySingelton
@@ -405,5 +388,11 @@ public class EditProfileActivity extends Activity{
         finish();
 
     }
+
+    public boolean isEmpty(String in){
+        return in == null || in.length() == 0;
+    }
+
+
 
 }
