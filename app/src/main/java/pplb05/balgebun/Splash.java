@@ -12,6 +12,8 @@ import android.widget.ImageView;
 
 /**
  * Created by dananarief on 17-05-16.
+ * Kelas ini untuk menjalankan splash sceen dengan logo
+ * kelas ini diset sebagai launcher yang mengarah ke LoginActivity.java
  */
 public class Splash extends AppCompatActivity {
     @Override

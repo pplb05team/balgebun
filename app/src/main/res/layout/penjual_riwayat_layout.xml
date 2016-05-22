@@ -22,7 +22,10 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -35,7 +38,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Tuti"
                         android:id="@+id/nama_pembeli"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -48,7 +51,8 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Ayam Goreng"
-                        android:id="@+id/nama_menu" />
+                        android:id="@+id/nama_menu"
+                        android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -62,7 +66,8 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="2"
-                    android:id="@+id/jumlah_pesanan" />
+                    android:id="@+id/jumlah_pesanan"
+                    android:textSize="20dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -79,7 +84,7 @@
                     android:gravity="center"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
-                    android:textSize="17sp"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>
 
