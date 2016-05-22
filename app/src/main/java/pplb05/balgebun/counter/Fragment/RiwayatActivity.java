@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,11 +35,12 @@ import pplb05.balgebun.counter.Entity.RiwayatPesananPenjual;
  * @author dananarief
  * Kelas ini merupakan kelas activity yang mengatur tampilan riwayat pesanan
  */
-public class RiwayatActivity extends Fragment {
+public class RiwayatActivity extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private ArrayList<RiwayatPesananPenjual> riwayatPesanan;
     private RiwayatPesananPenjualAdapter riwayatAdapter;
     private String username;
     private RequestQueue queue;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class RiwayatActivity extends Fragment {
 
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_riwayat_antrian_penjual);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
 
         SharedPreferences settings = getActivity().getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         username = settings.getString("username", "");
@@ -62,9 +66,31 @@ public class RiwayatActivity extends Fragment {
         riwayatList.setAdapter(riwayatAdapter);
 
         riwayatAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+
+                    getRiwayatList();
+                }
+            }
+        );
         return v;
     }
 
+    /**
+     * This method is called when swipe refresh is pulled down
+     */
+    @Override
+    public void onRefresh() {
+        getRiwayatList();
+    }
 
     public void getRiwayatList(){
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -99,22 +125,25 @@ public class RiwayatActivity extends Fragment {
 
                         }
                         riwayatAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
 
                     } else {
                         //kalo database kosong
                         riwayatPesanan.clear();
                         riwayatAdapter.notifyDataSetChanged();
-                        Log.d("A", "A");
+                        swipeRefreshLayout.setRefreshing(false);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-
+                    swipeRefreshLayout.setRefreshing(false);
                 }
                 Log.d("hai", "hai");
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                swipeRefreshLayout.setRefreshing(false);
 
             }
         }) {

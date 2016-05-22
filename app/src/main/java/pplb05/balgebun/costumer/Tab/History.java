@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,14 +39,15 @@ import pplb05.balgebun.helper.SessionManager;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class History extends Fragment {
+public class History extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private ArrayList<Menu> foods = new ArrayList<>();
     private PesananAdapter pesananAdapter;
     private TextView total;
     private Pemesanan pesan = new Pemesanan ();
     private RequestQueue queue;
     private SessionManager session;
-    String username;
+    private String username;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public History() {
         // Required empty public constructor
@@ -58,8 +60,9 @@ public class History extends Fragment {
         View v = inflater.inflate(R.layout.fragment_history, container, false);
         super.onCreate(savedInstanceState);
 
-        session = new SessionManager(getActivity());
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
 
+        session = new SessionManager(getActivity());
         username = session.getUsername();
 
         getPesanan();
@@ -68,17 +71,31 @@ public class History extends Fragment {
         GridView fieldMenu = (GridView)v.findViewById(R.id.pesanan_field);
         fieldMenu.setAdapter(pesananAdapter);
 
+        swipeRefreshLayout.setOnRefreshListener(this);
 
-        Button refresh = (Button)v.findViewById(R.id.refresh_history);
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        swipeRefreshLayout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
 
-        refresh.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                getPesanan();
-                Log.d("Refresh", "Refreshing");
-            }
-        });
+                                        getPesanan();
+                                    }
+                                }
+        );
 
         return  v;
+    }
+
+    /**
+     * This method is called when swipe refresh is pulled down
+     */
+    @Override
+    public void onRefresh() {
+        getPesanan();
     }
 
     public void getPesanan() {
@@ -112,19 +129,21 @@ public class History extends Fragment {
                             }
                         }
                         pesananAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
                         Log.d("ABCD", "ABCD");
                     } else {
-
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    swipeRefreshLayout.setRefreshing(false);
 
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                swipeRefreshLayout.setRefreshing(false);
             }
         }){
 

@@ -3,13 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:numColumns="1"
-        android:id="@+id/riwayat_field"
-        android:layout_above="@+id/refresh_pesanan_penjual">
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <GridView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:numColumns="1"
+            android:id="@+id/riwayat_field"
+            android:layout_above="@+id/refresh_pesanan_penjual">
 
-
-    </GridView>
+        </GridView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
