@@ -12,13 +12,12 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <GridView
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:numColumns="1"
             android:id="@+id/pesanan_field">
-
-
 
         </GridView>
     </android.support.v4.widget.SwipeRefreshLayout>

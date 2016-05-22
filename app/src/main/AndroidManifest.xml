@@ -41,6 +41,7 @@
         <activity android:name=".admin.RegisterCounter" />
         <activity android:name=".admin.CounterKredit" />
         <activity android:name=".admin.PembeliKredit" />
+        <activity android:name=".admin.Entity.DetailPemasukan" />
         <activity android:name=".admin.UpdateCounterPass" />
         <activity android:name=".counter.PenjualActivity" />
         <activity android:name=".counter.EditMenu" />
