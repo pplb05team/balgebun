@@ -328,7 +328,7 @@ public class PesananPenjualAdapter extends BaseAdapter {
                 Map<String, String> params = new HashMap<String, String>();
                 Log.d("jumlaArray", "" + listPesanan.size());
                 params.put("id_order", "" + listPesanan.get(position).getId());
-                params.put("pesan_batal",inputBatal.toString());
+                params.put("pesan_batal",inputBatal.getText().toString());
                 Log.d("cekIdDelete", "" + listPesanan.get(position).getId());
 
                 return params;
