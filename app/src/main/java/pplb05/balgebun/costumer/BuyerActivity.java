@@ -71,13 +71,12 @@ public class BuyerActivity extends AppCompatActivity {
                 if(intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_SUCCESS)){
                     //Registration success
                     String token = intent.getStringExtra("token");
-                    Toast.makeText(getApplicationContext(), "GCM token:" + token, Toast.LENGTH_LONG).show();
                 } else if(intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_ERROR)){
                     //Registration error
                     Toast.makeText(getApplicationContext(), "GCM registration error!!!", Toast.LENGTH_LONG).show();
                 } else {
                     //Tobe define
-                    Toast.makeText(getApplicationContext(), "GCM registration ???!!!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "GCM registration Error!!!", Toast.LENGTH_LONG).show();
                 }
             }
         };          //Check status of Google play service in device
