@@ -15,7 +15,7 @@
             <item
                 android:id="@+id/pass_penjual"
                 android:icon="@drawable/pass"
-                android:title="Ganti Password Penjual" />
+                android:title="Reset Password Penjual" />
 
             <item
                 android:id="@+id/byr_saldo_penjual"

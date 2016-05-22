@@ -31,7 +31,7 @@ import pplb05.balgebun.R;
 public class UpdatePassScreen extends Activity {
     private static final String TAG = UpdatePassScreen.class.getSimpleName();
     private Button updateButton;
-    private EditText newPassword;
+    private EditText newPassword, retypePassword;
     private String username;
     private ProgressDialog pDialog;
 
@@ -41,6 +41,8 @@ public class UpdatePassScreen extends Activity {
         setContentView(R.layout.activity_update_pass_screen);
 
         newPassword = (EditText) findViewById(R.id.newPassword);
+        retypePassword = (EditText) findViewById(R.id.retypePassw);
+
         updateButton = (Button) findViewById(R.id.btnUpdate);
         Intent i = getIntent();
         username = i.getStringExtra("counterUsername");
@@ -50,8 +52,17 @@ public class UpdatePassScreen extends Activity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view){
                 String password = newPassword.getText().toString().trim();
+                String password2 = retypePassword.getText().toString().trim();
+
                 if(!password.isEmpty()){
-                    UpdatePassword(username, password);
+                    if(!password.equals(password2)){
+                        Toast.makeText(getApplicationContext(),
+                                "Password doesn't match!", Toast.LENGTH_LONG)
+                                .show();
+                    }
+                    else {
+                        UpdatePassword(username, password);
+                    }
                 } else{
                     Toast.makeText(getApplicationContext(),
                             "Please enter the new password!", Toast.LENGTH_LONG)
