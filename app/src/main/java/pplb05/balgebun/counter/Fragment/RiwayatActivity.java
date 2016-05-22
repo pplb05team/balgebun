@@ -1,6 +1,7 @@
 package pplb05.balgebun.counter.Fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -25,10 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pplb05.balgebun.R;
-import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.counter.Adapter.RiwayatPesananPenjualAdapter;
 import pplb05.balgebun.counter.Entity.RiwayatPesananPenjual;
-import pplb05.balgebun.helper.SessionManager;
 
 /**
  * @author dananarief
@@ -38,7 +38,7 @@ public class RiwayatActivity extends Fragment {
     private ArrayList<RiwayatPesananPenjual> riwayatPesanan;
     private RiwayatPesananPenjualAdapter riwayatAdapter;
     private String username;
-    private SessionManager session;
+    private RequestQueue queue;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,11 +47,11 @@ public class RiwayatActivity extends Fragment {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_riwayat_antrian_penjual);
 
-        session = new SessionManager(getActivity());
-        username = session.getUsername();
+        SharedPreferences settings = getActivity().getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
+        username = settings.getString("username", "");
 
-        TextView counterUsernameText = (TextView) v.findViewById(R.id.counter_name_id_riwayat);
-        counterUsernameText.setText(username);
+        //TextView counterUsernameText = (TextView) v.findViewById(R.id.counter_name_id_riwayat);
+        //counterUsernameText.setText(username);
 
         riwayatPesanan = new ArrayList<RiwayatPesananPenjual>();
 
@@ -67,6 +67,7 @@ public class RiwayatActivity extends Fragment {
 
 
     public void getRiwayatList(){
+        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid2/getRiwayatPesananPenjual.php";
         final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -85,16 +86,16 @@ public class RiwayatActivity extends Fragment {
                         for (int i = 0; i < menuTemp.length(); i++) {
                             JSONObject jsonMenu = new JSONObject(menuTemp.get(i).toString());
 
-                                riwayatPesanan.add(new RiwayatPesananPenjual(
-                                        jsonMenu.getString("username_pembeli"),
-                                        jsonMenu.getString("nama_menu"),
-                                        Integer.parseInt(jsonMenu.getString("jumlah")),
-                                        Integer.parseInt(jsonMenu.getString("id"))
-                                        ,jsonMenu.getString("waktu")
-                                        , i)
-                                );
-                                Log.d("i=", "" + i);
-                                Log.d("menu", jsonMenu.getString("nama_menu") + "with id " + jsonMenu.getString("id"));
+                            riwayatPesanan.add(new RiwayatPesananPenjual(
+                                    jsonMenu.getString("username_pembeli"),
+                                    jsonMenu.getString("nama_menu"),
+                                    Integer.parseInt(jsonMenu.getString("jumlah")),
+                                    Integer.parseInt(jsonMenu.getString("id"))
+                                    ,jsonMenu.getString("waktu")
+                                    , i)
+                            );
+                            Log.d("i=", "" + i);
+                            Log.d("menu", jsonMenu.getString("nama_menu") + "with id " + jsonMenu.getString("id"));
 
                         }
                         riwayatAdapter.notifyDataSetChanged();
@@ -127,6 +128,6 @@ public class RiwayatActivity extends Fragment {
             }
 
         };
-        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringChess);
+        queue.add(stringChess);
     }
 }
