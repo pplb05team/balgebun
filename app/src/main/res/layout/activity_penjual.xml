@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:id="@+id/shitstuff"
+            android:id="@+id/shitstuff2"
             app:itemTextColor="@color/bg_register"
             app:menu="@menu/activity_main_drawer_penjual"
             android:layout_marginTop="-24dp"

@@ -129,7 +129,7 @@ public class PesananPenjualAdapter extends BaseAdapter {
                         } else {
                             //jika status dari belum ke belum atau dari belum ke diamasak, boleh
                             updateStatus(parent, view, pos, id, position);
-                            Toast.makeText(context.getApplicationContext(), "Berhasil Ubah Status", Toast.LENGTH_SHORT).show();
+
                         }
                     } else {
                         //jika status berada di "dimasak" dan akan memilih status "selesai"
@@ -144,7 +144,7 @@ public class PesananPenjualAdapter extends BaseAdapter {
                                 public void onClick(DialogInterface dialog, int which) {
                                     //update status di database
                                     updateStatus(parent, view, pos, id, position);
-                                    Toast.makeText(context.getApplicationContext(), "Pesanan selesai", Toast.LENGTH_SHORT).show();
+
 
                                 }
                             }).setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -234,13 +234,16 @@ public class PesananPenjualAdapter extends BaseAdapter {
                     Log.d("e", response.toString());
                     if (!error) {
                         Log.d("update", "update");
-
+                        Toast.makeText(context.getApplicationContext(), "Berhasil Ubah Status", Toast.LENGTH_SHORT).show();
                         frag.getPesananList();
 
                     } else {
 
                         String errorMsg = jObj.getString("error_msg");
                         Log.d("erorUpdate1", "erorUpdate1");
+                        Toast.makeText(context.getApplicationContext(), "Pesanan Sudah Tidak Ada", Toast.LENGTH_SHORT).show();
+                        frag.getPesananList();
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -295,10 +298,12 @@ public class PesananPenjualAdapter extends BaseAdapter {
                     Log.d("deleteRespon", response.toString());
                     if (!error) {
                         Log.d("deletefunct", "deletefunct");
+                        Toast.makeText(context.getApplicationContext(), "Berhasil Hapus Pesanan", Toast.LENGTH_SHORT).show();
                         frag.getPesananList();
 
                     } else {
-
+                        Toast.makeText(context.getApplicationContext(), "Pesanan Sudah Tidak Ada", Toast.LENGTH_SHORT).show();
+                        frag.getPesananList();
                         String errorMsg = jObj.getString("error_msg");
                         Log.d("erorDelete1", "erorDelete1");
                     }
@@ -323,6 +328,7 @@ public class PesananPenjualAdapter extends BaseAdapter {
                 Map<String, String> params = new HashMap<String, String>();
                 Log.d("jumlaArray", "" + listPesanan.size());
                 params.put("id_order", "" + listPesanan.get(position).getId());
+                params.put("pesan_batal",inputBatal.toString());
                 Log.d("cekIdDelete", "" + listPesanan.get(position).getId());
 
                 return params;

@@ -21,10 +21,13 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:src="@drawable/food"
-                android:id="@+id/counter_image_id" />
+                android:id="@+id/counter_image_id"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="15dp" />
 
         </LinearLayout>
 

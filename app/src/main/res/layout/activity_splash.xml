@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Splash">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="175dp"
+                android:id="@+id/splash_kiri"
+                android:src="@drawable/pisau"
+                android:layout_marginRight="5dp" />
+
+            <ImageView
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:id="@+id/imageSplash"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/piring" />
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="175dp"
+                android:id="@+id/splash_kanan"
+                android:src="@drawable/garpu" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Balgebun"
+            android:id="@+id/textSplash"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textSize="47dp"
+            android:textColor="#e53935"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+</RelativeLayout>
