@@ -29,7 +29,8 @@
         <activity android:name=".EditProfileActivity"></activity>
         <activity android:name=".costumer.BuyerActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".admin.MainActivity" />
+        <activity android:name=".admin.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".admin.RegisterCounter" />
         <activity android:name=".admin.CounterKredit" />
         <activity android:name=".admin.PembeliKredit" />

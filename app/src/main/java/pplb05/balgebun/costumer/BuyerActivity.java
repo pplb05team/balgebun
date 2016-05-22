@@ -54,7 +54,6 @@ public class BuyerActivity extends AppCompatActivity {
     private NavigationView mNavigationView;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
-    private NavigationView navigationView;
     private TextView name;
     private SessionManager session;
     private RoundedImageView imageUser;
@@ -119,6 +118,7 @@ public class BuyerActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
+
         /**
          * Setup click events on the Navigation View Items.
          */

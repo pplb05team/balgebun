@@ -118,7 +118,6 @@ public class PenjualActivity extends AppCompatActivity {
         /**
          * Setup Drawer Toggle of the Toolbar
          */
-
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, toolbar,R.string.app_name,
                 R.string.app_name);
