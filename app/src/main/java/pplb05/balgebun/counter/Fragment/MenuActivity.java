@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,15 +53,14 @@ import pplb05.balgebun.counter.Entity.PesananPenjual;
  * Kelas ini merupakan kelas fragmen yang akan menamipilkan list pesanan pada suatu counter
  */
 
-public class MenuActivity extends Fragment {
+public class MenuActivity extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private ArrayList<PesananPenjual> order;
     private PesananPenjualAdapter pesananAdapter;
     private RequestQueue queue;
     private String username;
-    Spinner spinnerku;
-    ArrayAdapter<CharSequence> adapterSpinner;
     private ImageView _imv;
     private TextView counterAntrian;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public MenuActivity() {
         // Required empty public constructor
@@ -72,7 +72,8 @@ public class MenuActivity extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_pesanan, container, false);
         super.onCreate(savedInstanceState);
-        Log.d("apakah loading 43", "load");
+
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
 
         SharedPreferences settings = getActivity().getSharedPreferences("BalgebunLogin", Context.MODE_PRIVATE);
         username = settings.getString("username", "");
@@ -83,9 +84,9 @@ public class MenuActivity extends Fragment {
         counterAntrian = (TextView) v.findViewById(R.id.antrian_id);
         getAntrian();
 
-        Button refreshButton = (Button)v.findViewById(R.id.refresh_pesanan_penjual);
         _imv = (ImageView) v.findViewById(R.id.counter_image_id);
         getImage();
+
         //membuat array berisi pesanan
         order = new ArrayList<>();
 
@@ -96,20 +97,38 @@ public class MenuActivity extends Fragment {
         GridView fieldMenu = (GridView)v.findViewById(R.id.menu_field);
         fieldMenu.setAdapter(pesananAdapter);
 
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                getPesananList();
-                Log.d("Refresh", "Refreshing");
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+
+                    getPesananList();
+                    getImage();
+                }
             }
-        });
+        );
 
         return v;
+    }
+
+    /**
+     * This method is called when swipe refresh is pulled down
+     */
+    @Override
+    public void onRefresh() {
+        getPesananList();
+        getImage();
     }
 
     //Method untuk mendapatkan data yang dibutuhkan untuk ditampilkan pada list pesanan
     public void getPesananList() {
         //order.clear();
-        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String url = "http://aaa.esy.es/coba_wahid/getPesananPenjual.php";
         final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -140,23 +159,23 @@ public class MenuActivity extends Fragment {
                         }
 
                         pesananAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
 
                     } else {
                         //kalo database kosong
                         order.clear();
                         pesananAdapter.notifyDataSetChanged();
-                        Log.d("A", "A");
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-
+                    swipeRefreshLayout.setRefreshing(false);
                 }
-                Log.d("hai", "hai");
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                swipeRefreshLayout.setRefreshing(false);
             }
         }) {
 
@@ -170,7 +189,7 @@ public class MenuActivity extends Fragment {
 
         };
 
-        queue.add(stringChess);
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringChess);
     }
 
     private void getImage() {
