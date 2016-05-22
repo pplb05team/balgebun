@@ -68,7 +68,7 @@ public class RiwayatActivity extends Fragment {
 
     public void getRiwayatList(){
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        String url = "http://aaa.esy.es/coba_wahid2/getRiwayatPesananPenjual.php";
+        String url = "http://aaa.esy.es/coba_wahid/getRiwayatPesananPenjual.php";
         final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

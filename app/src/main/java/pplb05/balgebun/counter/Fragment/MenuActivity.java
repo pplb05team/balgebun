@@ -110,7 +110,7 @@ public class MenuActivity extends Fragment {
     public void getPesananList() {
         //order.clear();
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        String url = "http://aaa.esy.es/coba_wahid2/getPesananPenjual.php";
+        String url = "http://aaa.esy.es/coba_wahid/getPesananPenjual.php";
         final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -200,7 +200,7 @@ public class MenuActivity extends Fragment {
     public void getAntrian() {
         //order.clear();
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        String url = "http://aaa.esy.es/coba_wahid2/getAntrianPenjual.php";
+        String url = "http://aaa.esy.es/coba_wahid/getAntrianPenjual.php";
         final StringRequest stringChess = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
