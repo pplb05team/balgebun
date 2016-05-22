@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,8 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.47">
 
-
-
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
@@ -36,7 +35,8 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Ayam Goreng"
-                    android:id="@+id/nama_menu" />
+                    android:id="@+id/nama_menu"
+                    android:textColor="@color/input_register_bg"/>
             </LinearLayout>
 
             <LinearLayout
@@ -50,7 +50,8 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Tuti"
                     android:id="@+id/nama_pembeli"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"
+                    android:textColor="@color/input_register_bg"/>
 
                 <TextView
                     android:layout_width="150dp"
@@ -59,13 +60,11 @@
                     android:text="2016-04-27 06:50:20"
                     android:id="@+id/tanggalPesanan"
                     android:textSize="15dp"
-                    android:textColor="@color/abc_background_cache_hint_selector_material_dark" />
+                    android:textColor="@color/input_register_bg"/>
 
             </LinearLayout>
 
         </LinearLayout>
-
-
 
         <LinearLayout
             android:orientation="vertical"
@@ -81,7 +80,8 @@
                 android:gravity="center"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
-                android:textSize="17sp"/>
+                android:textSize="17sp"
+                android:textColor="@color/input_register_bg"/>
         </LinearLayout>
     </LinearLayout>
 
