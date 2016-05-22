@@ -177,7 +177,7 @@ public class DetailPemasukan extends AppCompatActivity implements View.OnClickLi
     public void getRiwayatList(){
         final String username=counterUsername;
         queue = Volley.newRequestQueue(this.getApplicationContext());
-        String url = "http://aaa.esy.es/coba_wahid2/getRiwayatHarian.php";
+        String url = "http://aaa.esy.es/coba_wahid/getRiwayatHarian.php";
         final StringRequest stringReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

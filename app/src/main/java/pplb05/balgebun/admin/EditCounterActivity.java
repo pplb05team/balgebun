@@ -75,7 +75,7 @@ public class EditCounterActivity extends AppCompatActivity {
 
         //call the function
         getMenuList();
-        getBitmapFromURL("http://aaa.esy.es/coba_wahid/img/counter/" +counterUsername+".jpg");
+        getBitmapFromURL("http://aaa.esy.es/coba_wahid/img/counter/" +counterUsername+".png");
 
         //show the list of menu in grid view
         menuAdapter = new EditMenuAdapter(this,foods,counterUsername,counterName);
