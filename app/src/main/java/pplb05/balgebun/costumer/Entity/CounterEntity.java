@@ -77,7 +77,7 @@ public class CounterEntity {
     }
 
     public String getImageURL() {
-        return AppConfig.URL_IMG + imageName + ".jpg";
+        return AppConfig.URL_IMG + imageName + ".png";
     }
     public String getImageName() {
         return imageName;
