@@ -62,7 +62,7 @@ public class EditCounterActivity extends AppCompatActivity {
 
         counterEmail="";
         getEmail();
-        System.out.println("emaiiiil====="+counterEmail);
+        System.out.println(counterEmail);
 
         //Receiving the Data
         Intent i = getIntent();
