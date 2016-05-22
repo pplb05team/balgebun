@@ -33,12 +33,11 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
-import pplb05.balgebun.admin.MainActivity;
+import pplb05.balgebun.admin.EditCounterActivity;
 import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.VolleySingleton;
 import pplb05.balgebun.costumer.BuyerActivity;
 import pplb05.balgebun.counter.PenjualActivity;
-import pplb05.balgebun.helper.SQLiteHandler;
 import pplb05.balgebun.helper.SessionManager;
 import pplb05.balgebun.tools.RoundedImageView;
 
@@ -69,6 +68,8 @@ public class EditProfileActivity extends Activity{
     private SessionManager session;
     private boolean errorUpdate;
 
+    private String counterName, counterUsername, counterEmail;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,13 +88,23 @@ public class EditProfileActivity extends Activity{
         savePasswordButton = (Button)findViewById(R.id.edit_paswd_btn);
         imageUser = (RoundedImageView)findViewById(R.id.editImageView);
 
+        // Set text nama dan email saat ini
+
+        if(session.getRole().equals("3")){
+            Intent i = getIntent();
+            counterUsername = i.getStringExtra("counterUsername");
+            counterName = i.getStringExtra("counterName");
+            counterEmail = i.getStringExtra("counterEmail");
+            editName.setText(counterName);
+            editEmail.setText(counterEmail);
+        }else{
+            editName.setText(session.getName());
+            editEmail.setText(session.getEmail());
+        }
+        role = session.getRole();
+
         // Download gambar profil
         getImage();
-
-        // Set text nama dan email saat ini
-        editName.setText(session.getName());
-        editEmail.setText(session.getEmail());
-        role = session.getRole();
 
         // Apabila role pembeli, tidak bisa edit name
         if(role.equals("1")){
@@ -120,7 +131,11 @@ public class EditProfileActivity extends Activity{
                 if(!isEmpty(newName) && !isEmpty(newEmail)){
                     if(!newName.equals(session.getName()) || !newEmail.equals(session.getEmail())) {
                         params_profile.put("role", role);
-                        params_profile.put("username", session.getUsername());
+                        if(role.equals("3")){
+                            params_profile.put("username", counterUsername);
+                        }else{
+                            params_profile.put("username", session.getUsername());
+                        }
                         params_profile.put("new_name", newName);
                         params_profile.put("new_email", newEmail);
                         profileChanged = true;
@@ -130,7 +145,11 @@ public class EditProfileActivity extends Activity{
                 // Cek validitas password
                 if(!isEmpty(oldPassword) && !isEmpty(newPassword) && !isEmpty(retypePassword)) {
                     if (newPassword.equals(retypePassword)) {
-                        params_profile.put("username", session.getUsername());
+                        if(role.equals("3")){
+                            params_profile.put("username", counterUsername);
+                        }else{
+                            params_profile.put("username", session.getUsername());
+                        }
                         params_profile.put("password", oldPassword);
                         params_profile.put("new_password", newPassword);
                         passwordChanged = true;
@@ -223,12 +242,22 @@ public class EditProfileActivity extends Activity{
 
                     // Jika tidak terjadi error
                     if (!error) {
-                        session.setEmail(newEmail);
+                        if(role.equals("3")){
+                            counterName=newEmail;
+                            editEmail.setText(newEmail);
+                        }else{
+                            session.setEmail(newEmail);
+                            editEmail.setText(newEmail);
+                        }
                         if (role.equals("2")) {
                             session.setName(newName);
                             editName.setText(session.getName());
                         }
-                        editEmail.setText(newEmail);
+                        if (role.equals("3")) {
+                            counterName=newName;
+                            editName.setText(newName);
+                        }
+
 
                         // Reset password fill menjadi kosong
                         editRetypePassword.setText("");
@@ -306,7 +335,11 @@ public class EditProfileActivity extends Activity{
 
 
                 //Getting Image Name
-                String name =  session.getUsername();
+                String name = "";
+                if(session.getRole().equals("3"))
+                    name =  counterUsername;
+                else
+                    name =  session.getUsername();
 
                 //Creating parameters
                 Map<String,String> params = new Hashtable<String, String>();
@@ -314,7 +347,12 @@ public class EditProfileActivity extends Activity{
                 //Adding parameters
                 params.put(KEY_IMAGE, image);
                 params.put(KEY_NAME, name);
-                params.put("role", role);
+                if(session.getRole().equals("3"))
+                    params.put("role", "2");
+                else
+                    params.put("role", role);
+
+
 
                 //returning parameters
                 return params;
@@ -346,11 +384,15 @@ public class EditProfileActivity extends Activity{
     private void getImage() {
         final ProgressDialog loading = ProgressDialog.show(this,"","Please wait...",false,false);
         final String  fileUrl;
-        if(session.getRole().equals("1")){
+        System.out.println("nama foto"+counterUsername);
+        if(session.getRole().equals("1"))
             fileUrl = AppConfig.URL_IMG_CUSTOMER + session.getUsername() + ".png";
-        } else {
+        else if(session.getRole().equals("3"))
+            fileUrl = AppConfig.URL_IMG + counterUsername + ".png";
+        else
             fileUrl = AppConfig.URL_IMG + session.getUsername() + ".png";
-        }
+
+
         ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
 
             /**
@@ -382,8 +424,16 @@ public class EditProfileActivity extends Activity{
         Intent intent;
         if(session.getRole().equals("1"))
             intent = new Intent(EditProfileActivity.this, BuyerActivity.class);
+
+        else if (session.getRole().equals("3")){
+            intent = new Intent(EditProfileActivity.this, EditCounterActivity.class);
+            intent.putExtra("counterUsername", counterUsername);
+            intent.putExtra("counterName", counterName);
+        }
+
         else
             intent = new Intent(EditProfileActivity.this, PenjualActivity.class);
+
         startActivity(intent);
         finish();
 

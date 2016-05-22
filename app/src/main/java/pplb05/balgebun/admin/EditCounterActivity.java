@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import pplb05.balgebun.EditProfileActivity;
 import pplb05.balgebun.R;
 import pplb05.balgebun.admin.Adapter.EditMenuAdapter;
 import pplb05.balgebun.app.VolleySingleton;
@@ -43,7 +45,7 @@ import pplb05.balgebun.costumer.Entity.Menu;
 public class EditCounterActivity extends AppCompatActivity {
     //Initialization
     private TextView namaCounter, usernameCounter;
-    private String counterUsername, counterName;
+    private String counterUsername, counterName, counterEmail;
     private ArrayList<Menu> foods = new ArrayList<>();
     private EditMenuAdapter menuAdapter;
     private ImageView image;
@@ -57,6 +59,10 @@ public class EditCounterActivity extends AppCompatActivity {
         namaCounter = (TextView)findViewById(R.id.nama_counter);
         usernameCounter = (TextView)findViewById(R.id.usernameC);
         image = (ImageView) findViewById(R.id.imgProfile);
+
+        counterEmail="";
+        getEmail();
+        System.out.println(counterEmail);
 
         //Receiving the Data
         Intent i = getIntent();
@@ -88,6 +94,16 @@ public class EditCounterActivity extends AppCompatActivity {
         i.putExtra("counterName", counterName);
         this.startActivity(i);
     }
+
+    public void editCounterActivity(View view){
+        Intent i= new Intent(EditCounterActivity.this, EditProfileActivity.class);
+        i.putExtra("counterUsername", counterUsername);
+        i.putExtra("counterName", counterName);
+        i.putExtra("counterEmail", counterEmail);
+        startActivity(i);
+        finish();
+    }
+
 
     /*
      *Method ini untuk memanggil fungsi getMenuList pada API
@@ -175,6 +191,50 @@ public class EditCounterActivity extends AppCompatActivity {
             }
         };
         task.execute(src);
+
+    }
+
+    public void getEmail(){
+        String url = "http://aaa.esy.es/coba_wahid/getEmailCounter.php";
+        final StringRequest stringResp = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("RESPONSE2", "Email Response: " + response.toString());
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    if (!error) {
+                        String email =jObj.getString("user");
+                        counterEmail=email;
+
+                    } else {
+                        Toast toast = Toast.makeText(EditCounterActivity.this, "Error get email", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to getPemasukanPembeli url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username", counterUsername);
+                return params;
+            }
+
+
+        };
+        VolleySingleton.getInstance(EditCounterActivity.this).addToRequestQueue(stringResp);
 
     }
 
