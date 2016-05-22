@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Pembeli">
+        <menu>
+            <item
+                android:id="@+id/top_up_saldo"
+                android:icon="@drawable/top_up"
+                android:title="Top Up Saldo" />
+        </menu>
+    </item>
+
+    <item android:title="Penjual">
+        <menu>
+            <item
+                android:id="@+id/pass_penjual"
+                android:icon="@drawable/pass"
+                android:title="Ganti Password Penjual" />
+
+            <item
+                android:id="@+id/byr_saldo_penjual"
+                android:icon="@drawable/currency_usd"
+                android:title="Bayar Saldo Penjual" />
+
+            <item
+                android:id="@+id/crud_penjual"
+                android:icon="@drawable/ic_edit_menu"
+                android:title="CRUD Penjual" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/logout_adm"
+        android:icon="@drawable/log_out"
+        android:title="Logout" />
+
+</menu>

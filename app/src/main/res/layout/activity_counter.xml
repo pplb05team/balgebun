@@ -11,7 +11,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg_login"
+        android:background="@color/colorPrimary"
         android:id="@+id/toolbar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:title="Balgebun" />
@@ -42,8 +42,6 @@
             app:menu="@menu/activity_main_drawer"
             android:layout_marginTop="-24dp"
             />
-
-
 
     </android.support.v4.widget.DrawerLayout>
 
