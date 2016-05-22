@@ -50,7 +50,7 @@ public class PenjualActivity extends AppCompatActivity {
          */
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mNavigationView = (NavigationView) findViewById(R.id.shitstuff) ;
+        mNavigationView = (NavigationView) findViewById(R.id.shitstuff2) ;
 
 
         /**

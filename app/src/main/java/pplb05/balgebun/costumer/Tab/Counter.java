@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import pplb05.balgebun.app.VolleySingleton;
-import pplb05.balgebun.costumer.Adapter.CounterAdapter;
-import pplb05.balgebun.costumer.Entity.CounterEntity;
-import pplb05.balgebun.R;
-import pplb05.balgebun.costumer.MenuActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +23,12 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+
+import pplb05.balgebun.R;
+import pplb05.balgebun.app.VolleySingleton;
+import pplb05.balgebun.costumer.Adapter.CounterAdapter;
+import pplb05.balgebun.costumer.Entity.CounterEntity;
+import pplb05.balgebun.costumer.MenuActivity;
 
 
 /**

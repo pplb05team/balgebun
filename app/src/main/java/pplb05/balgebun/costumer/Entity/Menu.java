@@ -111,6 +111,9 @@ public class Menu implements Parcelable {
     public String getSatus() {
         return status;
     }
+    public void setStatus(String status) {
+        this.status=status;
+    }
 
     public String getNamaCounter() { return namaCounter;}
 
