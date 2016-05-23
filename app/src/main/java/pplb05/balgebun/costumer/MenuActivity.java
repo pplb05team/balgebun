@@ -19,7 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -229,7 +228,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
      * This method will show the image of the counter
      */
     private void getImage() {
-        final String fileUrl = AppConfig.URL_IMG + counterUsername + ".jpg";
+        final String fileUrl = AppConfig.URL_IMG + counterUsername + ".png";
 
         ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
 

@@ -297,7 +297,7 @@ public class StrukActivity extends AppCompatActivity implements View.OnClickList
      *
      */
     private void getImage() {
-        String fileUrl = AppConfig.URL_IMG  + counterUsername + ".jpg";
+        String fileUrl = AppConfig.URL_IMG  + counterUsername + ".png";
         ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
 
             /**
