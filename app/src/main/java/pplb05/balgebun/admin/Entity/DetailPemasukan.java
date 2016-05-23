@@ -246,7 +246,7 @@ public class DetailPemasukan extends AppCompatActivity implements View.OnClickLi
      *
      */
     private void getImage() {
-        String fileUrl = AppConfig.URL_IMG  + counterUsername + ".jpg";
+        String fileUrl = AppConfig.URL_IMG  + counterUsername + ".png";
         ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
 
             /**
