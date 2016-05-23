@@ -3,23 +3,17 @@ package pplb05.balgebun.counter.Fragment;
 //https://www.youtube.com/watch?v=ZEEYYvVwJGY
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -33,7 +27,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +35,6 @@ import java.util.Map;
 import pplb05.balgebun.R;
 import pplb05.balgebun.app.AppConfig;
 import pplb05.balgebun.app.VolleySingleton;
-import pplb05.balgebun.costumer.Entity.Pemesanan;
 import pplb05.balgebun.counter.Adapter.PesananPenjualAdapter;
 import pplb05.balgebun.counter.Entity.PesananPenjual;
 
@@ -193,7 +185,7 @@ public class MenuActivity extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void getImage() {
-        String fileUrl = AppConfig.URL_IMG  + username + ".jpg";
+        String fileUrl = AppConfig.URL_IMG  + username + ".png";
         ImageRequest imgReqCtr = new ImageRequest(fileUrl, new Response.Listener<Bitmap>() {
 
             /**

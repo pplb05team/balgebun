@@ -38,13 +38,14 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="480dp"
+            android:layout_height="400dp"
             android:layout_below="@+id/linearLayout4"
-            android:id="@+id/linearLayout6">
+            android:id="@+id/linearLayout6"
+            android:layout_alignParentEnd="true">
 
             <GridView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="400dp"
                 android:columnCount="1"
                 android:id="@+id/list_counter">
 

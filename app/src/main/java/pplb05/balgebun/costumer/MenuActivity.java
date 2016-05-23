@@ -106,6 +106,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setAntrian(final String counterUsername) {
+
+        String url = "http://aaa.esy.es/coba_wahid/getAntrianPenjual.php";
         final StringRequest stringResp = new StringRequest(Request.Method.POST, AppConfig.URL_ANTRIAN, new Response.Listener<String>() {
 
             @Override
